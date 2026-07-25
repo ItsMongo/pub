@@ -1,0 +1,1214 @@
+[
+  {
+    "Cartridge": ".17 HM2",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 0.714,
+    "Overall Length (in)": 1.0
+  },
+  {
+    "Cartridge": ".17 HMR",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 1.058,
+    "Overall Length (in)": 1.349
+  },
+  {
+    "Cartridge": ".17 Hornet",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 1.35,
+    "Overall Length (in)": 1.723
+  },
+  {
+    "Cartridge": ".17 Remington",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 1.796,
+    "Overall Length (in)": 2.15
+  },
+  {
+    "Cartridge": ".17 Remington Fireball",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 1.42,
+    "Overall Length (in)": 1.83
+  },
+  {
+    "Cartridge": ".17 WSM",
+    "Bullet Diameter (in)": 0.172,
+    "Case Length (in)": 1.2,
+    "Overall Length (in)": 1.59
+  },
+  {
+    "Cartridge": ".204 Ruger",
+    "Bullet Diameter (in)": 0.204,
+    "Case Length (in)": 1.85,
+    "Overall Length (in)": 2.2598
+  },
+  {
+    "Cartridge": ".218 Bee",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.345,
+    "Overall Length (in)": 1.68
+  },
+  {
+    "Cartridge": ".22 Hornet",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.403,
+    "Overall Length (in)": 1.723
+  },
+  {
+    "Cartridge": ".22 Long Rifle",
+    "Bullet Diameter (in)": 0.223,
+    "Case Length (in)": 0.613,
+    "Overall Length (in)": 1.0
+  },
+  {
+    "Cartridge": ".22 PPC",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.505,
+    "Overall Length (in)": 1.96
+  },
+  {
+    "Cartridge": ".22 WMR",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.055,
+    "Overall Length (in)": 1.35
+  },
+  {
+    "Cartridge": ".22-250 Remington",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.912,
+    "Overall Length (in)": 2.35
+  },
+  {
+    "Cartridge": ".220 Swift",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 2.205,
+    "Overall Length (in)": 2.68
+  },
+  {
+    "Cartridge": ".221 Remington Fireball",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.4,
+    "Overall Length (in)": 1.83
+  },
+  {
+    "Cartridge": ".222 Remington",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.7,
+    "Overall Length (in)": 2.13
+  },
+  {
+    "Cartridge": ".223 Remington",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.76,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": ".223 WSSM",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.67,
+    "Overall Length (in)": 2.362
+  },
+  {
+    "Cartridge": ".224 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.923,
+    "Overall Length (in)": 2.33
+  },
+  {
+    "Cartridge": ".225 Winchester",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.93,
+    "Overall Length (in)": 2.5
+  },
+  {
+    "Cartridge": ".240 Apex",
+    "Bullet Diameter (in)": 0.245,
+    "Case Length (in)": 2.49,
+    "Overall Length (in)": 3.21
+  },
+  {
+    "Cartridge": ".240 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 2.496,
+    "Overall Length (in)": 3.1
+  },
+  {
+    "Cartridge": ".243 Winchester",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 2.045,
+    "Overall Length (in)": 2.7098
+  },
+  {
+    "Cartridge": ".243 WSSM",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 1.67,
+    "Overall Length (in)": 2.362
+  },
+  {
+    "Cartridge": ".244 H&H Magnum",
+    "Bullet Diameter (in)": 0.245,
+    "Case Length (in)": 2.78,
+    "Overall Length (in)": 3.58
+  },
+  {
+    "Cartridge": ".25 WSSM",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 1.67,
+    "Overall Length (in)": 2.36
+  },
+  {
+    "Cartridge": ".25-06 Remington",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 2.494,
+    "Overall Length (in)": 3.25
+  },
+  {
+    "Cartridge": ".25-20 Winchester",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 1.33,
+    "Overall Length (in)": 1.592
+  },
+  {
+    "Cartridge": ".250-3000 Savage",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 1.912,
+    "Overall Length (in)": 2.515
+  },
+  {
+    "Cartridge": ".256 Winchester Magnum",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 1.281,
+    "Overall Length (in)": 1.59
+  },
+  {
+    "Cartridge": ".257 Roberts",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 2.233,
+    "Overall Length (in)": 2.775
+  },
+  {
+    "Cartridge": ".257 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.257,
+    "Case Length (in)": 2.545,
+    "Overall Length (in)": 3.209
+  },
+  {
+    "Cartridge": ".26 Nosler",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.59,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".260 Remington",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.035,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": ".264 Winchester Magnum",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".270 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.277,
+    "Case Length (in)": 2.55,
+    "Overall Length (in)": 3.25
+  },
+  {
+    "Cartridge": ".270 Winchester",
+    "Bullet Diameter (in)": 0.277,
+    "Case Length (in)": 2.54,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".270 WSM",
+    "Bullet Diameter (in)": 0.277,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.86
+  },
+  {
+    "Cartridge": ".275 H&H Magnum",
+    "Bullet Diameter (in)": 0.287,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.42
+  },
+  {
+    "Cartridge": ".28 Nosler",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.59,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".280 Ackley Improved",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.525,
+    "Overall Length (in)": 3.33
+  },
+  {
+    "Cartridge": ".280 British",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 1.71,
+    "Overall Length (in)": 2.54
+  },
+  {
+    "Cartridge": ".280 Jeffery",
+    "Bullet Diameter (in)": 0.288,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.45
+  },
+  {
+    "Cartridge": ".280 Remington",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.54,
+    "Overall Length (in)": 3.33
+  },
+  {
+    "Cartridge": ".280 Ross",
+    "Bullet Diameter (in)": 0.287,
+    "Case Length (in)": 2.59,
+    "Overall Length (in)": 3.5
+  },
+  {
+    "Cartridge": ".30 Carbine",
+    "Bullet Diameter (in)": 0.3078,
+    "Case Length (in)": 1.29,
+    "Overall Length (in)": 1.68
+  },
+  {
+    "Cartridge": ".30 Nosler",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.556,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".30 Remington AR",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.53,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": ".30-06 Springfield",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.494,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".30-30 Winchester",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.039,
+    "Overall Length (in)": 2.55
+  },
+  {
+    "Cartridge": ".30-378 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.913,
+    "Overall Length (in)": 3.69
+  },
+  {
+    "Cartridge": ".30-40 Krag",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.314,
+    "Overall Length (in)": 3.089
+  },
+  {
+    "Cartridge": ".300 AAC Blackout",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.368,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": ".300 H&H Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".300 Norma Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.492,
+    "Overall Length (in)": 3.681
+  },
+  {
+    "Cartridge": ".300 Remington Short Action Ultra Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.825
+  },
+  {
+    "Cartridge": ".300 Remington Ultra Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".300 Ruger Compact Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.825
+  },
+  {
+    "Cartridge": ".300 Savage",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.871,
+    "Overall Length (in)": 2.6
+  },
+  {
+    "Cartridge": ".300 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.825,
+    "Overall Length (in)": 3.562
+  },
+  {
+    "Cartridge": ".300 Whisper",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.374,
+    "Overall Length (in)": 2.244
+  },
+  {
+    "Cartridge": ".300 Winchester Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.62,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".300 WSM",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.86
+  },
+  {
+    "Cartridge": ".303 British",
+    "Bullet Diameter (in)": 0.312,
+    "Case Length (in)": 2.222,
+    "Overall Length (in)": 3.075
+  },
+  {
+    "Cartridge": ".307 Winchester",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.56
+  },
+  {
+    "Cartridge": ".308 Marlin Express",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.91,
+    "Overall Length (in)": 2.6
+  },
+  {
+    "Cartridge": ".308 Norma Magnum",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.559,
+    "Overall Length (in)": 3.345
+  },
+  {
+    "Cartridge": ".308 Winchester",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": ".318 Westley Richards",
+    "Bullet Diameter (in)": 0.33,
+    "Case Length (in)": 2.368,
+    "Overall Length (in)": 3.349
+  },
+  {
+    "Cartridge": ".32 Winchester Self-Loading",
+    "Bullet Diameter (in)": 0.321,
+    "Case Length (in)": 1.24,
+    "Overall Length (in)": 1.88
+  },
+  {
+    "Cartridge": ".32 Winchester Special",
+    "Bullet Diameter (in)": 0.321,
+    "Case Length (in)": 2.04,
+    "Overall Length (in)": 2.565
+  },
+  {
+    "Cartridge": ".325 WSM",
+    "Bullet Diameter (in)": 0.323,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.86
+  },
+  {
+    "Cartridge": ".33 Nosler",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.46,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".333 Jeffery",
+    "Bullet Diameter (in)": 0.333,
+    "Case Length (in)": 2.48,
+    "Overall Length (in)": 3.48
+  },
+  {
+    "Cartridge": ".338 Federal",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.01,
+    "Overall Length (in)": 2.75
+  },
+  {
+    "Cartridge": ".338 Lapua Magnum",
+    "Bullet Diameter (in)": 0.339,
+    "Case Length (in)": 2.724,
+    "Overall Length (in)": 3.681
+  },
+  {
+    "Cartridge": ".338 Marlin Express",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 1.88,
+    "Overall Length (in)": 2.6
+  },
+  {
+    "Cartridge": ".338 Norma Magnum",
+    "Bullet Diameter (in)": 0.339,
+    "Case Length (in)": 2.492,
+    "Overall Length (in)": 3.681
+  },
+  {
+    "Cartridge": ".338 Remington Ultra Magnum",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.76,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".338 Ruger Compact Magnum",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.84
+  },
+  {
+    "Cartridge": ".338 Winchester Magnum",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".338-06",
+    "Bullet Diameter (in)": 0.338,
+    "Case Length (in)": 2.494,
+    "Overall Length (in)": 3.37
+  },
+  {
+    "Cartridge": ".348 Winchester",
+    "Bullet Diameter (in)": 0.348,
+    "Case Length (in)": 2.255,
+    "Overall Length (in)": 2.795
+  },
+  {
+    "Cartridge": ".35 Remington",
+    "Bullet Diameter (in)": 0.358,
+    "Case Length (in)": 1.92,
+    "Overall Length (in)": 2.525
+  },
+  {
+    "Cartridge": ".35 Whelen",
+    "Bullet Diameter (in)": 0.358,
+    "Case Length (in)": 2.494,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".35 Winchester Self-Loading",
+    "Bullet Diameter (in)": 0.351,
+    "Case Length (in)": 1.154,
+    "Overall Length (in)": 1.65
+  },
+  {
+    "Cartridge": ".350 Legend",
+    "Bullet Diameter (in)": ".357-.003",
+    "Case Length (in)": 1.71,
+    "Overall Length (in)": 2.25
+  },
+  {
+    "Cartridge": ".350 Remington Magnum",
+    "Bullet Diameter (in)": 0.358,
+    "Case Length (in)": 2.17,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": ".351 Winchester Self-Loading",
+    "Bullet Diameter (in)": 0.352,
+    "Case Length (in)": 1.375,
+    "Overall Length (in)": 1.906
+  },
+  {
+    "Cartridge": ".357 Magnum",
+    "Bullet Diameter (in)": 0.357,
+    "Case Length (in)": 1.29,
+    "Overall Length (in)": 1.59
+  },
+  {
+    "Cartridge": ".358 Winchester",
+    "Bullet Diameter (in)": 0.358,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.78
+  },
+  {
+    "Cartridge": ".360 Buckhammer",
+    "Bullet Diameter (in)": 0.358,
+    "Case Length (in)": 1.8,
+    "Overall Length (in)": 2.5
+  },
+  {
+    "Cartridge": ".375 Holland & Holland Magnum",
+    "Bullet Diameter (in)": 0.375,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".375 Remington Ultra Magnum",
+    "Bullet Diameter (in)": 0.375,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".375 Ruger",
+    "Bullet Diameter (in)": 0.375,
+    "Case Length (in)": 2.58,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".375 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.375,
+    "Case Length (in)": 2.86,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".376 Steyr",
+    "Bullet Diameter (in)": 0.375,
+    "Case Length (in)": 2.35,
+    "Overall Length (in)": 3.11
+  },
+  {
+    "Cartridge": ".38-40 Winchester",
+    "Bullet Diameter (in)": 0.4005,
+    "Case Length (in)": 1.305,
+    "Overall Length (in)": 1.59
+  },
+  {
+    "Cartridge": ".38-55 Winchester",
+    "Bullet Diameter (in)": 0.377,
+    "Case Length (in)": 2.085,
+    "Overall Length (in)": 2.55
+  },
+  {
+    "Cartridge": ".400 H&H Magnum",
+    "Bullet Diameter (in)": 0.411,
+    "Case Length (in)": 2.846,
+    "Overall Length (in)": 3.55
+  },
+  {
+    "Cartridge": ".401 Winchester Self-Loading",
+    "Bullet Diameter (in)": 0.4065,
+    "Case Length (in)": 1.5,
+    "Overall Length (in)": 2.005
+  },
+  {
+    "Cartridge": ".404 Jeffery",
+    "Bullet Diameter (in)": 0.422,
+    "Case Length (in)": 2.875,
+    "Overall Length (in)": 3.53
+  },
+  {
+    "Cartridge": ".405 Winchester",
+    "Bullet Diameter (in)": 0.4115,
+    "Case Length (in)": 2.583,
+    "Overall Length (in)": 3.175
+  },
+  {
+    "Cartridge": ".408 Cheyenne Tactical",
+    "Bullet Diameter (in)": 0.408,
+    "Case Length (in)": 3.04,
+    "Overall Length (in)": 4.547
+  },
+  {
+    "Cartridge": ".41 Long Colt",
+    "Bullet Diameter (in)": 0.386,
+    "Case Length (in)": 1.126,
+    "Overall Length (in)": 1.397
+  },
+  {
+    "Cartridge": ".416 Barrett",
+    "Bullet Diameter (in)": 0.416,
+    "Case Length (in)": 3.27,
+    "Overall Length (in)": 4.65
+  },
+  {
+    "Cartridge": ".416 Remington Magnum",
+    "Bullet Diameter (in)": 0.416,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".416 Rigby",
+    "Bullet Diameter (in)": 0.416,
+    "Case Length (in)": 2.9,
+    "Overall Length (in)": 3.75
+  },
+  {
+    "Cartridge": ".44 Henry",
+    "Bullet Diameter (in)": 0.446,
+    "Case Length (in)": 0.903,
+    "Overall Length (in)": 1.345
+  },
+  {
+    "Cartridge": ".44 Magnum",
+    "Bullet Diameter (in)": 0.429,
+    "Case Length (in)": 1.285,
+    "Overall Length (in)": 1.61
+  },
+  {
+    "Cartridge": ".44-40 Winchester",
+    "Bullet Diameter (in)": 0.427,
+    "Case Length (in)": 1.305,
+    "Overall Length (in)": 1.592
+  },
+  {
+    "Cartridge": ".444 Marlin",
+    "Bullet Diameter (in)": 0.429,
+    "Case Length (in)": 2.225,
+    "Overall Length (in)": 2.55
+  },
+  {
+    "Cartridge": ".45 Colt",
+    "Bullet Diameter (in)": 0.452,
+    "Case Length (in)": 1.285,
+    "Overall Length (in)": 1.6
+  },
+  {
+    "Cartridge": ".45 Raptor",
+    "Bullet Diameter (in)": 0.452,
+    "Case Length (in)": 1.8,
+    "Overall Length (in)": 2.3
+  },
+  {
+    "Cartridge": ".45 Winchester Magnum",
+    "Bullet Diameter (in)": 0.452,
+    "Case Length (in)": 1.198,
+    "Overall Length (in)": 1.575
+  },
+  {
+    "Cartridge": ".45-70 Government",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 2.105,
+    "Overall Length (in)": 2.55
+  },
+  {
+    "Cartridge": ".450 Adams",
+    "Bullet Diameter (in)": 0.455,
+    "Case Length (in)": 0.69,
+    "Overall Length (in)": 1.1
+  },
+  {
+    "Cartridge": ".450 Bushmaster",
+    "Bullet Diameter (in)": 0.452,
+    "Case Length (in)": 1.7,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": ".450 Marlin",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.55
+  },
+  {
+    "Cartridge": ".450 Nitro Express",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 3.25,
+    "Overall Length (in)": 3.95
+  },
+  {
+    "Cartridge": ".458 Lott",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 2.8,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": ".458 SOCOM",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 1.575,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": ".458 Winchester Magnum",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.34
+  },
+  {
+    "Cartridge": ".46 Rimfire",
+    "Bullet Diameter (in)": 0.456,
+    "Case Length (in)": 0.836,
+    "Overall Length (in)": 1.336
+  },
+  {
+    "Cartridge": ".460 S&W Magnum",
+    "Bullet Diameter (in)": 0.452,
+    "Case Length (in)": 1.8,
+    "Overall Length (in)": 2.3
+  },
+  {
+    "Cartridge": ".460 Weatherby",
+    "Bullet Diameter (in)": 0.458,
+    "Case Length (in)": 2.913,
+    "Overall Length (in)": 3.65
+  },
+  {
+    "Cartridge": ".465 H&H Magnum",
+    "Bullet Diameter (in)": 0.468,
+    "Case Length (in)": 2.894,
+    "Overall Length (in)": 3.55
+  },
+  {
+    "Cartridge": ".470 Nitro Express",
+    "Bullet Diameter (in)": 0.474,
+    "Case Length (in)": 3.25,
+    "Overall Length (in)": 3.98
+  },
+  {
+    "Cartridge": ".476 Enfield",
+    "Bullet Diameter (in)": 0.455,
+    "Case Length (in)": 0.87,
+    "Overall Length (in)": 1.33
+  },
+  {
+    "Cartridge": ".50 BMG",
+    "Bullet Diameter (in)": 0.511,
+    "Case Length (in)": 3.91,
+    "Overall Length (in)": 5.45
+  },
+  {
+    "Cartridge": ".50-90 Sharps",
+    "Bullet Diameter (in)": 0.512,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.2
+  },
+  {
+    "Cartridge": ".500 S&W Magnum",
+    "Bullet Diameter (in)": 0.5,
+    "Case Length (in)": 1.625,
+    "Overall Length (in)": 2.3
+  },
+  {
+    "Cartridge": ".505 Gibbs",
+    "Bullet Diameter (in)": 0.505,
+    "Case Length (in)": 3.15,
+    "Overall Length (in)": 3.85
+  },
+  {
+    "Cartridge": ".577 Snider",
+    "Bullet Diameter (in)": 0.57,
+    "Case Length (in)": 2.0,
+    "Overall Length (in)": 2.45
+  },
+  {
+    "Cartridge": ".577/450 Martini-Henry",
+    "Bullet Diameter (in)": 0.455,
+    "Case Length (in)": 2.34,
+    "Overall Length (in)": 3.12
+  },
+  {
+    "Cartridge": ".600 Nitro Express",
+    "Bullet Diameter (in)": 0.62,
+    "Case Length (in)": 3.0,
+    "Overall Length (in)": 3.7
+  },
+  {
+    "Cartridge": ".700 Nitro Express",
+    "Bullet Diameter (in)": 0.7,
+    "Case Length (in)": 3.5,
+    "Overall Length (in)": 4.2
+  },
+  {
+    "Cartridge": "10.75x68mm Mauser",
+    "Bullet Diameter (in)": 0.424,
+    "Case Length (in)": 2.677,
+    "Overall Length (in)": 3.189
+  },
+  {
+    "Cartridge": "11x59mmR Gras",
+    "Bullet Diameter (in)": 0.44,
+    "Case Length (in)": 2.3,
+    "Overall Length (in)": 3.0
+  },
+  {
+    "Cartridge": "11x60mm Mauser",
+    "Bullet Diameter (in)": 0.446,
+    "Case Length (in)": 2.37,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": "12.7x108mm",
+    "Bullet Diameter (in)": 0.511,
+    "Case Length (in)": 4.3,
+    "Overall Length (in)": 5.807
+  },
+  {
+    "Cartridge": "14.5x114mm",
+    "Bullet Diameter (in)": 0.586,
+    "Case Length (in)": 4.5,
+    "Overall Length (in)": 6.134
+  },
+  {
+    "Cartridge": "5.45x39mm",
+    "Bullet Diameter (in)": 0.22,
+    "Case Length (in)": 1.568,
+    "Overall Length (in)": 2.244
+  },
+  {
+    "Cartridge": "5.56x45mm NATO",
+    "Bullet Diameter (in)": 0.224,
+    "Case Length (in)": 1.76,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": "5.8x42mm / DBP87",
+    "Bullet Diameter (in)": 0.236,
+    "Case Length (in)": 1.66,
+    "Overall Length (in)": 2.3
+  },
+  {
+    "Cartridge": "6mm PPC",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 1.515,
+    "Overall Length (in)": 2.1
+  },
+  {
+    "Cartridge": "6.5mm Grendel",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 1.52,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": "6.5-300 Weatherby Magnum",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.825,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": "6.5mm Creedmoor",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 1.92,
+    "Overall Length (in)": 2.825
+  },
+  {
+    "Cartridge": "6.5x47mm Lapua",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 1.85,
+    "Overall Length (in)": 2.795
+  },
+  {
+    "Cartridge": "6.5x50mmSR Arisaka",
+    "Bullet Diameter (in)": 0.409,
+    "Case Length (in)": 2.008,
+    "Overall Length (in)": 2.992
+  },
+  {
+    "Cartridge": "6.5x52mm Mannlicher-Carcano",
+    "Bullet Diameter (in)": 0.268,
+    "Case Length (in)": 2.067,
+    "Overall Length (in)": 3.012
+  },
+  {
+    "Cartridge": "6.5x53mmR",
+    "Bullet Diameter (in)": 0.262,
+    "Case Length (in)": 2.11,
+    "Overall Length (in)": 3.05
+  },
+  {
+    "Cartridge": "6.5x54mm MS",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.252,
+    "Overall Length (in)": 3.063
+  },
+  {
+    "Cartridge": "6.5x55mm",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.165,
+    "Overall Length (in)": 3.15
+  },
+  {
+    "Cartridge": "6.5x57mm Mauser",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.232,
+    "Overall Length (in)": 3.228
+  },
+  {
+    "Cartridge": "6.5x58mm Vergueiro",
+    "Bullet Diameter (in)": 0.262,
+    "Case Length (in)": 2.278,
+    "Overall Length (in)": 3.209
+  },
+  {
+    "Cartridge": "6.5x68mm",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.657,
+    "Overall Length (in)": 3.406
+  },
+  {
+    "Cartridge": "6.8mm Remington SPC",
+    "Bullet Diameter (in)": 0.277,
+    "Case Length (in)": 1.687,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": "6mm ARC",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 1.49,
+    "Overall Length (in)": 2.26
+  },
+  {
+    "Cartridge": "6mm BR Norma",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 1.56,
+    "Overall Length (in)": 2.44
+  },
+  {
+    "Cartridge": "6mm Lee Navy",
+    "Bullet Diameter (in)": 0.244,
+    "Case Length (in)": 2.35,
+    "Overall Length (in)": 3.11
+  },
+  {
+    "Cartridge": "6mm Remington",
+    "Bullet Diameter (in)": 0.2435,
+    "Case Length (in)": 2.233,
+    "Overall Length (in)": 2.825
+  },
+  {
+    "Cartridge": "6mm XC",
+    "Bullet Diameter (in)": 0.243,
+    "Case Length (in)": 1.89,
+    "Overall Length (in)": 2.5
+  },
+  {
+    "Cartridge": "6x57mm Mauser",
+    "Bullet Diameter (in)": 0.264,
+    "Case Length (in)": 2.232,
+    "Overall Length (in)": 3.228
+  },
+  {
+    "Cartridge": "7.35x51mm Carcano",
+    "Bullet Diameter (in)": 0.298,
+    "Case Length (in)": 2.028,
+    "Overall Length (in)": 2.894
+  },
+  {
+    "Cartridge": "7.5x54mm French",
+    "Bullet Diameter (in)": 0.309,
+    "Case Length (in)": 2.126,
+    "Overall Length (in)": 2.992
+  },
+  {
+    "Cartridge": "7.5x55mm Swiss",
+    "Bullet Diameter (in)": 0.306,
+    "Case Length (in)": 2.189,
+    "Overall Length (in)": 3.059
+  },
+  {
+    "Cartridge": "7.62x25mm Tokarev",
+    "Bullet Diameter (in)": 0.309,
+    "Case Length (in)": 0.984,
+    "Overall Length (in)": 1.386
+  },
+  {
+    "Cartridge": "7.62x38mmR",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 1.53,
+    "Overall Length (in)": 1.53
+  },
+  {
+    "Cartridge": "7.62x39mm",
+    "Bullet Diameter (in)": "0.309-0.311",
+    "Case Length (in)": 1.524,
+    "Overall Length (in)": 2.205
+  },
+  {
+    "Cartridge": "7.62x51mm NATO",
+    "Bullet Diameter (in)": 0.308,
+    "Case Length (in)": 2.015,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": "7.62x54mmR",
+    "Bullet Diameter (in)": 0.312,
+    "Case Length (in)": 2.115,
+    "Overall Length (in)": 3.038
+  },
+  {
+    "Cartridge": "7.7x58mm Arisaka",
+    "Bullet Diameter (in)": 0.312,
+    "Case Length (in)": 2.28,
+    "Overall Length (in)": 3.13
+  },
+  {
+    "Cartridge": "7.92mm DS",
+    "Bullet Diameter (in)": 0.322,
+    "Case Length (in)": 4.22,
+    "Overall Length (in)": 5.2
+  },
+  {
+    "Cartridge": "7.92x33mm Kurz",
+    "Bullet Diameter (in)": 0.324,
+    "Case Length (in)": 1.299,
+    "Overall Length (in)": 1.89
+  },
+  {
+    "Cartridge": "7mm BR Remington",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 1.52,
+    "Overall Length (in)": 2.375
+  },
+  {
+    "Cartridge": "7mm Remington Magnum",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.5,
+    "Overall Length (in)": 3.29
+  },
+  {
+    "Cartridge": "7mm Remington Short Action Ultra Magnum",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.035,
+    "Overall Length (in)": 2.825
+  },
+  {
+    "Cartridge": "7mm Remington Ultra Magnum",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": "7mm Shooting Times Westerner",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": "7mm Weatherby Magnum",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.55,
+    "Overall Length (in)": 3.25
+  },
+  {
+    "Cartridge": "7mm WSM",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.86
+  },
+  {
+    "Cartridge": "7mm-08 Remington",
+    "Bullet Diameter (in)": 0.284,
+    "Case Length (in)": 2.035,
+    "Overall Length (in)": 2.8
+  },
+  {
+    "Cartridge": "7x57mm Mauser",
+    "Bullet Diameter (in)": 0.285,
+    "Case Length (in)": 2.244,
+    "Overall Length (in)": 3.071
+  },
+  {
+    "Cartridge": "7x64mm",
+    "Bullet Diameter (in)": 0.285,
+    "Case Length (in)": 2.52,
+    "Overall Length (in)": 3.307
+  },
+  {
+    "Cartridge": "8x50mmR Lebel",
+    "Bullet Diameter (in)": 0.327,
+    "Case Length (in)": 1.988,
+    "Overall Length (in)": 2.953
+  },
+  {
+    "Cartridge": "8mm Remington Magnum",
+    "Bullet Diameter (in)": 0.323,
+    "Case Length (in)": 2.85,
+    "Overall Length (in)": 3.6
+  },
+  {
+    "Cartridge": "8x57 IS",
+    "Bullet Diameter (in)": 0.324,
+    "Case Length (in)": 2.244,
+    "Overall Length (in)": 3.228
+  },
+  {
+    "Cartridge": "8x58mmR Danish Krag",
+    "Bullet Diameter (in)": 0.323,
+    "Case Length (in)": 2.283,
+    "Overall Length (in)": 3.071
+  },
+  {
+    "Cartridge": "8x60mm S",
+    "Bullet Diameter (in)": 0.324,
+    "Case Length (in)": 2.362,
+    "Overall Length (in)": 3.291
+  },
+  {
+    "Cartridge": "8x63mm patron m/32",
+    "Bullet Diameter (in)": 0.323,
+    "Case Length (in)": 2.473,
+    "Overall Length (in)": 3.331
+  },
+  {
+    "Cartridge": "8x64mm Brenneke",
+    "Bullet Diameter (in)": 0.324,
+    "Case Length (in)": 2.52,
+    "Overall Length (in)": 3.445
+  },
+  {
+    "Cartridge": "8x68mm S",
+    "Bullet Diameter (in)": 0.324,
+    "Case Length (in)": 2.657,
+    "Overall Length (in)": 3.425
+  },
+  {
+    "Cartridge": "9.3x57mm",
+    "Bullet Diameter (in)": 0.366,
+    "Case Length (in)": 2.22,
+    "Overall Length (in)": 3.2
+  },
+  {
+    "Cartridge": "9.3x62mm",
+    "Bullet Diameter (in)": 0.366,
+    "Case Length (in)": 2.441,
+    "Overall Length (in)": 3.291
+  },
+  {
+    "Cartridge": "9.3x64mm Brenneke",
+    "Bullet Diameter (in)": 0.366,
+    "Case Length (in)": 2.52,
+    "Overall Length (in)": 3.37
+  },
+  {
+    "Cartridge": "9.3x74mmR",
+    "Bullet Diameter (in)": 0.366,
+    "Case Length (in)": 2.941,
+    "Overall Length (in)": 3.72
+  },
+  {
+    "Cartridge": "9.5x57mm MS",
+    "Bullet Diameter (in)": 0.376,
+    "Case Length (in)": 2.25,
+    "Overall Length (in)": 2.95
+  },
+  {
+    "Cartridge": "9x53mmR",
+    "Bullet Diameter (in)": 0.363,
+    "Case Length (in)": 2.1,
+    "Overall Length (in)": 2.67
+  },
+  {
+    "Cartridge": "9x56mm MS",
+    "Bullet Diameter (in)": 0.357,
+    "Case Length (in)": 1.83,
+    "Overall Length (in)": 3.036
+  },
+  {
+    "Cartridge": "9x57mm Mauser",
+    "Bullet Diameter (in)": 0.36,
+    "Case Length (in)": 2.24,
+    "Overall Length (in)": 3.19
+  }
+]

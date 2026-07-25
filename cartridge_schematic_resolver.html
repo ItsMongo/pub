@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cartridge Schematic Resolver</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f0b;
+    --surface: #15160f;
+    --surface2: #1c1e15;
+    --border: #2a2d1f;
+    --gold: #b8a040;
+    --gold-dim: #6a5c20;
+    --green: #6aaf4c;
+    --red: #c94c4c;
+    --yellow: #c9b84c;
+    --blue: #4c8ecf;
+    --tan: #c8b97a;
+    --text: #d0cdb8;
+    --text-dim: #6a6850;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--tan);
+    padding: 16px 26px;
+    display: flex; align-items: center; gap: 18px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-icon { font-size: 1.8rem; line-height: 1; }
+  .header-title { font-family: var(--display); font-size: 1.9rem; letter-spacing: 3px; color: var(--tan); line-height: 1; }
+  .header-sub { font-family: var(--mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+  .header-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 8px 15px; border: none; border-radius: 2px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--tan); color: #0e0f0b; }
+  .btn-primary:hover { background: #ddd090; }
+  .btn-secondary { background: transparent; color: var(--tan); border: 1px solid var(--gold-dim); }
+  .btn-secondary:hover { border-color: var(--tan); background: rgba(200,185,122,0.07); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ── Statusbar ── */
+  .statusbar {
+    background: var(--surface2); border-bottom: 1px solid var(--border);
+    padding: 7px 26px; display: flex; gap: 18px; align-items: center;
+    font-family: var(--mono); font-size: 0.68rem;
+  }
+  .stat { display: flex; align-items: center; gap: 5px; }
+  .stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-green  { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+  .dot-red    { background: var(--red); }
+  .dot-yellow { background: var(--yellow); animation: pulse 1.4s infinite; }
+  .dot-blue   { background: var(--blue); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  #progress-bar-wrap { flex:1; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+  #progress-bar { height:100%; background:var(--tan); width:0%; transition:width 0.3s; }
+
+  /* ── Layout ── */
+  .main { display: flex; height: calc(100vh - 102px); }
+
+  /* ── Output panel ── */
+  .output-panel { width: 340px; min-width: 280px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--surface); }
+  .panel-header {
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-dim);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #js-output {
+    flex:1; overflow-y:auto; padding:12px 14px;
+    font-family:var(--mono); font-size:0.64rem; line-height:1.8;
+    white-space:pre-wrap; word-break:break-all; background:#09090a;
+  }
+
+  /* ── Grid ── */
+  .grid-panel { flex:1; overflow-y:auto; padding:16px 18px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:12px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+    overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; position: relative;
+  }
+  .card:hover { border-color: var(--gold-dim); }
+  .card.resolved  { border-left: 3px solid var(--green); }
+  .card.accepted  { border-left: 3px solid var(--tan); box-shadow: 0 0 14px rgba(200,185,122,0.12); }
+  .card.failed    { border-left: 3px solid var(--red); }
+  .card.pending   { border-left: 3px solid var(--yellow); }
+
+  /* Image area — tan background mimics schematic paper */
+  .card-img-wrap {
+    background: #d4c99a;
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .card-img-wrap img {
+    max-width: 100%; max-height: 160px; object-fit: contain; display: block;
+    transition: opacity 0.25s;
+  }
+  .card-placeholder {
+    font-family: var(--mono); font-size: 0.63rem; color: #5a5030;
+    text-align: center; padding: 10px; line-height: 1.6; background: transparent;
+  }
+
+  /* Candidate counter */
+  .cand-pill {
+    position: absolute; bottom: 6px; left: 6px;
+    font-family: var(--mono); font-size: 0.56rem; font-weight: 600;
+    padding: 2px 7px; border-radius: 10px; letter-spacing: 0.5px;
+    background: rgba(14,15,11,0.75); border: 1px solid var(--border); color: var(--text-dim);
+  }
+  .cand-pill.has-more { border-color: var(--blue); color: var(--blue); }
+
+  .source-badge {
+    position: absolute; top: 6px; right: 6px;
+    font-family: var(--mono); font-size: 0.54rem; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 2px 6px; border-radius: 2px; font-weight: 600;
+  }
+  .badge-wiki     { background:rgba(106,175,76,0.25);  color:var(--green); border:1px solid var(--green); }
+  .badge-commons  { background:rgba(200,185,122,0.2);  color:var(--tan);   border:1px solid var(--gold-dim); }
+  .badge-none     { background:rgba(201,76,76,0.2);    color:var(--red);   border:1px solid var(--red); }
+  .badge-pending  { background:rgba(201,184,76,0.15);  color:var(--yellow);border:1px solid var(--yellow); }
+  .badge-accepted { background:rgba(200,185,122,0.35); color:var(--tan);   border:1px solid var(--tan); }
+
+  .card-body { padding: 9px 12px; }
+  .card-name { font-family:var(--display); font-size:1rem; letter-spacing:1px; color:var(--tan); line-height:1.2; margin-bottom:3px; }
+  .card-search { font-family:var(--mono); font-size:0.56rem; color:var(--text-dim); margin-bottom:4px; }
+  .card-attr { font-family:var(--mono); font-size:0.59rem; color:var(--text-dim); margin-bottom:5px; line-height:1.4; }
+  .card-attr a { color:var(--text-dim); text-decoration:underline; }
+  .card-url  { font-family:var(--mono); font-size:0.57rem; color:#5a7040; word-break:break-all; line-height:1.4; margin-bottom:6px; }
+  .card-url a { color:#7a9060; }
+
+  .card-actions { display:flex; gap:5px; flex-wrap:wrap; align-items:center; }
+  .mini-btn {
+    font-family:var(--mono); font-size:0.58rem; padding:3px 9px; border-radius:2px;
+    border:1px solid var(--border); background:transparent; color:var(--text-dim);
+    cursor:pointer; transition:all 0.15s; text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .mini-btn:hover { border-color:var(--gold-dim); color:var(--tan); }
+  .mini-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  .pass-btn {
+    font-family:var(--mono); font-size:0.58rem; font-weight:600; padding:3px 11px;
+    border-radius:2px; border:1px solid var(--blue); background:rgba(76,142,207,0.1);
+    color:var(--blue); cursor:pointer; transition:all 0.15s;
+    text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .pass-btn:hover { background:rgba(76,142,207,0.22); }
+  .pass-btn:disabled { opacity:0.3; cursor:not-allowed; }
+
+  .accept-btn {
+    font-family:var(--mono); font-size:0.58rem; font-weight:600; padding:3px 11px;
+    border-radius:2px; border:1px solid var(--green); background:rgba(106,175,76,0.1);
+    color:var(--green); cursor:pointer; transition:all 0.15s;
+    text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .accept-btn:hover { background:rgba(106,175,76,0.22); }
+  .accept-btn.active { background:rgba(106,175,76,0.3); }
+
+  /* Empty state */
+  .empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; height:55%; gap:14px; color:var(--text-dim); font-family:var(--mono); font-size:0.78rem; text-align:center; grid-column:1/-1; }
+  .empty-state .big { font-family:var(--display); font-size:3.5rem; color:var(--border); letter-spacing:5px; }
+
+  ::-webkit-scrollbar { width:5px; height:5px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--gold-dim); }
+
+  .spinner { display:inline-block; width:9px; height:9px; border:2px solid var(--border); border-top-color:var(--tan); border-radius:50%; animation:spin 0.6s linear infinite; margin-right:5px; vertical-align:middle; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">⊛</div>
+  <div>
+    <div class="header-title">Cartridge Schematic Resolver</div>
+    <div class="header-sub">Wikimedia Commons · Dimensioned technical drawings · Pass to cycle · Full attribution</div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary" id="btn-resolve" onclick="resolveAll()">▶ Resolve All</button>
+    <button class="btn btn-secondary" id="btn-copy"  onclick="copyJS()"  disabled>⎘ Copy JS</button>
+    <button class="btn btn-secondary" id="btn-csv"   onclick="copyCSV()" disabled>⎘ Copy CSV</button>
+    <button class="btn btn-secondary" onclick="clearAll()">↺ Reset</button>
+  </div>
+</div>
+
+<div class="statusbar">
+  <div class="stat"><div class="stat-dot dot-green"></div><span id="stat-ok">0 resolved</span></div>
+  <div class="stat"><div class="stat-dot dot-blue"></div><span id="stat-accepted">0 accepted</span></div>
+  <div class="stat"><div class="stat-dot dot-red"></div><span id="stat-fail">0 missing</span></div>
+  <div class="stat"><div class="stat-dot dot-yellow"></div><span id="stat-pend">0 pending</span></div>
+  <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+  <span id="stat-msg" style="font-family:var(--mono);font-size:0.66rem;color:var(--text-dim)">Ready</span>
+</div>
+
+<div class="main">
+  <div class="output-panel">
+    <div class="panel-header">
+      <span>JS Output</span>
+      <span id="output-count" style="color:var(--text-dim)">0 / 0</span>
+    </div>
+    <div id="js-output">// Hit "Resolve All" to begin...</div>
+  </div>
+  <div class="grid-panel">
+    <div class="grid" id="grid">
+      <div class="empty-state">
+        <div class="big">READY</div>
+        <div>Click <strong style="color:var(--tan)">▶ Resolve All</strong> to search Wikimedia Commons<br>for dimensioned schematic drawings.<br><br>Use <strong style="color:var(--blue)">↷ Pass</strong> to cycle through candidates per cartridge.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Cartridge list — parsed from your file listing ──────────────────────────
+// Each entry has:
+//   name    — display name shown on card and used as JS key
+//   queries — ordered list of search terms, most specific first
+//             (schematic/diagram terms prepended to bias toward technical drawings)
+
+const items = [
+  {
+    name: "5.56×45mm NATO",
+    queries: ["5.56x45 NATO cartridge diagram schematic", "5.56 NATO cartridge dimensions", "5.56×45mm"]
+  },
+  {
+    name: "7.62×39mm",
+    queries: ["7.62x39 cartridge diagram schematic", "7.62×39mm dimensions drawing", "7.62×39"]
+  },
+  {
+    name: "7.5×54mm MAS",
+    queries: ["7.5x54 MAS cartridge diagram schematic", "7.5 French cartridge dimensions", "7.5×54mm MAS"]
+  },
+  {
+    name: "7.7mm Arisaka",
+    queries: ["7.7x58 Arisaka cartridge diagram schematic", "7.7mm Japanese cartridge dimensions", "7.7mm Arisaka"]
+  },
+  {
+    name: "8×57mm JS",
+    queries: ["8x57 JS Mauser cartridge diagram schematic", "8mm Mauser cartridge dimensions drawing", "8×57mm IS"]
+  },
+  {
+    name: "11mm Dutch Beaumont",
+    queries: ["11mm Beaumont cartridge diagram schematic", "11×52R Beaumont dimensions", "11mm Beaumont"]
+  },
+  {
+    name: ".22 Long Rifle",
+    queries: [".22 LR cartridge diagram schematic", "22 long rifle cartridge dimensions drawing", ".22 LR"]
+  },
+  {
+    name: ".30-06 Springfield",
+    queries: ["30-06 Springfield cartridge diagram schematic", "30-06 cartridge dimensions drawing", "30-06 Springfield"]
+  },
+  {
+    name: ".30-30 Winchester",
+    queries: ["30-30 Winchester cartridge diagram schematic", "30-30 cartridge dimensions drawing", ".30-30 WCF"]
+  },
+  {
+    name: ".30 Carbine",
+    queries: [".30 Carbine cartridge diagram schematic", "30 carbine dimensions drawing", ".30 M1 Carbine"]
+  },
+  {
+    name: ".35 Remington",
+    queries: [".35 Remington cartridge diagram schematic", "35 Remington dimensions drawing", ".35 Remington"]
+  },
+  {
+    name: ".45-70 Government",
+    queries: ["45-70 Government cartridge diagram schematic", "45-70 Govt dimensions drawing", ".45-70 Government"]
+  },
+  {
+    name: ".223 Remington",
+    queries: [".223 Remington cartridge diagram schematic", "223 Remington dimensions drawing", ".223 Rem"]
+  },
+  {
+    name: ".303 British",
+    queries: [".303 British cartridge diagram schematic", "303 British dimensions drawing", ".303 British"]
+  },
+  {
+    name: ".308 Winchester",
+    queries: [".308 Winchester cartridge diagram schematic", "308 Win dimensions drawing", "7.62×51mm NATO diagram"]
+  },
+  {
+    name: ".450 Marlin",
+    queries: [".450 Marlin cartridge diagram schematic", "450 Marlin dimensions drawing", ".450 Marlin"]
+  },
+  {
+    name: "7.62×54mmR",
+    queries: ["7.62x54R cartridge diagram schematic", "7.62×54mmR dimensions drawing", "7.62×54R"]
+  },
+  {
+    name: "7.92×57mm Mauser (sS)",
+    queries: ["7.92x57 Mauser cartridge diagram schematic", "8mm Mauser dimensions drawing", "7.92×57mm Mauser"]
+  },
+];
+
+// ── State ────────────────────────────────────────────────────────────────────
+const state = {}; // name → { candidates[], index, accepted, fetchDone }
+let running = false;
+
+// ── API helpers ───────────────────────────────────────────────────────────────
+
+async function fetchImageInfo(filename) {
+  try {
+    const res = await fetch(
+      `https://commons.wikimedia.org/w/api.php?action=query&titles=File:${encodeURIComponent(filename)}&prop=imageinfo&iiprop=url|user|extmetadata|mime&format=json&origin=*`
+    );
+    const data = await res.json();
+    const page = Object.values(data.query.pages)[0];
+    if (!page?.imageinfo) return null;
+    const ii = page.imageinfo[0];
+    // Accept images and SVGs only
+    if (!ii.url.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) return null;
+    const meta = ii.extmetadata || {};
+    const author = meta.Artist?.value?.replace(/<[^>]+>/g, '') || ii.user || 'Unknown';
+    const license = meta.LicenseShortName?.value || 'See Wikimedia';
+    return {
+      url: ii.url,
+      source: 'Wikimedia Commons',
+      license,
+      author,
+      attribution: `© ${author} — ${license} — via Wikimedia Commons`,
+      commonsUrl: `https://commons.wikimedia.org/wiki/File:${filename}`
+    };
+  } catch { return null; }
+}
+
+async function fetchWikipediaInfoboxImage(wikiTitle) {
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikiTitle)}&prop=pageimages&pithumbsize=900&pilicense=any&format=json&origin=*`
+    );
+    const data = await res.json();
+    const page = Object.values(data.query.pages)[0];
+    if (!page?.pageimage) return null;
+    const r = await fetchImageInfo(page.pageimage);
+    if (r) { r.source = 'Wikipedia infobox'; }
+    return r;
+  } catch { return null; }
+}
+
+async function searchCommons(query, limit = 12) {
+  try {
+    const res = await fetch(
+      `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srnamespace=6&srlimit=${limit}&format=json&origin=*`
+    );
+    const data = await res.json();
+    const hits = data.query?.search || [];
+    const candidates = [];
+    for (const hit of hits) {
+      const filename = hit.title.replace('File:', '');
+      const r = await fetchImageInfo(filename);
+      if (r) {
+        // Lightly score toward schematic/diagram files
+        const isDrawing = /diagram|schematic|drawing|section|cutaway|dimensi|SAAMI|CIP/i.test(filename + hit.snippet);
+        r._score = isDrawing ? 2 : 1;
+        candidates.push(r);
+      }
+      if (candidates.length >= 10) break;
+    }
+    // Sort: drawings first
+    return candidates.sort((a, b) => b._score - a._score);
+  } catch { return []; }
+}
+
+async function buildCandidatePool(item) {
+  const pool = [];
+  const seen = new Set();
+  const add = (r) => { if (r && !seen.has(r.url)) { seen.add(r.url); pool.push(r); } };
+
+  // Run all queries in sequence, most specific first
+  for (const query of item.queries) {
+    const results = await searchCommons(query, 10);
+    results.forEach(add);
+    if (pool.length >= 15) break;
+    await new Promise(r => setTimeout(r, 120)); // gentle rate limiting
+  }
+
+  // Also try Wikipedia infobox as a fallback source
+  const wikiResult = await fetchWikipediaInfoboxImage(item.name);
+  add(wikiResult);
+
+  return pool;
+}
+
+// ── Card rendering ────────────────────────────────────────────────────────────
+
+function cardId(name) { return 'c_' + name.replace(/[^a-zA-Z0-9]/g, '_'); }
+
+function renderCardShell(item) {
+  const id = cardId(item.name);
+  const card = document.createElement('div');
+  card.className = 'card pending';
+  card.id = id;
+  card.innerHTML = `
+    <div class="card-img-wrap" id="${id}-img">
+      <div class="card-placeholder"><span class="spinner"></span>Searching schematics…</div>
+      <span class="source-badge badge-pending">PENDING</span>
+    </div>
+    <div class="card-body">
+      <div class="card-name">${item.name}</div>
+      <div class="card-search" id="${id}-sq">Queries: ${item.queries[0]}</div>
+      <div class="card-attr" id="${id}-attr">—</div>
+      <div class="card-url"  id="${id}-url">—</div>
+      <div class="card-actions" id="${id}-act"></div>
+    </div>`;
+  document.getElementById('grid').appendChild(card);
+}
+
+function refreshCard(item) {
+  const s = state[item.name];
+  const id = cardId(item.name);
+  const card = document.getElementById(id);
+  if (!card) return;
+
+  const c = s.candidates[s.index] || null;
+  const total = s.candidates.length;
+  const hasMore = s.index < total - 1;
+  const hasPrev = s.index > 0;
+
+  card.className = 'card ' + (s.accepted ? 'accepted' : c ? 'resolved' : s.fetchDone ? 'failed' : 'pending');
+
+  // Image area
+  const imgWrap = document.getElementById(`${id}-img`);
+  if (c) {
+    const badgeClass = s.accepted ? 'badge-accepted' : c.source === 'Wikipedia infobox' ? 'badge-wiki' : 'badge-commons';
+    const badgeLabel = s.accepted ? '★ ACCEPTED' : c.source === 'Wikipedia infobox' ? 'WIKI' : 'COMMONS';
+    // For SVGs, render inline via object tag for best compatibility
+    const isSvg = c.url.match(/\.svg$/i);
+    const imgTag = isSvg
+      ? `<object data="${c.url}" type="image/svg+xml" style="max-width:100%;max-height:160px;display:block;"></object>`
+      : `<img src="${c.url}" alt="${item.name}" onerror="this.style.opacity='0.2'" />`;
+    imgWrap.innerHTML = `
+      ${imgTag}
+      <span class="source-badge ${badgeClass}">${badgeLabel}</span>
+      <span class="cand-pill ${hasMore ? 'has-more' : ''}">${s.index + 1} / ${total}${hasMore ? ' ↷' : ''}</span>`;
+  } else if (s.fetchDone) {
+    imgWrap.innerHTML = `<div class="card-placeholder">❌ No schematic found<br><small style="font-size:0.54rem;display:block;margin-top:5px">Search Wikimedia Commons manually</small></div><span class="source-badge badge-none">MISSING</span>`;
+  } else {
+    imgWrap.innerHTML = `<div class="card-placeholder"><span class="spinner"></span>Searching…</div><span class="source-badge badge-pending">PENDING</span>`;
+  }
+
+  // Attribution
+  document.getElementById(`${id}-attr`).innerHTML = c
+    ? `${c.attribution}${c.commonsUrl ? ` · <a href="${c.commonsUrl}" target="_blank">Commons ↗</a>` : ''}`
+    : (s.fetchDone ? 'No schematic found on Wikimedia Commons' : 'Searching…');
+
+  // URL
+  document.getElementById(`${id}-url`).innerHTML = c
+    ? `<a href="${c.url}" target="_blank">${c.url.substring(0, 68)}${c.url.length > 68 ? '…' : ''}</a>`
+    : '—';
+
+  // Actions
+  const act = document.getElementById(`${id}-act`);
+  act.innerHTML = '';
+  if (c) {
+    // Accept toggle
+    const acceptBtn = document.createElement('button');
+    acceptBtn.className = 'accept-btn' + (s.accepted ? ' active' : '');
+    acceptBtn.textContent = s.accepted ? '★ Accepted' : '✓ Accept';
+    acceptBtn.onclick = () => { s.accepted = !s.accepted; refreshCard(item); updateOutput(); updateStats(); };
+    act.appendChild(acceptBtn);
+
+    // Pass
+    const passBtn = document.createElement('button');
+    passBtn.className = 'pass-btn';
+    passBtn.textContent = hasMore ? `↷ Pass (${total - s.index - 1})` : '↷ Pass';
+    passBtn.disabled = !hasMore;
+    passBtn.title = hasMore ? `${total - s.index - 1} more candidates available` : 'No more candidates';
+    passBtn.onclick = () => { s.index++; s.accepted = false; refreshCard(item); updateOutput(); updateStats(); };
+    act.appendChild(passBtn);
+
+    // Prev
+    if (hasPrev) {
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'mini-btn';
+      prevBtn.textContent = '← Prev';
+      prevBtn.onclick = () => { s.index--; s.accepted = false; refreshCard(item); updateOutput(); updateStats(); };
+      act.appendChild(prevBtn);
+    }
+
+    // Copy URL
+    const cpUrl = document.createElement('button');
+    cpUrl.className = 'mini-btn';
+    cpUrl.textContent = '⎘ URL';
+    cpUrl.onclick = () => { navigator.clipboard.writeText(c.url); cpUrl.textContent = '✓'; setTimeout(() => cpUrl.textContent = '⎘ URL', 1400); };
+    act.appendChild(cpUrl);
+
+    // Copy Attribution
+    const cpAttr = document.createElement('button');
+    cpAttr.className = 'mini-btn';
+    cpAttr.textContent = '⎘ Attr';
+    cpAttr.onclick = () => { navigator.clipboard.writeText(c.attribution); cpAttr.textContent = '✓'; setTimeout(() => cpAttr.textContent = '⎘ Attr', 1400); };
+    act.appendChild(cpAttr);
+
+    // Open full-res
+    const openBtn = document.createElement('button');
+    openBtn.className = 'mini-btn';
+    openBtn.textContent = '↗ Full';
+    openBtn.onclick = () => window.open(c.url, '_blank');
+    act.appendChild(openBtn);
+  }
+}
+
+// ── Stats & output ────────────────────────────────────────────────────────────
+
+function updateStats() {
+  const total = items.length;
+  const fetched  = items.filter(f => state[f.name]?.fetchDone).length;
+  const ok       = items.filter(f => (state[f.name]?.candidates.length || 0) > 0).length;
+  const accepted = items.filter(f => state[f.name]?.accepted).length;
+  const failed   = items.filter(f => state[f.name]?.fetchDone && !state[f.name]?.candidates.length).length;
+  const pending  = total - fetched;
+  document.getElementById('stat-ok').textContent       = `${ok} resolved`;
+  document.getElementById('stat-accepted').textContent = `${accepted} accepted`;
+  document.getElementById('stat-fail').textContent     = `${failed} missing`;
+  document.getElementById('stat-pend').textContent     = `${pending} pending`;
+  document.getElementById('progress-bar').style.width  = `${Math.round((fetched / total) * 100)}%`;
+  document.getElementById('output-count').textContent  = `${ok} / ${total}`;
+}
+
+function updateOutput() {
+  const lines = items.map(f => {
+    const s = state[f.name]; const r = s?.candidates[s?.index];
+    return `  <span style="color:#b8953a">"${f.name}"</span>: <span style="color:#7aaa60">"${r?.url || ''}"</span>`;
+  });
+  const attrLines = items.map(f => {
+    const s = state[f.name]; const r = s?.candidates[s?.index];
+    return `  <span style="color:#b8953a">"${f.name}"</span>: <span style="color:#7aaa60">"${r?.attribution || ''}"</span>`;
+  });
+  document.getElementById('js-output').innerHTML =
+    `<span style="color:#556">// Cartridge schematic URLs</span>\nconst schematics = {\n${lines.join(',\n')}\n};\n\n<span style="color:#556">// Attribution — include in app credits</span>\nconst schematicsAttribution = {\n${attrLines.join(',\n')}\n};`;
+}
+
+// ── Main resolve loop ─────────────────────────────────────────────────────────
+
+async function resolveAll() {
+  if (running) return;
+  running = true;
+  document.getElementById('btn-resolve').disabled = true;
+  document.getElementById('grid').innerHTML = '';
+
+  items.forEach(item => {
+    state[item.name] = { candidates: [], index: 0, accepted: false, fetchDone: false };
+    renderCardShell(item);
+  });
+  updateStats(); updateOutput();
+
+  // Process 2 at a time — Commons search is heavier than Wikipedia API
+  for (let i = 0; i < items.length; i += 2) {
+    const batch = items.slice(i, i + 2);
+    document.getElementById('stat-msg').textContent = `Searching ${i + 1}–${Math.min(i + 2, items.length)} / ${items.length}…`;
+    await Promise.all(batch.map(async item => {
+      const pool = await buildCandidatePool(item);
+      state[item.name].candidates = pool;
+      state[item.name].fetchDone = true;
+      refreshCard(item);
+      updateStats(); updateOutput();
+    }));
+    await new Promise(r => setTimeout(r, 500));
+  }
+
+  const ok = items.filter(f => state[f.name].candidates.length > 0).length;
+  document.getElementById('stat-msg').textContent = `Done — ${ok}/${items.length} resolved · Use ↷ Pass to cycle candidates`;
+  document.getElementById('btn-resolve').disabled = false;
+  document.getElementById('btn-copy').disabled = false;
+  document.getElementById('btn-csv').disabled = false;
+  running = false;
+}
+
+// ── Export ────────────────────────────────────────────────────────────────────
+
+function copyJS() {
+  const out = [
+    '// Cartridge schematic URLs',
+    'const schematics = {',
+    ...items.map(f => { const s=state[f.name]; const r=s?.candidates[s?.index]; return `  "${f.name}": "${r?.url||''}"`; }),
+    '};','',
+    "// Attribution — include in your app's credits",
+    'const schematicsAttribution = {',
+    ...items.map(f => { const s=state[f.name]; const r=s?.candidates[s?.index]; return `  "${f.name}": "${r?.attribution||''}"`; }),
+    '};'
+  ].join('\n');
+  navigator.clipboard.writeText(out).then(() => {
+    const b = document.getElementById('btn-copy');
+    b.textContent = '✓ Copied!'; setTimeout(() => b.textContent = '⎘ Copy JS', 1800);
+  });
+}
+
+function copyCSV() {
+  const rows = [['Cartridge','URL','Candidate #','Total Candidates','Source','License','Author','Attribution','Commons URL','Accepted']];
+  items.forEach(f => {
+    const s = state[f.name]; const r = s?.candidates[s?.index];
+    rows.push([f.name, r?.url||'', (s?.index??'')+1, s?.candidates.length||'', r?.source||'', r?.license||'', r?.author||'', r?.attribution||'', r?.commonsUrl||'', s?.accepted?'YES':'']);
+  });
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  navigator.clipboard.writeText(csv).then(() => {
+    const b = document.getElementById('btn-csv');
+    b.textContent = '✓ Copied!'; setTimeout(() => b.textContent = '⎘ Copy CSV', 1800);
+  });
+}
+
+function clearAll() {
+  Object.keys(state).forEach(k => delete state[k]);
+  document.getElementById('grid').innerHTML = `<div class="empty-state"><div class="big">READY</div><div>Click <strong style="color:var(--tan)">▶ Resolve All</strong> to search Wikimedia Commons<br>for dimensioned schematic drawings.<br><br>Use <strong style="color:var(--blue)">↷ Pass</strong> to cycle through candidates per cartridge.</div></div>`;
+  document.getElementById('js-output').textContent = '// Hit "Resolve All" to begin...';
+  document.getElementById('progress-bar').style.width = '0%';
+  document.getElementById('stat-msg').textContent = 'Ready';
+  document.getElementById('output-count').textContent = '0 / 0';
+  ['stat-ok','stat-accepted','stat-fail','stat-pend'].forEach(id => document.getElementById(id).textContent = '0 ' + id.replace('stat-',''));
+  document.getElementById('btn-copy').disabled = true;
+  document.getElementById('btn-csv').disabled = true;
+}
+</script>
+</body>
+</html>

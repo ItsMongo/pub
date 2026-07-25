@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File build-image-index.ps1
