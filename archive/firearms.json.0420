@@ -2,7 +2,6 @@
   {
     "type": "Rifle",
     "make": "Lee-Enfield",
-    "makerLogo": "ROFFazakerley.jpg",
     "model": "No. 4 Mk I (F)",
     "year": 1941,
     "cartridge": ".303 British",
@@ -24,7 +23,7 @@
     "tabs": {
       "history": {
         "title": "Firearm Origin...",
-        "content": "The Lee-Enfield is a bolt-action, magazine-fed repeating rifle that served as the main firearm of the military forces of the British Empire and Commonwealth during the first half of the 20th century, and was the standard service rifle of the BritishIn the early 1930s, a batch of 2,500 No. 4 Mk I rifles was made for trials. These were similar to the No. 1 Mk VI but had a flat left side and did away with the chequering on the furniture. Observed examples are dated 1931 and 1933. Roughly 1,400 of these were converted to No. 4 Mk I (T) sniper rifles in 1941–1942 at RSAF Enfield.By the late 1930s, the need for new rifles grew and the Rifle, No. 4 Mk I was officially adopted in 1941.[42] The No. 4 action was similar to the No. 1 Mk VI but stronger and easier to mass-produce.[43] Unlike the SMLE, that had a nose cap, the No 4 Lee–Enfield barrel protruded from the end of the forestock. For easier machining, the charger bridge was no longer rounded. The iron sight line was redesigned and featured a rear receiver aperture battle sight calibrated for 300 yd (274 m) with an additional ladder aperture sight that could be flipped up and was calibrated for 200–1,300 yd (183–1,189 m) in 100 yd (91 m) increments. This sight, like other aperture sights, proved to be faster and more accurate than the typical mid-barrel open rear sight elements sight lines offered by Mauser, previous Lee–Enfields or the Buffington battle sight of the M1903 Springfield.The No. 4 rifle was heavier than the No. 1 Mk III, largely due to its heavier barrel. A new bayonet was designed to go with the rifle: a spike bayonet the No. 4 bayonet, essentially a steel rod with a sharp point, nicknamed \"pigsticker\" by soldiers. Towards the end of the Second World War, a bladed bayonet was developed for the No. 5 Mk I rifle (\"jungle carbine\"). Post-war versions were made that would fit No. 4 rifles and were designated No. 7 and No. 9 blade bayonets. Armed Forces from its official adoption in 1895 until 1957.",
+        "content": "The Lee–Enfield is a bolt-action, magazine-fed repeating rifle that served as the main firearm of the military forces of the British Empire and Commonwealth during the first half of the 20th century, and was the standard service rifle of the BritishIn the early 1930s, a batch of 2,500 No. 4 Mk I rifles was made for trials. These were similar to the No. 1 Mk VI but had a flat left side and did away with the chequering on the furniture. Observed examples are dated 1931 and 1933. Roughly 1,400 of these were converted to No. 4 Mk I (T) sniper rifles in 1941–1942 at RSAF Enfield.By the late 1930s, the need for new rifles grew and the Rifle, No. 4 Mk I was officially adopted in 1941.[42] The No. 4 action was similar to the No. 1 Mk VI but stronger and easier to mass-produce.[43] Unlike the SMLE, that had a nose cap, the No 4 Lee–Enfield barrel protruded from the end of the forestock. For easier machining, the charger bridge was no longer rounded. The iron sight line was redesigned and featured a rear receiver aperture battle sight calibrated for 300 yd (274 m) with an additional ladder aperture sight that could be flipped up and was calibrated for 200–1,300 yd (183–1,189 m) in 100 yd (91 m) increments. This sight, like other aperture sights, proved to be faster and more accurate than the typical mid-barrel open rear sight elements sight lines offered by Mauser, previous Lee–Enfields or the Buffington battle sight of the M1903 Springfield.The No. 4 rifle was heavier than the No. 1 Mk III, largely due to its heavier barrel. A new bayonet was designed to go with the rifle: a spike bayonet the No. 4 bayonet, essentially a steel rod with a sharp point, nicknamed \"pigsticker\" by soldiers. Towards the end of the Second World War, a bladed bayonet was developed for the No. 5 Mk I rifle (\"jungle carbine\"). Post-war versions were made that would fit No. 4 rifles and were designated No. 7 and No. 9 blade bayonets. Armed Forces from its official adoption in 1895 until 1957.",
         "wikipedia": {
           "title": "Rifle No. 4",
           "content": "",
@@ -132,7 +131,6 @@
   {
     "type": "Rifle",
     "make": "Ruger",
-    "makerLogo": "Ruger-Logo-640x400.jpg",
     "model": "10/22",
     "year": 2013,
     "cartridge": ".22 LR",
@@ -262,7 +260,6 @@
   {
     "type": "Rifle",
     "make": "Steyer",
-    "makerLogo": "STEYR_ARMS_gefuelltblk.png",
     "model": "Modelo 1912 Mauser (NATO)",
     "year": 1934,
     "cartridge": ".308 Win",
@@ -392,7 +389,6 @@
   {
     "type": "Rifle",
     "make": "Mauser",
-    "makerLogo": "Mauser_logo.svg.png",
     "model": "Karbiner 98 (K98)",
     "year": 1937,
     "cartridge": "8mm Mauser",
@@ -522,7 +518,6 @@
   {
     "type": "Rifle",
     "make": "Arisaka",
-    "makerLogo": "War_flag_of_the_Imperial_Japanese_Army_(1868–1945).svg.png",
     "model": "Type 99",
     "year": null,
     "cartridge": "7.7x58 Arisaka",
@@ -652,7 +647,6 @@
   {
     "type": "Rifle",
     "make": "Norinco",
-    "makerLogo": "Norinco.jpg",
     "model": "SKS",
     "year": null,
     "cartridge": "7.62 x 39mm",
@@ -782,7 +776,6 @@
   {
     "type": "Rifle",
     "make": "Springfield Armory",
-    "makerLogo": "Springfield-Logo.png",
     "model": "M1903A3",
     "year": null,
     "cartridge": ".30-06 Springfield",
@@ -912,7 +905,6 @@
   {
     "type": "Rifle",
     "make": "Savage Arms",
-    "makerLogo": "savage-arms-logo.png",
     "model": "Axis",
     "year": null,
     "cartridge": ".308 Win",
@@ -1042,7 +1034,6 @@
   {
     "type": "Rifle",
     "make": "Russian",
-    "makerLogo": "TulaArmoryUSSR.jpg",
     "model": "Mosin Nagant M91/30",
     "year": 1928,
     "cartridge": "7.62 x 54R",
@@ -1172,7 +1163,6 @@
   {
     "type": "Rifle",
     "make": "Dutch Beaumont",
-    "makerLogo": "NE-Koninklijke_.Landmacht.png",
     "model": "m.1896",
     "year": null,
     "cartridge": "11mm x 52mm Dutch Beaumont",
@@ -1302,7 +1292,6 @@
   {
     "type": "Rifle",
     "make": "Windham Weaponry",
-    "makerLogo": "windham-weaponry-vector-logo.png",
     "model": "AR-15",
     "year": null,
     "cartridge": ".223 Remington",
@@ -1432,7 +1421,6 @@
   {
     "type": "Rifle",
     "make": "Enfield",
-    "makerLogo": "ROFFazakerley.jpg",
     "model": "Jungle Carbine",
     "year": null,
     "cartridge": ".303 British",
@@ -1562,7 +1550,6 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
     "model": "M49/56",
     "year": null,
     "cartridge": "7.62x51mm NATO",
@@ -1692,7 +1679,6 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
     "model": "M49/56",
     "year": null,
     "cartridge": "7.5 MAS",
@@ -1822,7 +1808,6 @@
   {
     "type": "Rifle",
     "make": "Palmetto",
-    "makerLogo": "palmettoArmory.jpg",
     "model": "AR-10",
     "year": null,
     "cartridge": ".308 Win",
@@ -1952,7 +1937,6 @@
   {
     "type": "Rifle",
     "make": "German",
-    "makerLogo": "Walther-Logo-640x400.png",
     "model": "G-43",
     "year": 1944,
     "cartridge": "8mm Mauser",
@@ -2082,7 +2066,6 @@
   {
     "type": "Rifle",
     "make": "Springfield Armory",
-    "makerLogo": "Springfield-Logo.png",
     "model": "M1A",
     "year": null,
     "cartridge": ".308 Win",
@@ -2212,7 +2195,6 @@
   {
     "type": "Rifle",
     "make": "Russian",
-    "makerLogo": "TulaArmoryUSSR.jpg",
     "model": "SVT-40",
     "year": null,
     "cartridge": "7.62 x 54 R",
@@ -2342,7 +2324,6 @@
   {
     "type": "Rifle",
     "make": "Fabrique Nationale",
-    "makerLogo": "FN-Herstal-Logo-768x432.png",
     "model": "FN49",
     "year": null,
     "cartridge": ".30-06 Springfield",
@@ -2472,7 +2453,6 @@
   {
     "type": "Rifle",
     "make": "Egyptian",
-    "makerLogo": "Seal_of_the_Egyptian_Armed_Forces.svg.png",
     "model": "Hakim",
     "year": null,
     "cartridge": "8mm Mauser",
@@ -2602,7 +2582,6 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
     "model": "M.1936",
     "year": null,
     "cartridge": "7.5 French",
@@ -2732,7 +2711,6 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
     "model": "Model 1895M",
     "year": 2001,
     "cartridge": ".450 Marlin",
@@ -2862,7 +2840,6 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
     "model": "Model 336",
     "year": 1972,
     "cartridge": ".30-30 Winchester",
@@ -2992,9 +2969,7 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
     "model": "Model 336CS",
-    "year": 1990,
     "cartridge": ".35 Remington",
     "caliber": ".350",
     "COAL": "2.525 in",
@@ -3117,12 +3092,12 @@
     },
     "weight": "9.9",
     "imageID": "MAR3",
-    "note": ""
+    "note": "",
+    "year": 1990
   },
   {
     "type": "Rifle",
     "make": "Winchester",
-    "makerLogo": "Winchester-Logo.png",
     "model": "Model 70 XTR",
     "year": null,
     "cartridge": ".308 Win",
@@ -3252,7 +3227,6 @@
   {
     "type": "Rifle",
     "make": "Springfield Armory",
-    "makerLogo": "Springfield-Logo.png",
     "model": "M1 Garand",
     "year": 1955,
     "cartridge": ".30-06 Springfield",
@@ -3382,7 +3356,6 @@
   {
     "type": "Rifle",
     "make": "Springfield Armory",
-    "makerLogo": "Springfield-Logo.png",
     "model": "M1 Garand",
     "year": 1941,
     "cartridge": ".30-06 Springfield",
@@ -3512,7 +3485,6 @@
   {
     "type": "Rifle",
     "make": "IBM",
-    "makerLogo": "IBM_Logo-1930-40s.png",
     "model": "M1 Carbine",
     "year": 1944,
     "cartridge": ".30 Carbine",
@@ -3642,7 +3614,6 @@
   {
     "type": "Rifle",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
     "model": "Model 700",
     "year": null,
     "cartridge": ".223 Remington",
@@ -3772,7 +3743,6 @@
   {
     "type": "Rifle",
     "make": "Savage",
-    "makerLogo": "Savsavage-arms-logo.pngage",
     "model": "Axis",
     "year": null,
     "cartridge": ".308 Win",
@@ -3902,7 +3872,6 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
     "model": "1100",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4032,7 +4001,6 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
     "model": "1100",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4162,7 +4130,6 @@
   {
     "type": "Shotgun",
     "make": "Beretta",
-    "makerLogo": "savage-arms-logo.png",
     "model": "686",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4292,7 +4259,6 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
     "model": "Model 10",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4421,9 +4387,8 @@
   },
   {
     "type": "Muzzleloader",
-    "make": "CVA",
-    "makerLogo": "cva-vector-logo.png",
-    "model": "Wolf",
+    "make": "Wolf",
+    "model": "TBD",
     "year": null,
     "cartridge": ".50 Sabot",
     "caliber": ".50 Sabot",
@@ -4548,693 +4513,5 @@
     "weight": "9.9",
     "imageID": "WOLF",
     "note": "Black powder"
-  },
-  {
-    "imageID": "WP38",
-    "type": "Pistol",
-    "make": "Walther",
-    "model": "P.38",
-    "year": 1938,
-    "cartridge": "9mm Luger",
-    "caliber": "9x19mm",
-    "COAL": "29.7mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 8,
-    "serialNumber": null,
-    "action": "DA/SA, locked breech, short recoil",
-    "country": "Germany",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "800g (28.2oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Walther P.38",
-        "content": "The Walther P.38 was developed in the mid-1930s by Fritz Walther's firm, Carl Walther Waffenfabrik, in response to a German Heereswaffenamt (Army Weapons Office) requirement for a modern service pistol to eventually replace the aging Luger P08. The Luger, while accurate and well regarded, was expensive to manufacture, mechanically delicate, and relied on an intricate toggle-lock action that was slow and costly to produce, especially as Germany began rearming in earnest under the Third Reich. Walther had already built a reputation for compact, reliable blowback pocket pistols such as the PP and PPK, and the company applied lessons from those designs, particularly the internal hammer-drop safety and double-action trigger mechanism, to a larger service pistol chambered in 9x19mm Parabellum.\n\nWhat made the P.38 historically significant was that it became the first locked-breech, double-action service pistol adopted by a major military power. Earlier prototypes, including the Walther Model AP and HP (Heerespistole, or \"Army Pistol\"), refined the design through the late 1930s before the Wehrmacht formally adopted it in 1938 as the Pistole 38. The pistol used a short-recoil operating system with a wedge-shaped locking block beneath the barrel, distinct from the Luger's toggle action, along with an external hammer, a decocking-capable safety lever, and a loaded-chamber indicator pin protruding from the rear of the slide, a genuinely novel feature for the era that let a soldier check the pistol's condition by touch in darkness.\n\nWartime production was distributed across several manufacturers to meet enormous demand, with pistols marked by manufacturer codes rather than company names for security reasons: \"ac\" for Walther's own Zella-Mehlis factory, \"byf\" and later \"svw\" for Mauser-Werke, and \"cyq\" for Spreewerk. Collectors today pay close attention to these codes, along with year stamps and Waffenamt proof marks, since production quality and parts interchangeability shifted noticeably as the war dragged on and factories faced material shortages, slave labor conditions, and Allied bombing disruption. Late-war pistols are often visibly rougher, with parkerized rather than polished blued finishes, phosphate coatings, and less refined machining, while early production pistols from 1939-1940 are prized for their fit and finish.\n\nThe P.38 saw service throughout every theater the Wehrmacht fought in, issued to officers, NCOs, and specialist troops as a sidearm, and it remains one of the most commonly encountered German military handguns among collectors today given the sheer volume produced, estimated at well over one million units during the war. Its influence didn't end with the war either. West Germany's postwar Bundeswehr readopted a lightly modified version as the P1 starting in 1957, with an aluminum alloy frame replacing the wartime steel frame to save weight, and that pistol remained in German service into the 2000s. The P.38's DA/SA trigger architecture, decocking lever, and general layout also directly influenced a generation of postwar service pistols worldwide, including early Smith & Wesson and Beretta double-action designs, making it a genuine ancestor of the modern DA/SA service pistol format still found in police and military holsters today.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "B92F",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "92FS",
-    "year": 1985,
-    "cartridge": "9mm Luger",
-    "caliber": "9x19mm",
-    "COAL": "29.7mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 15,
-    "serialNumber": null,
-    "action": "DA/SA, locked breech, open-slide short recoil",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch, three-dot",
-    "sightType": "Fixed",
-    "weight": "970g (34.2oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta 92FS",
-        "content": "The Beretta 92 traces back to 1972, when Beretta's engineers, led by Carlo Beretta and Giuseppe Mazzetti, combined design elements from several earlier company pistols, most notably the open-top slide of the Beretta M1951 and the alloy frame and double-column magazine of the M1923 and later prototypes, into a modern 9mm service pistol intended to replace Beretta's aging blowback designs and compete for military and police contracts worldwide. The result was the Model 92, introduced in 1976, which used a locked-breech short-recoil action derived from the Walther P.38's wedge-block system but distinguished by its open-top slide design, which improved reliability by allowing spent brass and debris to eject more freely and made the barrel easier to inspect and clean.\n\nThrough the late 1970s and early 1980s Beretta iterated the design through several variants, the 92S with a slide-mounted safety, the 92SB adding an ambidextrous safety and firing pin block, and eventually the 92F, developed specifically to compete in the U.S. military's XM9 trials of the early 1980s, a multi-year competition to select a replacement for the M1911A1 .45 ACP pistol that had served since World War I. Beretta's 92F won that competition and was formally adopted by the United States military in 1985 as the M9, beating out entries from Smith & Wesson, Sig Sauer, Colt, and others in a contentious selection process that included allegations of political favoritism and durability disputes that dragged through Congressional hearings.\n\nThe 92FS designation, essentially the version most commonly encountered today, followed shortly after adoption and added a slightly enlarged hammer pin and a corresponding notch machined into the underside of the slide. This was a direct response to incidents during endurance testing where slides on earlier 92F pistols separated from the frame under sustained high-round-count firing, a failure mode traced to metal fatigue in the locking block area; the redesign prevented the slide from flying rearward off the frame even if such a fracture occurred, protecting the shooter's hand and face.\n\nThe M9's fifteen-round staggered magazine, standard-issue accessory rail variants, and controllable recoil made it a mainstay of U.S. military service for over three decades, through the Gulf War, the Balkans, and the wars in Afghanistan and Iraq, before the M17/M18 Sig Sauer pistols began replacing it starting in 2017. Civilian and law enforcement 92FS pistols remain in wide production today, manufactured both in Italy and at Beretta's U.S. facility in Tennessee, and the pistol has become something of a cultural icon well beyond firearms circles, appearing prominently in film and television as the sidearm of choice for numerous fictional action heroes. For collectors, early military-contract and commercial 92F/92FS pistols, along with country-specific export variants bearing different proof marks, remain popular subjects for provenance research given the pistol's direct tie to a genuinely pivotal moment in U.S. small arms procurement history.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "B84B",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "84BB Cheetah",
-    "year": 1984,
-    "cartridge": ".380 ACP",
-    "caliber": "9x17mm Short",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 13,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "660g (23.3oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta 84BB Cheetah",
-        "content": "The Beretta 84 belongs to what collectors and Beretta enthusiasts refer to as the \"Series 81\" or \"Cheetah\" family, a run of compact double-action pocket and personal-defense pistols that Beretta introduced starting in 1976 alongside the larger Model 92. Where the 92 was built around 9x19mm and aimed squarely at military and police contracts, the 81/84 series was scaled down and chambered in smaller, lower-pressure cartridges, primarily .32 ACP for the Model 81 and .380 ACP (9mm Short, or 9x17mm) for the Model 84, targeting the civilian concealed-carry and off-duty police market in Europe and later the United States.\n\nWhat distinguished the Cheetah series mechanically from Beretta's larger service pistols was its straight blowback operating system rather than the locked-breech short-recoil design used in the 92. Blowback actions are simpler and cheaper to manufacture, and they work well with lower-pressure cartridges like .380 ACP, where the recoiling slide mass alone, combined with the recoil spring, is sufficient to safely manage the pressures involved without a separate locking mechanism. This kept the pistol compact and comparatively light while still offering a double-action first shot, a feature increasingly demanded by police agencies and civilian buyers through the 1970s and 1980s as an added margin of safety over single-action-only designs like the 1911.\n\nThe 84 also broke from many compact pocket pistols of its era, which typically held six or seven rounds in a single-column magazine, by using a staggered double-column magazine holding thirteen rounds of .380 ACP, an unusually high capacity for a pistol of its size at the time and part of what made the Cheetah series commercially successful through the 1980s. The pistol's slim grip despite the double-stack magazine, achieved through Beretta's magazine geometry and grip panel design, was a genuine engineering accomplishment that competitors took years to match.\n\nThe \"BB\" suffix on this particular variant refers to a mid-production refinement within the Series 81/84 lineup, generally associated with updates to the safety and slide-mounted decocking lever mechanics as Beretta iterated the line through the 1980s before the later \"F\" and \"FS\" variants introduced frame-mounted, ambidextrous safety levers (a change discussed further in the entry for the 84F in this collection). Collectors and Beretta historians track these suffix changes carefully since Beretta made numerous small internal and external revisions to the Cheetah line across roughly two decades of production without always renaming the model outright, making exact production-year identification dependent on serial number ranges and inspection of internal parts as much as external markings.\n\nThe Cheetah series remained in Beretta's catalog into the 1990s and built a loyal following among those who wanted a slim, all-metal, double-action .380 with genuinely useful capacity for concealed carry or as a backup to a duty pistol, a niche that has since been largely supplanted by polymer-framed single-stack .380s and small 9mm pistols, but the Cheetah's fit, finish, and all-steel construction still appeal strongly to collectors and shooters who prefer classic Beretta engineering over more modern, lighter alternatives.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "B84F",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "84F Cheetah",
-    "year": 1985,
-    "cartridge": ".380 ACP",
-    "caliber": "9x17mm Short",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 13,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "660g (23.3oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta 84F Cheetah",
-        "content": "The Beretta 84F represents the second major evolutionary stage of the Cheetah series, distinguished from earlier 84/84BB pistols by its \"F\" designation, which across Beretta's product line in the mid-1980s specifically denoted the addition of a frame-mounted, ambidextrous manual safety and decocking lever. This was a deliberate design change made in step with the larger Beretta 92F, developed concurrently for the U.S. military's XM9 pistol trials, and it reflects how Beretta shared engineering improvements across its pistol families during this period rather than developing each model in isolation.\n\nPrior to the F-series update, earlier Cheetah pistols used a slide-mounted safety lever, a layout inherited from Beretta's older designs and common across many contemporary double-action pistols of the era, including early Beretta 92 variants. Moving the safety to the frame offered a genuine ergonomic advantage: it kept the lever under the shooter's thumb in a more natural resting position and, critically, meant the safety no longer moved with the slide during cycling, reducing the chance of a shooter's thumb interfering with slide function under recoil. The ambidextrous design also reflected growing awareness within the firearms industry that a meaningful share of police and civilian shooters were left-handed, a consideration that had been largely ignored in pistol design through the 1960s and 1970s.\n\nBeyond the safety redesign, the 84F retained the core architecture that made the Cheetah series successful: a straight blowback action suited to the relatively low pressures of .380 ACP, an all-steel frame and slide for durability and recoil absorption, a double-action-first trigger pull with a lighter single-action reset for subsequent shots, and the distinctive thirteen-round staggered magazine that gave the pistol unusually high capacity for its compact size. The pistol continued to be manufactured at Beretta's Gardone Val Trompia facility in Italy's Val Trompia valley, a region with a gunmaking heritage stretching back centuries and still the heart of Beretta's production today.\n\nThe 84F sold well throughout Europe and found a foothold in the American market as well, marketed toward concealed carry, personal defense, and as an off-duty or backup pistol for law enforcement officers who wanted something more compact than a full-size service pistol but still wanted a reputable, all-metal design with genuine stopping power in .380 ACP rather than the smaller .32 ACP or .25 ACP options common in pocket pistols of the era. Beretta continued refining the Cheetah line through the late 1980s and into the 1990s with further variants, the 84FS adding an internal firing pin block for drop-safety compliance with stricter state import and safety regulations, particularly relevant for sales into markets like California that began imposing mandatory safety testing on handguns. For collectors, F-series Cheetahs occupy a useful middle point in the model's development, incorporating the ergonomic safety improvements of later production while still representing the classic, pre-import-restriction form of the pistol before U.S. regulatory pressure began influencing Beretta's compact pistol designs more heavily through the 1990s.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "BM3A",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "Model 1935",
-    "year": 1944,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 7,
-    "serialNumber": "558284",
-    "action": "SA, blowback",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "570g (20oz) unloaded",
-    "note": "Waffenamt-marked '4/UT' inspection code, wartime German military acceptance",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta Model 1935 and Wartime Waffenamt Marking",
-        "content": "The Beretta Model 1935 was a direct evolution of Beretta's earlier Model 1934, itself derived from the company's long-running series of blowback pocket pistols dating back to the 1915 Model 1915/1919 series. Where the 1934 was chambered in 9mm Corto (.380 ACP) for Italian military service, the 1935 was essentially the same pistol rechambered for the smaller .32 ACP (7.65mm Browning) cartridge, primarily to serve Italian Air Force and Navy officers, for whom a lighter-recoiling, more easily concealed sidearm was considered preferable to the harder-kicking 9mm Corto version issued to Army officers. Both pistols share the same simple, robust blowback action, a fixed barrel, an external hammer, and a single-action-only trigger, along with the distinctive open-topped slide characteristic of Beretta's interwar pocket pistol designs, which aided reliability by allowing debris to clear easily during cycling.\n\nThis particular example is significant for its wartime Waffenamt inspection marking, an \"4/UT\" code, which places it within the substantial output of Italian-made pistols that were absorbed into German military logistics following the armistice of September 1943, when Italy surrendered to the Allies and German forces occupied northern and central Italy, including the Beretta factory itself in Gardone Val Trompia. From that point through the war's end in 1945, Beretta continued producing pistols, but now under direct German oversight, with output funneled to Wehrmacht and other German forces operating in Italy and beyond. German army ordnance inspectors, Abnahme personnel, stamped accepted pistols with Waffenamt codes, a two-part marking consisting of an eagle over a number identifying the specific inspector or inspection office, functionally similar in purpose to the more familiar Waffenamt codes found on German-manufactured Walther and Mauser pistols of the same period.\n\nCollectors specifically seek out Beretta pistols bearing these German wartime acceptance marks because they document a specific, historically rich chapter: Italian industrial production continuing to operate, now under occupation, to arm a former ally's now-occupying force during the final chaotic period of the war in Italy. The scarcity and specific inspector codes found on these pistols have become a subject of dedicated collector research, with reference works cataloging known Waffenamt codes associated with the Gardone Val Trompia factory during 1943-1945 production. Because Italian partisan activity, Allied bombing, and general wartime disruption affected production consistency during this period, quality and finish on late-production Model 1935 pistols can vary noticeably, and matching serial numbers between the frame, slide, and magazine, along with clear, well-struck proof and inspection marks, significantly affect a given example's collector value.\n\nThe Model 1935 remained in Italian military and police service well after the war, alongside continued commercial production into the 1950s, making it one of the most commonly encountered Beretta pocket pistols among collectors today, but wartime German-marked examples like this one occupy a distinct and more historically specific niche than the broader commercial production run, tying a comparatively simple pocket pistol design to the collapse of the Italian war effort and the improvised, occupied-territory arms production that characterized the war's final two years in Italy.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "BM3B",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "Model 1935",
-    "year": 1944,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 7,
-    "serialNumber": "597511",
-    "action": "SA, blowback",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "570g (20oz) unloaded",
-    "note": "Waffenamt-marked '4/UT' inspection code, wartime German military acceptance; second example alongside sn 558284",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta Model 1935 and Wartime Waffenamt Marking (Second Example)",
-        "content": "This pistol is a second Beretta Model 1935 bearing the same \"4/UT\" Waffenamt inspection code as the example recorded under serial number 558284 elsewhere in this collection, and the two make a useful comparative pair for studying wartime production consistency at the Gardone Val Trompia factory during the German occupation period of 1943-1945. The Model 1935 itself, chambered in .32 ACP and mechanically a scaled-down sibling of the 9mm Corto Model 1934, was originally intended for Italian Air Force and Navy officers who preferred a lighter, easier-to-carry sidearm than the harder-recoiling 9mm Corto pistols issued more broadly to Italian Army personnel. Its simple fixed-barrel blowback action, open-top slide, and single-action trigger made it inexpensive to manufacture and straightforward to maintain under difficult wartime conditions, qualities that made it well suited to continued production even as raw material shortages and Allied bombing disrupted Italian industry through the final two years of the war.\n\nFollowing Italy's September 1943 armistice and the subsequent German occupation of the country's industrial north, the Beretta factory came under direct German military oversight, and production that had previously supplied the Italian armed forces was redirected, at least in significant part, to equip German units operating in the Italian theater and, in some cases, pistols shipped elsewhere within German logistics channels. German ordnance inspectors assigned to oversee Italian factories stamped accepted pistols with Waffenamt codes identifying the specific inspection office responsible for accepting that batch of production, a practice mirroring the acceptance marking system used at German-owned factories like Walther and Mauser. The \"4/UT\" code found on both this pistol and its sibling example indicates they passed through the same inspection authority, and the serial number gap between the two, roughly thirty-nine thousand units apart if read at face value against Beretta's continuous wartime numbering, suggests they were manufactured at different points within the same general production run rather than sequentially, useful information for anyone trying to establish a rough production timeline for 4/UT-marked pistols.\n\nHaving two examples from the same inspection code side by side in a single collection offers a genuinely useful opportunity that a single example doesn't: direct comparison of finish quality, marking clarity, and any small mechanical or cosmetic variations that crept into production as the war situation in Italy deteriorated through late 1944 and into 1945. Collectors of wartime Beretta production pay close attention to these details, since consistency (or the lack of it) across a run of pistols sharing an inspection code can shed light on how disrupted or stable a given period of factory output actually was, information not always well documented in surviving factory records given the chaotic circumstances under which these pistols were made. As with its companion piece, this pistol's value and historical interest rest heavily on the clarity of its Waffenamt stamp, the condition of its finish, and whether its serial-numbered parts, frame, slide, and magazine, remain matched, all details worth careful photographic documentation for the collection record.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "B21A",
-    "type": "Pistol",
-    "make": "Beretta",
-    "model": "21A Bobcat",
-    "year": 1985,
-    "cartridge": ".22 LR",
-    "caliber": ".22 Long Rifle",
-    "COAL": "25.4mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 7,
-    "serialNumber": null,
-    "action": "DA/SA, blowback, tip-up barrel",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "310g (11.5oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Beretta 21A Bobcat",
-        "content": "The Beretta 21A, commonly known by its marketing name \"Bobcat,\" was introduced in 1985 as a modernized successor to Beretta's long-running series of small pocket pistols, most directly the Beretta 950 Jetfire, which had been in production since the 1950s in both .25 ACP and .22 Short chamberings. The Jetfire itself descended from an even older lineage of Beretta pocket pistols stretching back to the company's early twentieth-century vest-pocket designs, so the 21A represents the continuation of a design philosophy Beretta had refined across roughly seven decades: an extremely compact, simple, all-steel pocket pistol intended primarily for concealed backup carry rather than as a primary defensive arm.\n\nThe defining mechanical feature of the 21A, inherited directly from the Jetfire and its ancestors, is its tip-up barrel design. Rather than requiring the shooter to rack the slide against spring tension to chamber the first round, a task that can be physically difficult for shooters with limited hand strength, the 21A's barrel pivots upward on a hinge at the front of the frame when a lever is pressed, allowing a round to be placed directly into the chamber by hand before the barrel is folded back down and locked into battery. This feature made the pistol notably easier to load and, just as importantly, easier to safely clear, since the chamber could be visually and physically inspected without needing to cycle the action, a genuinely useful safety feature for a pocket pistol likely to be carried by less experienced shooters or as a secondary backup arm.\n\nWhere the 21A diverged from the older Jetfire was in chambering and internal refinement. Beretta offered the 21A in both .22 Long Rifle and .25 ACP, with the .22 LR version, as recorded for this piece, becoming the more popular choice among American buyers thanks to the wide availability and lower cost of .22 LR ammunition compared to the increasingly niche .25 ACP cartridge. The pistol also incorporated a modernized double-action/single-action trigger system, an ambidextrous manual safety, and an internal firing pin block, updates that helped the 21A meet increasingly strict state-level handgun safety and drop-testing requirements that emerged through the late 1980s and 1990s in states like California and Massachusetts, regulatory pressure that eliminated many older, simpler pocket pistol designs from the American market during that period.\n\nThe 21A's small size, light weight, and modest recoil made it popular as a genuine backup pistol among off-duty and plainclothes police officers, as an easily concealed option for civilian carry, particularly by those with smaller hands or limited grip strength, and simply as an inexpensive, reliable .22 for target practice and casual plinking. Its stainless steel and blued finish options, along with an aluminum-frame \"Covert\" variant introduced later for further weight reduction, kept the model in continuous production for decades, and it remains in Beretta's catalog essentially unchanged in concept today, a testament to how well the original tip-up pocket pistol formula, refined gradually since the early 1900s, continued to serve a genuine niche in the market that more modern polymer-framed micro pistols never fully displaced.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "TCZM",
-    "type": "Pistol",
-    "make": "Tanfoglio",
-    "model": "CZ75 Compact Clone",
-    "year": null,
-    "cartridge": "9mm Luger",
-    "caliber": "9x19mm",
-    "COAL": "29.7mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 13,
-    "serialNumber": null,
-    "action": "DA/SA, locked breech, short recoil",
-    "country": "Italy",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "950g (33.5oz) unloaded, approximate",
-    "note": "Informally nicknamed 'Mossad' among collectors; Tanfoglio-produced CZ75-pattern pistols were historically supplied through various contracts associated with Israeli security services, though this nickname is collector folklore rather than an official factory designation.",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "Tanfoglio and the CZ75-Pattern 'Mossad' Compact",
-        "content": "Tanfoglio Fratelli, based in Gardone Val Trompia in the same gunmaking region of Italy as Beretta, built its modern reputation largely on manufacturing pistols based on the CZ 75 pattern originally developed in communist Czechoslovakia by brothers Josef and Frantisek Koucky at the state arms factory in Uherský Brod in 1975. The original CZ 75 was, somewhat ironically for a Warsaw Pact country, deeply influenced by Western pistol designs, particularly Browning's tilting-barrel locked-breech system as refined in the SIG P210, combined with an unusual (for the era) frame-inside-slide rail configuration that improved accuracy and made the pistol notably comfortable to shoot. Because Czechoslovakia was not a signatory to international patent conventions recognized in the West during the Cold War, the CZ 75's design was never formally patent-protected outside the Eastern Bloc, and this technical loophole opened the door for other manufacturers, Tanfoglio prominent among them, to legally produce closely related or directly cloned versions of the pistol beginning in the early 1980s.\n\nTanfoglio's relationship with the CZ 75 design specifically began through a licensing and technical exchange arrangement, and the company went on to produce an extensive family of CZ75-pattern pistols in full-size, compact, and competition configurations, chambered in 9mm Luger, .40 S&W, and other cartridges, sold both under the Tanfoglio name in Europe and, at various points, imported into the United States and elsewhere under partner brand names including EAA (European American Armory) Witness pistols, which share the same core CZ75-derived action.\n\nThe \"Mossad\" nickname attached informally to certain Tanfoglio and CZ75-pattern compact pistols among collectors traces back to persistent, though not always precisely documented, accounts that Israeli intelligence and security services procured CZ75-pattern pistols, whether genuine CZ-manufactured examples, Tanfoglio-made pistols, or licensed regional variants, for covert or plainclothes use during the 1970s and 1980s, a period when Warsaw Pact-origin or Warsaw-Pact-adjacent hardware was sometimes attractive for operations where weapon origin needed to be deniable or untraceable to Western manufacturers. Whether any specific Tanfoglio compact model was ever formally adopted through official Mossad procurement channels is difficult to verify from open, non-classified sources, and the nickname should be understood as collector shorthand and firearms community folklore rather than a documented factory designation or verified government contract history.\n\nRegardless of the nickname's precise origins, the CZ75 pattern itself, and Tanfoglio's compact variants specifically, earned a strong reputation independent of any Mossad association, prized among shooters and competitive pistol shooters for the platform's excellent ergonomics, natural pointing characteristics, and the inherent accuracy advantages of its frame-rail design. Compact CZ75-pattern pistols like this one trimmed the barrel and grip length from the full-size original for improved concealability while retaining the double-stack magazine's high capacity, a combination that made the platform popular across law enforcement, military special units, and civilian concealed-carry markets throughout Europe, Israel, and eventually the Americas well into the 2000s.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "HVP9",
-    "type": "Pistol",
-    "make": "Heckler & Koch",
-    "model": "VP9",
-    "year": 2014,
-    "cartridge": "9mm Luger",
-    "caliber": "9x19mm",
-    "COAL": "29.7mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 15,
-    "serialNumber": null,
-    "action": "Striker-fired, locked breech, short recoil",
-    "country": "Germany",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed three-dot, interchangeable",
-    "sightType": "Fixed, adjustable via interchangeable inserts",
-    "weight": "735g (25.9oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Heckler & Koch VP9",
-        "content": "The Heckler & Koch VP9, introduced in 2014, marked H&K's entry into the modern striker-fired polymer-frame pistol market that had, by that point, been dominated for two decades by Glock and increasingly contested by Smith & Wesson's M&P line and Sig Sauer's P320. H&K had actually experimented with striker-fired polymer pistol concepts decades earlier with the VP70 of 1970, whose name, Volkspistole or \"people's pistol,\" was deliberately revived for the VP9 as a nod to that earlier, commercially unsuccessful but technically pioneering design. The original VP70 held the distinction of being one of the very first striker-fired polymer-framed service pistols ever put into production, predating Glock's far more commercially successful 17 by over a decade, but its heavy, gritty double-action-only trigger pull and an unusual (and largely unpopular) shoulder-stock-mounted burst-fire capability limited its adoption to a relatively small number of military and police users, primarily in Germany and Portugal.\n\nThe VP9 addressed essentially every shortcoming that had limited the VP70's success while retaining H&K's reputation for meticulous engineering. Internally, the VP9 uses a variant of the same proven, locked-breech Browning-derivative action found in H&K's P30 and USP pistol lines, mated to a striker-fired trigger mechanism rather than the traditional hammer-fired DA/SA system used in those earlier models. H&K's engineers paid particular attention to trigger feel, a persistent criticism of many striker-fired competitors, giving the VP9 a comparatively short, crisp takeup and a distinct, tactile reset point that shooters and reviewers frequently singled out as class-leading among striker-fired pistols at launch.\n\nErgonomically, the VP9 introduced a genuinely distinctive feature in the form of interchangeable backstrap and side panel inserts, allowing the pistol's grip circumference to be customized to an individual shooter's hand size, along with a low bore axis intended to reduce muzzle flip and improve follow-up shot speed. The pistol's slide featured aggressive cocking serrations both front and rear, and ambidextrous slide release and magazine release controls made it comfortable for left-handed shooters, addressing a persistent complaint about many earlier pistol designs, H&K's own USP included, that treated ambidextrous controls as an afterthought rather than a core design requirement.\n\nH&K also equipped the VP9 with a set of small, distinctive \"paddle\" style ambidextrous slide releases positioned along the rear of the frame rather than a conventional single-sided lever, a design choice that drew some initial skepticism from reviewers accustomed to traditional slide stop levers but which ultimately became one of the pistol's more recognizable visual signatures. Chambered in 9mm Luger with a fifteen-round standard magazine (seventeen rounds in extended configurations available in some markets), and later expanded into .40 S&W and a compact \"VP9SK\" subcompact variant, the VP9 quickly earned a strong reputation among competitive shooters, particularly in USPSA and IDPA production divisions, and among civilian buyers seeking an alternative to the Glock-dominated striker-fired market who valued H&K's build quality and refined trigger over the broader aftermarket support Glock pistols enjoy. For collectors interested in postwar German pistol design lineage, the VP9 offers a direct, deliberate thematic link back to the VP70 nearly forty-five years earlier, representing H&K finally realizing the \"people's pistol\" concept with the manufacturing tolerances, materials, and trigger engineering that 1970s technology and cost constraints hadn't allowed.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "RMK4",
-    "type": "Pistol",
-    "make": "Ruger",
-    "model": "Mark IV Hunter",
-    "year": 2016,
-    "cartridge": ".22 LR",
-    "caliber": ".22 Long Rifle",
-    "COAL": "25.4mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 10,
-    "serialNumber": null,
-    "action": "SA, blowback",
-    "country": "United States",
-    "flag": null,
-    "optic": "Vortex Viper red dot",
-    "opticSpec": "Mounted via included/compatible base; fluted bull barrel",
-    "sights": "N/A - optic mounted",
-    "sightType": "Optic rail, one-button takedown",
-    "weight": "1191g (42oz) unloaded, approximate with bull barrel",
-    "note": "Custom grips; Volquartsen aftermarket trigger installed",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Ruger Mark IV Hunter",
-        "content": "The Ruger Mark IV, introduced in 2016, represents the fourth major generation of Ruger's enormously successful .22 LR pistol line, a lineage that began with William B. Ruger's very first commercial product, the original Standard Model of 1949, the pistol that essentially launched Sturm, Ruger & Co. as a company. That original design, inspired partly by the Japanese Nambu pistol's tubular receiver and partly by cost-conscious American manufacturing sensibilities, established a formula Ruger refined but never fundamentally abandoned across seven decades: an all-steel or aluminum-alloy tubular receiver, a simple straight blowback action well suited to low-pressure .22 LR ammunition, and superb inherent accuracy that made the pistol a favorite for training, small-game hunting, and competitive bullseye shooting almost from its introduction.\n\nThrough the Mark I, Mark II, and Mark III generations, Ruger progressively added features, a magazine disconnect safety, a last-round bolt hold-open, improved sights, and heavier bull-barrel target variants, while retaining one persistently criticized characteristic: disassembly for cleaning required aligning a small pin visible through a hole in the receiver with a corresponding notch, a fiddly, often frustrating process that generated more complaints from owners than perhaps any other aspect of the pistol across its history. The Mark IV's headline engineering achievement, and the primary reason for the model's introduction, was solving exactly that problem. Ruger redesigned the receiver to hinge open with a single button press at the rear of the frame, allowing the upper receiver and bolt assembly to tilt forward and separate from the grip frame in seconds without tools, without needing to align hidden pins, and without the risk of an inadvertent trigger-mechanism reassembly error that had occasionally caused problems on earlier Mark-series pistols.\n\nThe \"Hunter\" designation identifies a specific configuration within the Mark IV lineup built around a fluted, tapered stainless steel bull barrel, typically 6.88 inches in length, designed to balance the weight and rigidity benefits of a bull barrel (which improves accuracy by resisting barrel whip and vibration) against the reduced weight that fluting provides. The Hunter model ships with an integrated Picatinny-style optic rail machined into the barrel or receiver, anticipating exactly the kind of red-dot optic setup recorded for this pistol, a Vortex Viper mounted for improved sight acquisition, a popular modern upgrade path for .22 pistols used for small-game hunting or informal target work where fast target transitions and precise dot placement matter more than traditional iron-sight sight picture.\n\nThe aftermarket support surrounding the Mark-series pistols, and the Mark IV in particular, is extensive and long-established, and the Volquartsen trigger noted on this example reflects one of the most respected names in that aftermarket ecosystem; Volquartsen Firearms, based in Iowa, has specialized in high-performance .22 LR trigger groups, bolts, and barrels for Ruger's Mark-series pistols and 10/22 rifles for decades, and their drop-in trigger assemblies are widely regarded among rimfire competition shooters as delivering a dramatically lighter, crisper trigger pull than the factory-original mechanism, a meaningful upgrade for precision small-game hunting or any application where trigger control directly affects shot placement at the ranges typical of .22 LR hunting and target work.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "SW29",
-    "type": "Revolver",
-    "make": "Smith & Wesson",
-    "model": "629",
-    "year": 1983,
-    "cartridge": ".44 Magnum",
-    "caliber": ".44 Rem Mag",
-    "COAL": "32.9mm (case length)",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "6-shot cylinder",
-    "magCapacity": 6,
-    "serialNumber": null,
-    "action": "DA/SA revolver",
-    "country": "United States",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Adjustable rear, red ramp front",
-    "sightType": "Adjustable",
-    "weight": "1176g (41.5oz) unloaded, 4in barrel, approximate",
-    "note": "Custom grips installed; trigger action lightened/tuned from factory",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Smith & Wesson Model 629",
-        "content": "The Smith & Wesson Model 629 is the stainless steel counterpart to the Model 29, the large-frame N-frame revolver that became one of the most culturally famous handguns in American history following its prominent use in the 1971 film Dirty Harry, where Clint Eastwood's character memorably described it as \"the most powerful handgun in the world,\" a line that, while an exaggeration even by the early 1970s, cemented the .44 Magnum cartridge and the Model 29 in American popular imagination and drove demand for the revolver to levels Smith & Wesson struggled to keep pace with for years afterward.\n\nThe .44 Magnum cartridge itself dates to 1955, developed jointly by Smith & Wesson and Remington largely at the urging of Elmer Keith, an influential outdoor writer and handloading experimenter who had spent years pushing .44 Special loads to pressures well beyond factory specifications in search of a genuinely powerful hunting and defensive revolver cartridge. Remington formalized a factory-loaded .44 Magnum cartridge based on a lengthened .44 Special case, and Smith & Wesson built the Model 29 specifically to chamber it, releasing the revolver in 1956 to immediate acclaim among hunters and outdoorsmen who wanted a sidearm capable of taking large or dangerous game at close range, a niche the .357 Magnum, S&W's previous top-tier cartridge introduced in 1935, couldn't fully satisfy.\n\nThe original Model 29 was produced in blued carbon steel, and demand following Dirty Harry's release in 1971 was so overwhelming that Smith & Wesson could not keep the model in stock for years, with retail prices on the secondary market reportedly climbing well above list price during the shortage. The Model 629 followed in 1978 as a stainless steel version of the same N-frame revolver, aimed at hunters, outdoorsmen, and law enforcement users who wanted the corrosion resistance stainless steel offered for a handgun likely to be carried in wet, humid, or otherwise harsh field conditions, a genuinely practical consideration for a revolver marketed heavily toward hunting and outdoor use.\n\nMechanically, the 629 shares the Model 29's basic N-frame architecture: a six-shot cylinder, a double-action/single-action trigger mechanism allowing either a long double-action pull or a lighter single-action pull after manually cocking the hammer, and an adjustable rear sight paired with a ramped front sight, typically with a red or orange insert for quick visual acquisition, a configuration well suited to the deliberate, aimed shots typical of hunting or target use rather than rapid defensive shooting. The 4-inch barrel length recorded for this example represents a popular compromise within the N-frame lineup, shorter and more manageable to carry than the longer 6- or 8.375-inch barrels favored for maximum hunting accuracy and velocity, but still offering meaningfully better sight radius and recoil control than the shortest 2.5-inch \"Combat Magnum\" style barrels sometimes offered on N-frame revolvers.\n\nOver decades of production, the 629 line expanded into numerous sub-variants, Classic, Mountain Gun, Performance Center, and others, each tuning barrel profile, weight, and finish for different use cases from backcountry carry to hunting to target shooting. Custom grips and trigger tuning, both noted on this particular example, are common and long-established modifications within the N-frame ownership community, since the factory trigger, while reliable, is often lightened or polished by a gunsmith to improve the double-action pull for hunters and target shooters who want a smoother, more controllable trigger break on a cartridge already demanding significant recoil management.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "RUBY",
-    "type": "Pistol",
-    "make": "Unmarked (Spanish 'Ruby-type')",
-    "model": "Ruby-pattern pocket pistol",
-    "year": null,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 9,
-    "serialNumber": null,
-    "action": "SA, blowback",
-    "country": "Spain",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "570g (20oz) unloaded, approximate",
-    "note": "No manufacturer markings present, consistent with rushed WWI-era Eibar-region production by numerous small workshops",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Spanish 'Ruby' Pistol and WWI Emergency Production",
-        "content": "The name \"Ruby\" refers not to a single manufacturer but to an entire category of Spanish-made semi-automatic pocket pistols produced in enormous quantities during and after the First World War, all patterned closely after John Browning's 1903 FN pistol design and named after the original Ruby pistol first manufactured by Gabilondo y Urresti (later Llama-Gabilondo) in Eibar, Spain, beginning around 1914. What makes the Ruby story historically distinctive is the circumstances of its mass production: when France's own domestic arms manufacturers proved unable to meet the French military's desperate need for pistols following the outbreak of war in 1914, France turned to Spain's established but small-scale gunmaking industry, centered in the Basque region around Eibar, and placed enormous emergency contracts for Ruby-pattern pistols.\n\nGabilondo's original factory could not come close to fulfilling French demand alone, so the French government's contracts were effectively subcontracted out across dozens of small Eibar-area workshops, many of which had previously produced only small quantities of sporting or pocket pistols for regional civilian sale. These workshops began manufacturing their own versions of the Ruby pattern, essentially unlicensed copies built to a roughly common external form (since the wartime need for parts commonality and quick production discouraged elaborate proprietary redesign) but varying considerably in internal quality, tolerances, and finish depending on the individual workshop's skill and equipment. Estimates suggest well over half a million Ruby-pattern pistols were produced for French military contracts alone between 1915 and the war's end in 1918, an extraordinary output for a region that had not previously been a major center of firearms mass production.\n\nThe lack of manufacturer markings on this particular example, rather than being unusual, is actually quite representative of lower-tier wartime Eibar production. Many of the smallest workshops involved in emergency Ruby production either never applied consistent maker's marks, applied marks that have simply worn away over a century of handling, or in some cases deliberately avoided clear markings due to the informal, rapidly organized nature of their involvement in fulfilling subcontracted military orders, a chaotic wartime production environment that left considerably less consistent documentation than more established national arsenal or factory production of the same period. This makes precise attribution of unmarked Ruby-pattern pistols to a specific workshop genuinely difficult, and often effectively impossible, without factory records that in many cases either were never well kept or did not survive the intervening century.\n\nMechanically, Ruby-pattern pistols are simple, rugged, blowback-operated pocket pistols chambered in .32 ACP (7.65mm Browning), with an external hammer, a single-action trigger, and typically a nine-round magazine capacity, slightly higher than the seven-round standard of the Browning original they were patterned after, achieved through a slightly lengthened grip frame. Quality varied enormously across the many workshops involved in wartime production, and postwar, several of the more established Eibar manufacturers, Gabilondo prominent among them, continued refining and commercially marketing their own Ruby-derived designs well into the interwar period, while the least capable wartime subcontractors generally ceased production once emergency military demand ended in 1918. For collectors, unmarked Ruby-pattern pistols like this one serve as tangible artifacts of an unusual moment in industrial history when an entire regional cottage-gunmaking industry was rapidly, informally scaled up to meet a foreign nation's wartime emergency, then largely receded once that demand disappeared.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "VZ5A",
-    "type": "Pistol",
-    "make": "Ceska Zbrojovka (CZ)",
-    "model": "vz. 50",
-    "year": 1950,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 8,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Czechoslovakia",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "660g (23.3oz) unloaded, approximate",
-    "note": "First of three vz. 50 examples in the collection",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The CZ vz. 50 Police and Military Pistol",
-        "content": "The CZ vz. 50 (vzor 50, or \"Model 50\") was developed in newly communist Czechoslovakia in the years immediately following the 1948 Communist takeover, entering production around 1950 at the Ceska Zbrojovka factory in Uherský Brod, the same facility that would decades later produce the far more famous CZ 75. The vz. 50 was chambered in .32 ACP (7.65mm Browning), a deliberate choice reflecting continuity with pre-war Czechoslovak police and civilian sidearm conventions rather than adopting a more powerful military-oriented cartridge, since the pistol was intended primarily as a service sidearm for the Czechoslovak police force (Verejna bezpecnost, or VB, the public security police of the communist era) and for lower-ranking military officers, rather than as a front-line combat weapon for infantry troops.\n\nDesign-wise, the vz. 50 is often described by collectors and firearms historians as visually and mechanically influenced by the German Walther PP, a comparison that is reasonably apt given Czechoslovakia's prewar industrial ties to German engineering and the widespread postwar availability and study of German small arms designs across Eastern Europe following the war. Like the PP, the vz. 50 uses a simple straight blowback action well suited to the relatively low pressures of .32 ACP, a double-action first-shot trigger allowing the pistol to be safely carried with a round chambered and hammer down, and an external hammer. However, Czechoslovak engineers made a number of internal changes rather than simply copying the PP outright, most notably in the trigger and disconnector mechanism and in field-stripping procedure, changes that mean vz. 50 parts are generally not interchangeable with genuine Walther PP components despite the superficial family resemblance, a detail that has occasionally confused less experienced collectors.\n\nProduction of the vz. 50 continued through the 1950s before Czechoslovak designers introduced the improved vz. 70 in the early 1960s, which refined the same basic design with a slightly larger magazine capacity and various small mechanical improvements, though the two models remained similar enough that they're frequently discussed together as a single design family by collectors. The vz. 50 and vz. 70 together equipped Czechoslovak police forces for roughly three decades, well into the 1980s in many units, and pistols were also exported in more limited numbers to other Warsaw Pact-aligned and non-aligned states as part of Czechoslovakia's broader Cold War arms export activity, which was substantial for a country of its size and included both Warsaw Pact allies and, notably, various non-aligned and Middle Eastern states as Czechoslovakia pursued hard-currency arms sales independent of strict Soviet bloc distribution.\n\nFor collectors specializing in Cold War-era Eastern Bloc sidearms, the vz. 50 occupies a useful niche: it's mechanically interesting for its PP-influenced but distinctly Czechoslovak internal engineering, it's tied directly to the specific institutional history of communist Czechoslovakia's police apparatus rather than to Soviet military issue more broadly, and surviving examples, many imported into Western markets following the fall of communism in 1989 and the subsequent drawdown and modernization of former Warsaw Pact police and military small arms inventories, remain reasonably available and affordable compared to rarer Cold War sidearms, making the model a popular and accessible entry point for building out a broader collection focused on Eastern Bloc police and security service history.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "VZ5B",
-    "type": "Pistol",
-    "make": "Ceska Zbrojovka (CZ)",
-    "model": "vz. 50",
-    "year": 1950,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 8,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Czechoslovakia",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "660g (23.3oz) unloaded, approximate",
-    "note": "Second of three vz. 50 examples in the collection",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The CZ vz. 50 Police and Military Pistol",
-        "content": "The CZ vz. 50 (vzor 50, or \"Model 50\") was developed in newly communist Czechoslovakia in the years immediately following the 1948 Communist takeover, entering production around 1950 at the Ceska Zbrojovka factory in Uherský Brod, the same facility that would decades later produce the far more famous CZ 75. The vz. 50 was chambered in .32 ACP (7.65mm Browning), a deliberate choice reflecting continuity with pre-war Czechoslovak police and civilian sidearm conventions rather than adopting a more powerful military-oriented cartridge, since the pistol was intended primarily as a service sidearm for the Czechoslovak police force (Verejna bezpecnost, or VB, the public security police of the communist era) and for lower-ranking military officers, rather than as a front-line combat weapon for infantry troops.\n\nDesign-wise, the vz. 50 is often described by collectors and firearms historians as visually and mechanically influenced by the German Walther PP, a comparison that is reasonably apt given Czechoslovakia's prewar industrial ties to German engineering and the widespread postwar availability and study of German small arms designs across Eastern Europe following the war. Like the PP, the vz. 50 uses a simple straight blowback action well suited to the relatively low pressures of .32 ACP, a double-action first-shot trigger allowing the pistol to be safely carried with a round chambered and hammer down, and an external hammer. However, Czechoslovak engineers made a number of internal changes rather than simply copying the PP outright, most notably in the trigger and disconnector mechanism and in field-stripping procedure, changes that mean vz. 50 parts are generally not interchangeable with genuine Walther PP components despite the superficial family resemblance, a detail that has occasionally confused less experienced collectors.\n\nProduction of the vz. 50 continued through the 1950s before Czechoslovak designers introduced the improved vz. 70 in the early 1960s, which refined the same basic design with a slightly larger magazine capacity and various small mechanical improvements, though the two models remained similar enough that they're frequently discussed together as a single design family by collectors. The vz. 50 and vz. 70 together equipped Czechoslovak police forces for roughly three decades, well into the 1980s in many units, and pistols were also exported in more limited numbers to other Warsaw Pact-aligned and non-aligned states as part of Czechoslovakia's broader Cold War arms export activity, which was substantial for a country of its size and included both Warsaw Pact allies and, notably, various non-aligned and Middle Eastern states as Czechoslovakia pursued hard-currency arms sales independent of strict Soviet bloc distribution.\n\nFor collectors specializing in Cold War-era Eastern Bloc sidearms, the vz. 50 occupies a useful niche: it's mechanically interesting for its PP-influenced but distinctly Czechoslovak internal engineering, it's tied directly to the specific institutional history of communist Czechoslovakia's police apparatus rather than to Soviet military issue more broadly, and surviving examples, many imported into Western markets following the fall of communism in 1989 and the subsequent drawdown and modernization of former Warsaw Pact police and military small arms inventories, remain reasonably available and affordable compared to rarer Cold War sidearms, making the model a popular and accessible entry point for building out a broader collection focused on Eastern Bloc police and security service history.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "VZ5C",
-    "type": "Pistol",
-    "make": "Ceska Zbrojovka (CZ)",
-    "model": "vz. 50",
-    "year": 1950,
-    "cartridge": ".32 ACP",
-    "caliber": "7.65mm Browning",
-    "COAL": "17.3mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 8,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Czechoslovakia",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "660g (23.3oz) unloaded, approximate",
-    "note": "Third of three vz. 50 examples in the collection",
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The CZ vz. 50 Police and Military Pistol",
-        "content": "The CZ vz. 50 (vzor 50, or \"Model 50\") was developed in newly communist Czechoslovakia in the years immediately following the 1948 Communist takeover, entering production around 1950 at the Ceska Zbrojovka factory in Uherský Brod, the same facility that would decades later produce the far more famous CZ 75. The vz. 50 was chambered in .32 ACP (7.65mm Browning), a deliberate choice reflecting continuity with pre-war Czechoslovak police and civilian sidearm conventions rather than adopting a more powerful military-oriented cartridge, since the pistol was intended primarily as a service sidearm for the Czechoslovak police force (Verejna bezpecnost, or VB, the public security police of the communist era) and for lower-ranking military officers, rather than as a front-line combat weapon for infantry troops.\n\nDesign-wise, the vz. 50 is often described by collectors and firearms historians as visually and mechanically influenced by the German Walther PP, a comparison that is reasonably apt given Czechoslovakia's prewar industrial ties to German engineering and the widespread postwar availability and study of German small arms designs across Eastern Europe following the war. Like the PP, the vz. 50 uses a simple straight blowback action well suited to the relatively low pressures of .32 ACP, a double-action first-shot trigger allowing the pistol to be safely carried with a round chambered and hammer down, and an external hammer. However, Czechoslovak engineers made a number of internal changes rather than simply copying the PP outright, most notably in the trigger and disconnector mechanism and in field-stripping procedure, changes that mean vz. 50 parts are generally not interchangeable with genuine Walther PP components despite the superficial family resemblance, a detail that has occasionally confused less experienced collectors.\n\nProduction of the vz. 50 continued through the 1950s before Czechoslovak designers introduced the improved vz. 70 in the early 1960s, which refined the same basic design with a slightly larger magazine capacity and various small mechanical improvements, though the two models remained similar enough that they're frequently discussed together as a single design family by collectors. The vz. 50 and vz. 70 together equipped Czechoslovak police forces for roughly three decades, well into the 1980s in many units, and pistols were also exported in more limited numbers to other Warsaw Pact-aligned and non-aligned states as part of Czechoslovakia's broader Cold War arms export activity, which was substantial for a country of its size and included both Warsaw Pact allies and, notably, various non-aligned and Middle Eastern states as Czechoslovakia pursued hard-currency arms sales independent of strict Soviet bloc distribution.\n\nFor collectors specializing in Cold War-era Eastern Bloc sidearms, the vz. 50 occupies a useful niche: it's mechanically interesting for its PP-influenced but distinctly Czechoslovak internal engineering, it's tied directly to the specific institutional history of communist Czechoslovakia's police apparatus rather than to Soviet military issue more broadly, and surviving examples, many imported into Western markets following the fall of communism in 1989 and the subsequent drawdown and modernization of former Warsaw Pact police and military small arms inventories, remain reasonably available and affordable compared to rarer Cold War sidearms, making the model a popular and accessible entry point for building out a broader collection focused on Eastern Bloc police and security service history.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
-  },
-  {
-    "imageID": "MAKA",
-    "type": "Pistol",
-    "make": "Izhevsk Mechanical Plant",
-    "model": "PM (Pistolet Makarova)",
-    "year": 1951,
-    "cartridge": "9x18mm Makarov",
-    "caliber": "9x18mm Makarov",
-    "COAL": "24.9mm",
-    "cartridgeImage": null,
-    "cartridgeWiki": null,
-    "cartWiki2": null,
-    "feed": "Detachable box magazine",
-    "magCapacity": 8,
-    "serialNumber": null,
-    "action": "DA/SA, blowback",
-    "country": "Soviet Union (USSR)",
-    "flag": null,
-    "optic": null,
-    "opticSpec": null,
-    "sights": "Fixed blade and notch",
-    "sightType": "Fixed",
-    "weight": "730g (25.7oz) unloaded",
-    "note": null,
-    "makerLogo": null,
-    "tabs": {
-      "history": {
-        "title": "The Makarov PM (Pistolet Makarova)",
-        "content": "The Makarov PM, formally the Pistolet Makarova, was adopted by the Soviet Union in 1951 as the standard sidearm of the Soviet Armed Forces, police, and internal security services, replacing the earlier Tokarev TT-33, a single-action pistol chambered in the considerably more powerful 7.62x25mm Tokarev cartridge. The shift from the Tokarev to the Makarov reflected a deliberate change in Soviet small-arms philosophy: rather than continuing to prioritize the flatter-shooting, higher-velocity Tokarev cartridge, Soviet ordnance planners in the postwar period concluded that a service pistol's primary role, self-defense and close-range use by officers, support troops, and security personnel rather than as a primary infantry combat weapon, was better served by a more compact, simpler, and easier-to-shoot double-action design, even at the cost of reduced power and effective range.\n\nThe pistol was designed by Nikolai Fedorovich Makarov, a Soviet engineer who entered a state-run design competition held in the late 1940s specifically to select Tokarev's replacement, competing against several other prominent Soviet arms designers including Sergei Simonov. Makarov's winning design drew clear inspiration from the German Walther PP, a pistol widely studied by Soviet engineers after large numbers were captured or otherwise obtained following World War II, and like the PP, the Makarov uses a straightforward blowback action, a double-action-first trigger, and an external hammer, prioritizing mechanical simplicity, low parts count, and ease of manufacture, maintenance, and training over raw ballistic performance.\n\nCentral to the Makarov's design is the 9x18mm Makarov cartridge, developed alongside the pistol specifically for this role and deliberately unique to Soviet and Warsaw Pact use rather than compatible with the Western 9x19mm Parabellum round already in widespread NATO service. This was, at least in part, a deliberate logistics and interoperability choice; a Warsaw Pact-specific cartridge slightly wider in bullet diameter than 9mm Luger ensured that captured Western 9mm ammunition could not be fired in Soviet-issue pistols, and vice versa, reinforcing separation between the two Cold War logistics ecosystems, though the cartridge's straightforward, moderate-pressure blowback-compatible design was also simply well matched to the pistol's intentionally simple mechanical architecture.\n\nFollowing its adoption, the Makarov was manufactured in enormous quantities, primarily at the Izhevsk Mechanical Plant in Russia, and the design, along with manufacturing rights and technical documentation, was shared across the Warsaw Pact and with other Soviet-aligned states as part of standard Cold War military-industrial cooperation. East Germany produced its own version at the Ernst Thälmann Werk in Suhl, marked with distinctive East German proof and inspection stamps that collectors track closely, Bulgaria manufactured Makarov-pattern pistols at the Arsenal state factory, and China produced a licensed and later independently modified variant known as the Type 59, itself further developed into later Chinese service pistols. This wide distribution across multiple manufacturing countries, each with distinct proof marks, finish characteristics, and minor internal variations, has made the Makarov an unusually rich subject for comparative collecting, since a \"complete\" Makarov collection might reasonably span Soviet, East German, Bulgarian, Chinese, Polish, and Hungarian production, each telling a slightly different story about that country's specific relationship to Soviet military-industrial standardization during the Cold War. The pistol remained in first-line service across the former Eastern Bloc well past the Cold War's end in 1991, and its simple, rugged design, low production cost, and vast surplus availability have made it one of the most commonly encountered and collected Cold War-era sidearms in the West since large-scale surplus imports began in the 1990s following the collapse of the Soviet Union and the broader Eastern Bloc.",
-        "wikipedia": {
-          "url": null
-        },
-        "gunDigest": {
-          "url": null
-        }
-      },
-      "purchase": {},
-      "marketValue": {},
-      "rangeNotes": {},
-      "maintenance": {},
-      "loadData": {}
-    }
   }
 ]

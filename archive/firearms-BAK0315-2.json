@@ -1,0 +1,2413 @@
+[
+  {
+    "type": "Rifle",
+    "make": "Steyer",
+    "model": "Modelo 1912 Mauser (NATO)",
+    "year": null,
+    "cartridge": ".308 Win",
+    "COAL": "2.33",
+    "cartridgeImage": "308_Winchester_FMJSP.jpg",
+    "cartridgeWiki": "https://en.wikipedia.org/wiki/.308_Winchester",
+    "caliber": ".308",
+    "feed": "internal mag",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "Austria",
+    "flag": "flags/Austria.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Steyer%20Modelo%201912%20Mauser"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Steyer%20Modelo%201912%20Mauser%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "AMAU",
+    "note": "Argentine"
+  },
+  {
+    "type": "Rifle",
+    "make": "Mauser",
+    "model": "K98",
+    "year": 1937,
+    "cartridge": "8mm Mauser",
+    "COAL": "2.44",
+    "cartridgeImage": "German_7.92mm_Ss_198gr_FMJBT.jpg",
+    "cartridgeWiki": "https://en.wikipedia.org/wiki/7.92%C3%9757mm_Mauser",
+    "caliber": "7.92mm",
+    "feed": "fixed mag",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "Germany",
+    "flag": "flags/Nazi.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Karabiner 98k (K98k) was the standard service rifle of German forces during World War II. Adopted in 1935, it was a shortened and improved version of earlier Mauser rifles and became one of the most widely used infantry weapons of the war.\n\nChambered in 7.92×57mm Mauser, the rifle utilized the Mauser 98 bolt-action system, known for its strength, reliability, and controlled-round feeding. It featured a five-round internal magazine loaded via stripper clips.\n\nThe K98k was designed to be shorter and more maneuverable than earlier rifles, making it better suited to modern combat conditions. It was widely issued and also adapted into sniper configurations.\n\nDespite wartime production simplifications, the rifle maintained strong performance and accuracy.\n\nToday, the K98k is one of the most iconic military rifles of the 20th century.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Karabiner_98k"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Mauser%20K98%20(1937)%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "K98",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Arisaka",
+    "model": "Type 99",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.7x58 Arisaka",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "Japan",
+    "flag": "flags/Japan.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Norinco",
+    "model": "SKS",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.62x39",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "China",
+    "flag": "flags/China.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Springfield Armory",
+    "model": "M1903A3",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30-06 Winchester",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Savage Arms",
+    "model": "Axis",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".308 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Savage Axis is a modern bolt-action rifle introduced by Savage Arms as an affordable and reliable platform for hunting and general shooting. Designed with simplicity and function as priorities, the Axis emphasizes ease of use, durability, and consistent accuracy at an accessible price point.\n\nThe rifle features a push-feed bolt-action system with dual locking lugs and Savage’s floating bolt head design, which helps ensure even lug engagement and contributes to accuracy. It is commonly chambered in popular hunting calibers such as .308 Winchester and .30-06 Springfield.\n\nA lightweight synthetic stock and detachable box magazine make the Axis well-suited for field use. Many models are factory-drilled and tapped for optics, reflecting its role as a practical hunting rifle rather than a military or historical firearm.\n\nAlthough positioned as an entry-level rifle, the Axis benefits from Savage’s reputation for precision manufacturing. Many examples are capable of sub-MOA accuracy with appropriate ammunition.\n\nToday, the Savage Axis is widely used by hunters and recreational shooters seeking a dependable, no-frills rifle that delivers strong performance without unnecessary complexity.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Savage%20Arms%20Axis"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Savage%20Arms%20Axis%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Russian",
+    "model": "Mosin Nagant M91/30",
+    "year": 1928,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.62x54R",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "Russia",
+    "flag": "flags/cccp.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Mosin-Nagant M91/30 is a bolt-action rifle that served as the primary infantry weapon of Soviet forces during World War II. It is an updated version of the original Mosin-Nagant rifle adopted in 1891, redesigned for simplified mass production and improved battlefield utility.\n\nChambered in 7.62×54R, the rifle features a rugged bolt-action mechanism with a five-round internal magazine loaded via stripper clips. Its design prioritized reliability and ease of manufacture, making it well suited for the large-scale production demands of wartime.\n\nThe M91/30 was widely issued to Soviet troops and also served as the basis for sniper variants equipped with optical sights. Its long barrel contributed to strong ballistic performance and effective range.\n\nDespite its relatively simple construction, the rifle proved highly durable in harsh environments, including extreme cold and battlefield conditions. Millions were produced during the war.\n\nToday, the Mosin-Nagant remains one of the most widely produced military rifles in history and is valued for its historical significance and rugged reliability.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Russian%20Mosin%20Nagant%20M91%2F30%20(1928)"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Russian%20Mosin%20Nagant%20M91%2F30%20(1928)%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Dutch Beaumont",
+    "model": "m.1896",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "11mm",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "Netherlands",
+    "flag": "flags/Netherlands.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Dutch Beaumont Model 1896 is a bolt-action rifle developed during a transitional period in firearms history as militaries shifted from black powder to smokeless powder cartridges. It evolved from earlier Beaumont-Vitali designs and incorporated improvements for modern ammunition and repeating fire capability.\n\nChambered in 6.5×53mmR, the rifle used a bolt-action system combined with a detachable magazine, reflecting advancements in late 19th-century military rifle design. While not as advanced as Mauser-pattern rifles, it represented an important step forward in military small arms.\n\nThe Beaumont system was relatively simple and reliable, though it lacked some of the strength and refinement of later designs. It saw service with Dutch forces in both Europe and colonial territories, including the Dutch East Indies.\n\nAs firearm technology progressed, the rifle was eventually replaced by more modern Mauser-based designs. However, it remains an important example of transitional military firearm development.\n\nToday, the Dutch Beaumont m.1896 is primarily of historical interest and is appreciated by collectors as a representation of early bolt-action evolution.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Dutch%20Beaumont%20m.1896"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Dutch%20Beaumont%20m.1896%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "NE11",
+    "note": "Remarkably accurate for its era, the Dutch Beaumont m.1896 represents an important step in the evolution of military bolt-action rifles, bridging the gap between black powder designs and modern smokeless powder firearms."
+  },
+  {
+    "type": "Rifle",
+    "make": "Windham Weaponry",
+    "model": "AR-15",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".223 Remington",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The AR-15 is a lightweight, gas-operated semi-automatic rifle originally developed in the late 1950s and later produced by numerous manufacturers, including Windham Weaponry. Based on Eugene Stoner’s original design, the AR-15 platform has become one of the most widely used and adaptable rifle systems in the world.\n\nThe rifle operates using a direct impingement gas system, in which gas is routed from the barrel to cycle the bolt carrier group. This design contributes to reduced recoil and a straight-line stock configuration that improves control and accuracy.\n\nWindham Weaponry produces AR-15 rifles known for quality manufacturing and adherence to established specifications. The platform’s modular design allows users to customize nearly every component, including barrels, triggers, handguards, and optics.\n\nChambered most commonly in 5.56×45mm NATO or .223 Remington, the AR-15 is used for sport shooting, hunting, and defensive applications. Its ergonomic layout and low recoil make it accessible to a wide range of shooters.\n\nToday, the AR-15 remains one of the most influential firearm designs in modern history, valued for its versatility and adaptability.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "AR15",
+    "note": "First run off the new WW factory following the closure of the Bushmaster factory, a popular AR-15"
+  },
+  {
+    "type": "Rifle",
+    "make": "Enfield",
+    "model": "Jungle Carbine",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".303 British",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "action": "Bolt Action",
+    "country": "United Kingdom",
+    "flag": "flags/United Kingdom.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Lee–Enfield No.5 Mk I, commonly known as the \"Jungle Carbine,\" was a shortened and lightened variant of the No.4 rifle developed during World War II. Introduced in 1944, it was intended for use in jungle and airborne operations where a more compact and maneuverable rifle was required.\n\nThe rifle featured a shorter barrel, a distinctive flash hider, and lightening cuts to reduce weight. A rubber recoil pad was added to improve shooter comfort, though recoil remained sharper than the standard No.4 rifle.\n\nWhile the Jungle Carbine offered improved handling in confined environments, it became associated with a phenomenon known as \"wandering zero,\" where accuracy could shift unpredictably. This issue limited its long-term adoption.\n\nThe No.5 saw service primarily in Southeast Asia and other tropical regions during the final stages of World War II.\n\nToday, the Jungle Carbine is a distinctive and collectible variant of the Lee–Enfield family, appreciated for its unique design and specialized role.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Enfield%20Jungle%20Carbine"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Enfield%20Jungle%20Carbine%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Purchased from Paul Agneta, NY State Pistol Bullseye shooter extraordinare. I offered to buy it before I knew it was bubba'd. But it's a nice conversation piece.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "LEJC",
+    "note": "Sporterized"
+  },
+  {
+    "type": "Rifle",
+    "make": "MAS",
+    "model": "M49/56",
+    "year": null,
+    "cartridge": "7.5mm French",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "NATO .308Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "France",
+    "flag": "flags/France.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+       "content": "The MAS-49/56 is a semi-automatic service rifle developed by France and adopted in 1956 as the culmination of earlier MAS rifle designs. Chambered in 7.5×54mm French, it was designed to be compact, reliable, and versatile for modern infantry use.\n\nThe rifle uses a direct impingement gas system, allowing for reliable cycling with relatively few moving parts. It features a detachable box magazine, integral grenade-launching capability, and robust iron sights.\n\nThe MAS-49/56 saw service in conflicts such as the Algerian War and remained in use by French forces into the 1970s. Some rifles were later converted to 7.62×51mm NATO for export or civilian markets.\n\nCompared to earlier battle rifles, the MAS-49/56 was relatively lightweight and compact, making it well suited for a variety of roles.\n\nToday, it is valued for its unique design and as a representation of post-war European military firearms development.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "FRM1",
+    "note": "Caliber conversion by CCA importer"
+  },
+  {
+    "type": "Rifle",
+    "make": "MAS M49/56",
+    "model": "7.5 French",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.5mm French",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "France",
+    "flag": "flags/France.png",
+    "optic": "Present",
+    "sights": "Present",
+    "sightType": "Present",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+       "content": "The MAS-49/56 chambered in 7.5×54mm French represents the original military configuration of France’s standard post-war service rifle. Developed from earlier MAS designs, it combined semi-automatic fire with a robust and reliable operating system suited to mid-20th century warfare.\n\nThe rifle utilizes a direct impingement gas system and a tilting bolt, providing consistent cycling and durability. It was designed to be compact and versatile, incorporating features such as grenade launching capability and durable iron sights.\n\nUnlike later converted variants, the original 7.5 French chambering reflects the rifle’s intended ballistic performance and military role. The cartridge provided effective range and stopping power comparable to other full-power service cartridges of the era.\n\nThe MAS-49/56 saw extensive service in French military operations and remained in use until replaced by more modern designs.\n\nToday, rifles in original 7.5 French configuration are particularly valued by collectors for their authenticity and historical significance.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=MAS%20M49%2F56%207.5%20French"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=MAS%20M49%2F56%207.5%20French%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "FRM2",
+    "note": "All the features"
+  },
+  {
+    "type": "Rifle",
+    "make": "Palmetto",
+    "model": "AR-10",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".308 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The AR-10 is a full-power battle rifle platform originally developed in the 1950s and later produced by numerous manufacturers, including Palmetto State Armory. Chambered in 7.62×51mm NATO (.308 Winchester), it offers increased range and stopping power compared to smaller-caliber rifles.\n\nLike the AR-15, the AR-10 uses a gas-operated system and features a modular design that allows extensive customization. Components such as barrels, handguards, and optics can be easily adapted to suit specific applications.\n\nPalmetto State Armory produces AR-10 style rifles aimed at balancing affordability with modern performance. These rifles are commonly used for hunting, precision shooting, and general-purpose applications.\n\nThe platform retains the ergonomic advantages of the AR family while delivering the ballistic performance of a full-power rifle cartridge.\n\nToday, AR-10 rifles are valued for their versatility, accuracy, and adaptability across a wide range of shooting disciplines.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Palmetto%20AR-10"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Palmetto%20AR-10%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "AR10",
+    "note": "Custom build"
+  },
+  {
+    "type": "Rifle",
+    "make": "German",
+    "model": "G43",
+    "year": 1944,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "8mm Mauser",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "Germany",
+    "flag": "flags/Nazi.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Gewehr 43 (G43) was a semi-automatic rifle developed by Germany during World War II in an effort to modernize infantry weaponry. Introduced in 1943, it improved upon earlier semi-automatic designs by adopting a more reliable gas system.\n\nChambered in 7.92×57mm Mauser, the G43 utilized a short-stroke gas piston system influenced by the Soviet SVT-40. This allowed for more consistent operation and easier maintenance under combat conditions.\n\nThe rifle featured a detachable 10-round magazine and could also be loaded using standard Mauser stripper clips. Some variants were equipped with optical sights for use as designated marksman rifles.\n\nAlthough production increased during the later years of the war, the G43 was never produced in sufficient numbers to replace the Karabiner 98k.\n\nToday, the G43 is an important historical firearm representing Germany’s transition toward semi-automatic infantry weapons.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=German%20G43%20(1944)"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=German%20G43%20(1944)%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "G43",
+    "note": "ACC//44"
+  },
+  {
+    "type": "Rifle",
+    "make": "Springfield Armory",
+    "model": "M1A",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".308 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Springfield Armory M1A is a civilian semi-automatic rifle derived from the U.S. military’s M14 rifle, itself an evolution of the M1 Garand. Chambered in 7.62×51mm NATO (.308 Winchester), the M1A combines traditional rifle design with modern performance.\n\nThe rifle operates using a gas system with a rotating bolt, providing reliable cycling and durability. It is typically fed from detachable box magazines and is known for its accuracy and effective range.\n\nThe M1A retains classic features such as a traditional stock and iron sights while supporting modern optics and accessories. This blend of old and new has contributed to its enduring popularity among civilian shooters.\n\nWidely used in competition shooting, hunting, and recreational marksmanship, the M1A is particularly valued for its precision at extended distances.\n\nToday, the M1A represents a continuation of America’s service rifle lineage, offering shooters a historically rooted platform with modern capabilities.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Springfield%20Armory%20M1A"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1A%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "M1-1",
+    "note": "Wood and synthetic stocks"
+  },
+  {
+    "type": "Rifle",
+    "make": "Russian",
+    "model": "SVT-40",
+    "year": null,
+    "cartridge": "7.62x54 R",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.62",
+    "feed": "Magazine",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "Russia",
+    "flag": "flags/cccp.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The SVT-40 is a semi-automatic battle rifle developed by the Soviet Union and introduced in 1940 as an improvement over the earlier SVT-38. Designed by Fedor Tokarev, it was intended to increase the firepower of Soviet infantry.\n\nChambered in 7.62×54R, the SVT-40 uses a gas-operated system with a tilting bolt. It features a detachable 10-round magazine and can also be loaded using stripper clips, providing flexibility in the field.\n\nThe rifle offered a higher rate of fire than traditional bolt-action rifles, but it required more maintenance and training to operate effectively. As a result, production eventually shifted back toward simpler designs like the Mosin-Nagant.\n\nDespite these challenges, the SVT-40 saw extensive use during World War II and influenced later semi-automatic rifle designs, including those developed by Germany.\n\nToday, the SVT-40 is valued as an early example of semi-automatic military rifle development and remains an important part of Soviet firearms history.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Russian%20SVT-40"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Russian%20SVT-40%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "RU40",
+    "note": "Finnish Capture"
+  },
+  {
+    "type": "Rifle",
+    "make": "Fabrique Nationale",
+    "model": "FN49",
+    "year": null,
+    "cartridge": ".30-06 Winchester",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30-06",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "Belgium",
+    "flag": "flags/Belgium.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The FN-49 is a semi-automatic rifle developed by Fabrique Nationale in Belgium in the late 1940s. Designed by Dieudonné Saive, it represents a transitional step between traditional bolt-action rifles and modern battle rifles.\n\nChambered in a variety of calibers depending on the contract, including 7.92×57mm Mauser and .30-06 Springfield, the FN-49 uses a gas-operated system with a tilting bolt. It features a fixed magazine loaded via stripper clips.\n\nThe rifle was adopted by several countries, including Egypt, Venezuela, and Luxembourg, and saw service in various post-war conflicts.\n\nThe FN-49 was known for its robust construction and accuracy, though it was soon overshadowed by more modern designs such as the FN FAL.\n\nToday, the FN-49 is highly regarded by collectors as a well-crafted and historically significant semi-automatic rifle from the early Cold War era.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Fabrique%20Nationale%20FN49"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Fabrique%20Nationale%20FN49%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "FN49",
+    "note": "Luxembourg contract"
+  },
+  {
+    "type": "Rifle",
+    "make": "Egyptian",
+    "model": "Hakim",
+    "year": null,
+    "cartridge": "8mm Mauser",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "8mm",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "Egypt",
+    "flag": "flags/Egypt.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Hakim rifle is a semi-automatic battle rifle produced in Egypt during the 1950s, based on the Swedish AG-42 Ljungman design. Chambered in 7.92×57mm Mauser, it was adapted to use surplus German ammunition following World War II.\n\nThe rifle uses a direct impingement gas system and features a detachable magazine that is typically loaded using stripper clips. It is known for its distinctive large size and powerful recoil.\n\nThe Hakim was issued to Egyptian forces and saw service in regional conflicts during the mid-20th century. Its robust construction made it reliable, though its weight and recoil were notable characteristics.\n\nA unique feature of the Hakim is its adjustable gas system, allowing the rifle to function with varying ammunition types.\n\nToday, the Hakim rifle is appreciated for its distinctive design and as an example of Cold War-era adaptation of earlier European firearm technology.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Egyptian%20Hakim"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Egyptian%20Hakim%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "EHAK",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "MAS",
+    "model": "M1936",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "7.5 French",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "France",
+    "flag": "flags/France.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=MAS%20M1936"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=MAS%20M1936%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Marlin",
+    "model": "M1895 (1972)",
+    "year": 1972,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30-30 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Lever",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "Vortex",
+    "sights": "Vortex",
+    "sightType": "Vortex",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Marlin%20M1895%20(1972)"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Marlin%20M1895%20(1972)%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Marlin",
+    "model": "M1895 (1999)",
+    "year": 1999,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".450 Marlin",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Lever",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "Leupold",
+    "sights": "Leupold",
+    "sightType": "Leupold",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": {
+          "title": "",
+          "content": "",
+          "url": "https://en.wikipedia.org/wiki/Springfield_M1903"
+        },
+        "gunDigest": {
+          "title": "",
+          "content": "",
+          "url": "https://gundigest.com/?s=Springfield%20Armory%20M1903A3%20Gun%20Digest"
+        }
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Marlin",
+    "model": "M1895",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".35 Remington",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "3x9",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "Bushnell",
+    "sights": "Bushnell",
+    "sightType": "Bushnell",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Marlin%20M1895",
+        "gunDigest": "https://gundigest.com/?s=Marlin%20M1895%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Winchester",
+    "model": "Model 70 XTR",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".308 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "T/C",
+    "sights": "T/C",
+    "sightType": "T/C",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The Winchester Model 70 XTR is a variant of the iconic Model 70 bolt-action rifle, often referred to as the \"Rifleman’s Rifle.\" Introduced as part of Winchester’s commercial sporting line, the XTR designation typically indicated upgraded finishes and features.\n\nThe Model 70 is known for its controlled-round feed action, derived from the Mauser system, which provides reliable feeding and extraction. It has been widely used for hunting and precision shooting.\n\nThe XTR models often featured improved stocks, checkering, and finishes compared to standard versions, enhancing both appearance and handling.\n\nChambered in a wide range of calibers, the Model 70 platform has been used for everything from small game hunting to large dangerous game.\n\nToday, the Model 70 XTR is appreciated for its craftsmanship, reliability, and its place as one of the most respected bolt-action sporting rifles ever produced.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Winchester%20Model%2070%20XTR",
+        "gunDigest": "https://gundigest.com/?s=Winchester%20Model%2070%20XTR%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "WM70",
+    "note": "Short-action\\\\ featherweight"
+  },
+  {
+    "type": "Rifle",
+    "make": "Springfield Armory",
+    "model": "M1 Garand",
+    "year": 1955,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30-06 Winchester",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+       "content": "The M1 Garand is a semi-automatic service rifle that was the standard U.S. infantry weapon during World War II and the Korean War. Designed by John Garand, it was officially adopted in 1936.\n\nChambered in .30-06 Springfield, the rifle uses a gas-operated system and is fed by an eight-round en bloc clip. It was the first semi-automatic rifle to be widely issued to a nation’s infantry.\n\nThe Garand provided a significant advantage in firepower over bolt-action rifles, allowing soldiers to fire more rapidly without sacrificing accuracy.\n\nPost-war production rifles, including those from the 1950s, continued to serve in military and reserve roles.\n\nToday, the M1 Garand is one of the most iconic American military rifles and remains popular among collectors and competitive shooters.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Springfield%20Armory%20M1%20Garand%20(1955)",
+        "gunDigest": "https://gundigest.com/?s=Springfield%20Armory%20M1%20Garand%20(1955)%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "M1-2",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "Springfield Armory",
+    "model": "M1 Garand",
+    "year": 1941,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30-06 Winchester",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Springfield%20Armory%20M1%20Garand%20(1941)",
+        "gunDigest": "https://gundigest.com/?s=Springfield%20Armory%20M1%20Garand%20(1941)%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Rifle",
+    "make": "IBM",
+    "model": "M1 Carbine",
+    "year": 1944,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".30 Carbine",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "The M1 Carbine is a lightweight semi-automatic rifle developed during World War II to provide a compact firearm for support troops, officers, and paratroopers. Introduced in 1941, it was produced in large numbers by several manufacturers.\n\nChambered in .30 Carbine, the rifle uses a gas-operated system and is fed from detachable box magazines. It is significantly lighter and more compact than the M1 Garand.\n\nThe M1 Carbine was designed to bridge the gap between pistols and full-size rifles, offering greater accuracy and range than handguns while remaining easy to carry.\n\nBy 1944, production was at its peak, and the rifle saw widespread use in multiple theaters of World War II.\n\nToday, the M1 Carbine remains popular for its historical significance, light recoil, and handy size.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=IBM%20M1%20Carbine%20(1944)",
+        "gunDigest": "https://gundigest.com/?s=IBM%20M1%20Carbine%20(1944)%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "M1C1",
+    "note": "Paratrooper stock"
+  },
+  {
+    "type": "Rifle",
+    "make": "Remington",
+    "model": "Model 700",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".223 Rem",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "Sightron 3-9x40",
+    "sights": "Sightron 3-9x40",
+    "sightType": "Sightron 3-9x40",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Remington%20Model%20700",
+        "gunDigest": "https://gundigest.com/?s=Remington%20Model%20700%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "R700",
+    "note": "Mike's"
+  },
+  {
+    "type": "Rifle",
+    "make": "Savage",
+    "model": "Axis",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".308 Win",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Bolt Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Savage%20Axis",
+        "gunDigest": "https://gundigest.com/?s=Savage%20Axis%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": "Heavy Barrel; Compensator; bi-pod; Mike's"
+  },
+  {
+    "type": "Shotgun",
+    "make": "Remington",
+    "model": "M1100",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "12 Ga",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Remington%20M1100",
+        "gunDigest": "https://gundigest.com/?s=Remington%20M1100%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": "Trap & Slug barrels. Lightweight Camo Turkey Stock"
+  },
+  {
+    "type": "Shotgun",
+    "make": "Remington",
+    "model": "M1100",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "12 Ga",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Semi-Automatic",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Remington%20M1100",
+        "gunDigest": "https://gundigest.com/?s=Remington%20M1100%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": "Adjustable choke; hi-gloss wood Stock"
+  },
+  {
+    "type": "Shotgun",
+    "make": "Beretta",
+    "model": "M686",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "12 ga.",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Over\\\\Under",
+    "country": "Italy",
+    "flag": "flags/Italy.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Beretta%20M686",
+        "gunDigest": "https://gundigest.com/?s=Beretta%20M686%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": "Onyx Pro"
+  },
+  {
+    "type": "Shotgun",
+    "make": "Remington",
+    "model": "Model 10",
+    "year": null,
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": "12 ga",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Pump-Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "",
+    "sights": "",
+    "sightType": "",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Remington%20Model%2010",
+        "gunDigest": "https://gundigest.com/?s=Remington%20Model%2010%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": ""
+  },
+  {
+    "type": "Muzzleloader",
+    "make": "Wolf",
+    "model": "TBD",
+    "year": "TBD",
+    "cartridge": "add Cart-Name",
+    "COAL": "add Cart-Name",
+    "cartridgeImage": "add Cart-Name",
+    "cartridgeWiki": "add Cart-Name",
+    "caliber": ".50 Sabot",
+    "feed": "add count",
+    "magCapacity": "add count",
+    "serialNumber": "999999999",
+    "action": "Break Action",
+    "country": "USA",
+    "flag": "flags/USA.png",
+    "optic": "T/C 3-9x32",
+    "sights": "T/C 3-9x32",
+    "sightType": "T/C 3-9x32",
+    "tabs": {
+      "history": {
+        "title": "Firearm Origin...",
+        "content": "Lorem ipsum gobblty goo. Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.Lorem ipsum gobblty goo.",
+        "wikipedia": "https://en.wikipedia.org/wiki/Special:Search?search=Wolf%20TBD",
+        "gunDigest": "https://gundigest.com/?s=Wolf%20TBD%20Gun%20Digest"
+      },
+      "purchase": {
+        "title": "Purchase History",
+        "content": "Found on a trip to the UK, this rifle was a great find and a wonderful addition to my collection. It is a classic example of British military firearms and has a rich history behind it.",
+        "location": "United Kingdom",
+        "price": "$25.00",
+        "notes": "Purchased new from a local gun shop in London."
+      },
+      "marketValue": {
+        "title": "Market Value History:",
+        "content": "The Enfield No 4 Mk 19/48 is a British bolt-action rifle that was widely used during World War II and beyond. It is known for its reliability and accuracy, chambered in .303 British caliber. The No 4 Mk 19/48 variant features a shorter barrel and was often used by paratroopers and commandos.",
+        "GunBroker": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        },
+        "RockIsland": {
+          "date": "Lee-Enfield No 4 Mk 19/48 on GunBroker",
+          "avgValue": "$300 - $500 depending on condition and markings",
+          "url": "https://www.gunbroker.com/All/search?keywords=Lee-Enfield+No+4+Mk+19%2F48&sortby=15&perpage=10"
+        }
+      },
+      "loadData": {
+        "title": "Cartridge Load Data:",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge."
+      },
+      "rangeNotes": {
+        "title": "Range Visits & Results",
+        "content": "Load data for 7.7x58 Arisaka can be found in reloading manuals or online resources specific to this cartridge.",
+        "Date": "2024-06-15",
+        "Range": "Local shooting range",
+        "Distance": 100,
+        "Ammo": "7.7x58 Arisaka",
+        "Notes": "The rifle performed well with good accuracy and manageable recoil. No malfunctions observed."
+      },
+      "maintenance": {
+        "title": "Maintenance  & Repair History",
+        "content": "Date: 2024-06-20, Maintenance performed: Cleaned the barrel, action, and magazine. Lubricated moving parts. Inspected for wear and tear, no issues found."
+      }
+    },
+    "imageID": "value",
+    "note": "Black powder"
+  }
+]

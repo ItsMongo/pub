@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Firearms Collection</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css">
+</head>
+
+
+<body>
+
+<div id="app-container">
+
+    <!-- Top selectors -->
+    <header>
+        <div class="item title-left">  
+            <div class="heading2"><span id="titleMake"></span></div><div class="heading3"><span id="titleAction"></span></div> 
+            <div class="heading1"><span id="titleModel"></span></div><div class="heading3"><span id="feed"></span></div>
+            <div class="label">Serial:</div> <div class="heading3"><span id="serialNum"></span></div>
+        </div>
+
+        <div class="item title-right">
+            <div class="flagspan"><span id="flagSpan"><img id="flagImage" class="flag-img" /></span></div>
+            <div class="heading3"><span id="country"></span></div>
+        </div>
+        
+        <div class="item center-left">
+            <div class="specs">
+                <div class="label">Manufactured:</div> <div class="value"><span id="titleYear"></span></div>
+                <div class="label">Cartridge:</div> <div class="value"><span id="cartridge"></span></div>
+                <div class="label">Caliber:</div> <div class="value"><span id="caliber"></span></div>
+                <div class="label">Mag. Capacity:</div> <div class="value"><span id="magCapacity"></span></div>
+                <div class="label">Weight:</div> <div class="value"><span id="weight"></span></div>
+            </div>
+        </div>
+
+        <div class="item center-right">
+           <div class="cartspan"><a id="cartridgeLink" href="#" target="_blank"><img id="cartridgeImage" class="cartridgeImage" /></a></div>
+           <div class="value">COAL: <span id="COAL"></span></div>
+        </div>
+        
+        <div class="item right-left">
+           <!-- Type filter toggles — built dynamically by app.js -->
+          <div class="nav-type-row">
+            <span class="nav-label">Filter Type:</span>
+            <div class="type-toggle-group" id="typeToggleGroup"></div>
+            <select id="typeSelector" style="display:none"></select>
+          </div>
+        </div>
+        
+        <div class="item right-right">
+
+          <!-- Jump-to dropdown -->
+          <div class="nav-jump">
+            <label class="nav-label" for="modelSelector">&#9654; Jump To</label>
+            <select id="modelSelector"></select>
+          </div>
+          
+          <div class="nav-divider"></div>
+
+          <!-- Item pager -->
+          <div class="nav-pager">
+            <button id="prevBtn" class="nav-arrow" title="Previous">&#8249;</button>
+            <span id="itemCounterTxt" class="nav-counter"></span>
+            <button id="nextBtn" class="nav-arrow" title="Next">&#8250;</button>
+          </div>
+
+          <!-- Image carousel -->
+          <div class="nav-images">
+            <button class="nav-arrow-sm" onclick="prevImage()" title="Previous image">&#8249;</button>
+            <span class="nav-images-label">Images</span>
+            <button class="nav-arrow-sm" onclick="nextImage()" title="Next image">&#8250;</button>
+          </div>
+
+        </div>
+    </header>
+
+    <!-- Middle Content Section -->
+    <main>
+        <section id="textPanel">
+			<div id="tabs">
+                <button class="tab" type="button" data-tab="history">History</button>
+                <button class="tab" type="button" data-tab="purchase">Purchase</button>
+                <button class="tab" type="button" data-tab="marketValue">Market Value</button>
+                <button class="tab" type="button" data-tab="loadData">Load Data</button>
+                <button class="tab" type="button" data-tab="rangeNotes">Range Notes</button>
+                <button class="tab" type="button" data-tab="maintenance">Maintenance</button>
+            </div>
+            <div class="scrollableTextTitle"><span id="scrollableTextTitle"></span></div>
+            <div class="scrollableTextContent"><span id="scrollableTextContent"></span></div>
+            <div > Wikipedia: <span id="wikiLink" class="web-links"></span></div>
+            <div > Gun Digest: <span id="gunDigestLink" class="web-links"></span></div>
+        </section>
+
+        <section id="imagePanel">
+            <div id="fullImageContainer">
+                <img id="fullImage"/>
+            </div>
+            <div id="thumbnailStrip"></div>
+        </section>
+    </main>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+:root {
+    --bg: #b09a72;
+    --panel: #e2c693;
+    --thumbnail: #8e9c80;
+    --text-color: #000;
+    --font-main: sans-serif, bold;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    font-family: var(--font-main);
+    color: var(--text-color);
+}
+
+.fill {
+	display: flex;
+	flex-direction: column;
+	border-block: groove 6px;  /* change this */
+}
+
+.demo1 {
+    width: 400px;
+    height: 200px;
+    background: #62B;
+    object-fit: fill;
+    border-block: groove 6px;  /* change this */
+}
+.demo2 {
+    width: 400px;
+    height: 200px;
+    background: #62B;
+    object-fit: cover;
+}
+.demo3 {
+    width: 400px;
+    height: 200px;
+    background: #62B;
+    object-fit: contain;  /* change this */
+}
+.demo4 {
+    width: 400px;
+    height: 200px;
+    background: #62B;
+    object-fit: none;
+}
+
+
+/* Left (Text Panel) */
+#sec1 {
+    flex: 1;
+    background: var(--panel);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    column-rule-color: green;
+    column-rule-style: double;
+    column-rule-width: medium;
+}
+
+/* Left (Text Panel) */
+#sec2 {
+    flex: 1;
+    background: var(--panel);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}

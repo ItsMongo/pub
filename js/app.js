@@ -223,10 +223,10 @@ function renderTabContent(firearm, tabKey) {
 
         case "purchase": {
             const rows = [
-                tab.content  ? ["Notes",   tab.content]  : null,
+                tab.content  ? ["Listing",   tab.content]  : null,
                 tab.price    ? ["Price",   tab.price]    : null,
                 tab.location ? ["Source",  tab.location] : null,
-                tab.notes    ? ["Details", tab.notes]    : null,
+                tab.notes    ? ["Notes", tab.notes]    : null,
             ].filter(Boolean);
             contentEl.innerHTML = renderKV(rows);
             break;

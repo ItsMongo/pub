@@ -1,0 +1,90 @@
+[
+  {
+    "type": "Rifle",
+    
+    "model": "M4 Carbine",
+    "action": "SA",
+    "year": 2020,
+    "make": "Colt",
+    "caliber": "5.56 NATO",
+    "country": "USA",
+    "flag": "flags/USA.png",
+
+    "tabs": {
+      "history": {
+        "title": "History of the M1 Garand",
+        "content": "December 07, 2018 \n By Joseph von Benedikt \n\n Frequently called the M1 Garand, after its designer, John Garand, this distinguished battle rifle's official designation was U.S. Rifle, Caliber 30, M1. Adopted in 1937, it served ably through World War II and the Korean War before being replaced as America's official rifle by the M14 in 1959. At any rate, the M1 Garand was the world's first standard-issue semiautomatic rifle. Gen. George S. Patton famously called it \"the greatest battle implement ever devised.\" Chambered for the .30-06 Gov't cartridge, it holds eight rounds in an en bloc clip. On that note, as far as I know, it's the last clip-fed U.S. battle weapon; all others since use detachable magazines.\n\nAt roughly 11 pounds, loaded, the M1 is heavy, and unless you're a teenager infused with a massive dose of enemy-administered adrenaline, it's ponderous. Plus, as writer Patrick Sweeney so eloquently wrote in his book The AR-15, Volume 2, \"A day spent dishing out truth, justice and the American way via a Garand can leave you groggy from recoil.\"\n\nDesigned and refined through a series of military trials between 1924 and 1936, the M1 in its embryonic stages was aggressively marketed in a new 7mm cartridge called the .276 Pederson. According to military firearm historian Richard Venola, the cartridge was decades ahead of its time, providing much less recoil and improved ballistics over the .30-06 Gov't in use at the time. Gen. Douglas MacArthur eventually put the kibosh on further cartridge development, and for good reason: World War II was threatening, and America had vast stocks of .30-caliber ammunition. Attempting to find and adopt an adequate semiautomatic rifle was trouble enough without dipping into new cartridge design. Mechanicals  In simplest terms, the M1 is a gas-operated design of eight-round capacity. It features excellent, robust sights and a reciprocating charging handle. The design was known for reliability.\n\nTo load, lay the blade of the right hand against the charging handle and use the thumb to press a loaded en bloc clip into the maw of the open action. Doing so releases the bolt, which is driven forward by the recoil spring. Be quick and use the blade of the hand against the charging handle to prevent the bolt from slamming your thumb—or you'll end up with the lacerated \"M1 Thumb\" of legend.\n\nAs it closes, the bolt boosts a fresh cartridge out of the en bloc clip, up the feedramp, and into the chamber before rotating into battery. Squeeze the trigger to fire. Gas is ported through a small hole in the barrel and directed against the piston system, which drives rearward, unlocking the bolt and thrusting it rearward. A massive extractor hauls the empty case rearward from the chamber, and as the mouth clears the front receiver ring, a robust plunger-type ejector located at 6 o'clock in the boltface heaves the empty up and out of the action.\n\nA powerful spring-activated lifter pushes the remaining cartridges up, presenting the top one to the bolt, and the cycle begins again. When all the cartridges are gone, the lifter flings the steel clip skyward with a ringing, distinct \"ping.\" Legend has it that savvy enemy soldiers eventually caught on to the sound, recognizing that it meant the American's rifle was empty, and would wait to hear it before charging in an attempt to dig out an entrenched trooper.\n\nThat sound is (debatably) one of the few mechanical disadvantages of the M1. Another, more profound, disadvantage is the fact that it is very difficult to top off. Down to three rounds, waiting on pins and needles for a close-range offensive? Unless you're willing to risk ejecting those three and reloading with a full eight-round clip, you're short on firepower.\n\n Provenance\n\nManufactured by Springfield Armory in April or June of 1944, near the end of World War II, the very nice example shown here belongs to a good friend of mine. Long ago, figuring it was a great investment, a great heirloom, and a great fighting rifle, his father purchased, tested, and presented an M1 to each of his five kids, typically when they were in their mid to late teens. It's now one of my friend's most prized possessions.As far as I can tell, it's correct, with all matching numbers. However, I suspect that it's been arsenal rebuilt at some point. Aside from the barrel and the stock, which both are in superb condition and may be new, the metal parts show evidence of some pretty rough handling. Likely, it saw combat service during the last year of World War II and the Korean War.\n\nI recall heading up into Utah's Wasatch Mountains for an afternoon of shooting well over two decades ago. I brought my sporterized M1903 Springfield; my buddy's family all had their M1s. It was a brilliant time, with their dad educating the kids on the use of the grand old battle rifle and encouraging them to work them out at ever-increasing distances. Eventually, a basketball-size basaltic boulder at 800-odd yards drew our attention, and after a few sighting shots, that rock received much the worst of it. The old battle rifles are pretty effective.\n\n Rangetime\n\nBenching the M1 over dual sandbags for this report, I accuracy-tested it at 100 yards. Loading two eight-round clips enabled me to fire three consecutive five-shot groups with each type of ammo, with one reload in the middle of the set.\n\nAccuracy was about what one would expect from an 80-year-old veteran battle rifle, averaging between 2.5 and 4.75 MOA with the various ammo. It preferred the Black Hills 155-grain A-Max load.\n\nReliability was stellar, with two human-induced exceptions. Because I was shooting with a quite-relaxed grip, I managed to bump-fire a second shot off twice. The second time, I shot the skyscreensof my chronograph.\n\nThe two-stage trigger measured a crisp 5 pounds, 6 ounces, according to my Lyman digital trigger gauge. Interestingly, there was less than an ounce of variation over a series of five measurements.\n\nRecoil was zesty but not vicious. The sights were clear, crisp, and easy to resolve, and putting rounds on target was easy. The old M1 is heavy but somehow svelte, and it reeks of heroic history. -- Joseph von Benedikt"
+      },
+      "purchase": "Purchase history or notes ...",
+      "marketValue": "Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": [
+        
+        "images/M1-1.jpg",
+        "images/M1-2.jpg",
+        "images/M1-3.jpg",
+        "images/M1-4.jpg",
+        "images/M1-5.jpg"
+      ]  
+  },
+  {
+    "type": "Sedan",
+    "make": "BMW",
+    "model": "X5 GT",
+    "fuel": "Gasoline",
+    "year": 2021,
+    "country": "Germany",
+    "flag": "flags/germany.png",
+
+    "tabs": {
+      "history": "The BMW X5 is ...",
+      "purchase": "Beemer Purchase history or notes ...",
+      "marketValue": "BMW Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": {
+      "thumbnails": [
+        "thumbnails/x5-1.jpg",
+        "thumbnails/x5-2.jpg",
+        "thumbnails/x5-3.jpg"
+      ],
+      "fullsize": [
+        "full/x5-1.jpg",
+        "full/x5-2.jpg",
+        "full/x5-3.jpg"
+      ]
+    }
+  },
+  {
+    "type": "Coupe",
+    "make": "Mazda",
+    "model": "XR-5",
+    "fuel": "Gasoline",
+    "year": 2019,
+    "country": "Japan",
+    "flag": "flags/japan.png",
+
+    "tabs": {
+      "history": "The Mazda XR-5 is ...",
+      "purchase": "Purchase history or notes ...",
+      "marketValue": "Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": {
+      "thumbnails": [
+        "thumbnails/Xr5-1.jpg",
+        "thumbnails/Xr5-2.jpg",
+        "thumbnails/Xr5-3.jpg"
+      ],
+      "fullsize": [
+        "full/M1-1.jpg",
+        "full/M1-2.jpg",
+        "full/M1-3.jpg"
+      ]
+    }
+  }
+]

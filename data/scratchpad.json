@@ -1,0 +1,94 @@
+[
+  {
+    "type": "Coupe",
+    "make": "Ferrari",
+    "model": "F8 Tributo",
+    "fuel": "Gasoline",
+    "year": 2021,
+    "country": "Italy",
+    "flag": "flags/italy.png",
+
+    "tabs": {
+      "history": "The Ferrari F8 Tributo is ...",
+      "purchase": "Purchase history or notes ...",
+      "marketValue": "Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": {
+      "thumbnails": [
+        "thumbnails/F8-1.jpg",
+        "thumbnails/F8-2.jpg",
+        "thumbnails/F8-3.jpg",
+		  "thumbnails/F8-4.jpg",
+		  "thumbnails/F8-5.jpg"
+      ],
+      "fullsize": [
+        "full/F8-1-full.jpg",
+        "full/F8-2-full.jpg",
+        "full/F8-3-full.jpg",
+		  "full/F8-4-full.jpg"
+      ]
+  	 }
+  },
+
+ {
+    "type": "Sedan",
+    "make": "BMW",
+    "model": "X5 GT",
+    "fuel": "Gasoline",
+    "year": 2021,
+    "country": "Germany",
+    "flag": "flags/germany.png",
+
+    "tabs": {
+      "history": "TheBMW X5 is ...",
+      "purchase": "Beemer Purchase history or notes ...",
+      "marketValue": "BMW Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": {
+      "thumbnails": [
+        "thumbnails/x5-1.jpg",
+        "thumbnails/x5-2.jpg",
+        "thumbnails/x5-3.jpg"
+      ],
+      "fullsize": [
+        "full/x5-1.jpg",
+        "full/x5-2.jpg",
+        "full/x5-3.jpg"
+      ]
+    }
+  },
+
+ {
+    "type": "Coupe",
+    "make": "Mazda",
+    "model": "XR-5",
+    "fuel": "Gasoline",
+    "year": 2019,
+    "country": "Japan",
+    "flag": "flags/japan.png",
+
+    "tabs": {
+      "history": "The Ferrari F8 Tributo is ...",
+      "purchase": "Purchase history or notes ...",
+      "marketValue": "Market value information ...",
+      "journal": "Personal notes or journal entries ..."
+    },
+
+    "images": {
+      "thumbnails": [
+        "thumbnails/f8-1.jpg",
+        "thumbnails/f8-2.jpg",
+        "thumbnails/f8-3.jpg"
+      ],
+      "fullsize": [
+        "full/f8-1.jpg",
+        "full/f8-2.jpg",
+        "full/f8-3.jpg"
+      ]
+    }
+  }
+]
