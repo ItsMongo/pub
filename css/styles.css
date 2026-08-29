@@ -215,9 +215,9 @@ main {
 }
 
 .flag-img {
-    width: 65px;
+    width: 110px;
     height: auto;
-    max-height: 45px;
+/*    max-height: 45px; */
     object-fit: contain;
     display: block;
 }
@@ -271,10 +271,10 @@ main {
 }
 
 .maker-logo {
-    max-width: 80px;
-    max-height: 80px;
-    width: auto;
-    height: auto;
+    max-width: 120px;
+    max-height: 100px;
+/*    width: auto;
+    height: auto; */
     object-fit: contain;
     display: block;
 }
