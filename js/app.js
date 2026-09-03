@@ -169,8 +169,8 @@ function updateUI() {
     document.getElementById("flagImage").src            = c.flag;
     document.getElementById("cartridgeImage").src       = `images/cartridges/${c.cartridgeImage}`;
     document.getElementById("cartridgeLink").href       = c.cartridgeWiki;
-    document.getElementById("optic").textContent        = c.optic;
-    document.getElementById("sights").textContent       = c.sights;
+    //document.getElementById("optic").textContent        = c.optic;
+    //document.getElementById("sights").textContent       = c.sights;
     //document.getElementById("makerLogo").src = c.makerLogo ? `images/makers/${c.makerLogo}` : "";
     document.getElementById("makerLogo").src = `images/makers/${c.makerLogo}`;
     document.getElementById("makerLogo").alt = c.make;
