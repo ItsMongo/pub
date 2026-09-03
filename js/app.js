@@ -171,10 +171,10 @@ function updateUI() {
     document.getElementById("cartridgeLink").href       = c.cartridgeWiki;
     document.getElementById("optic").textContent        = c.optic;
     document.getElementById("sights").textContent       = c.sights;
-   //document.getElementById("makerLogo").src = c.makerLogo ? `images/makers/${c.makerLogo}` : "";
-   document.getElementById("makerLogo").src = `images/makers/${c.makerLogo}`;
-   document.getElementById("makerLogo").alt = c.make;
-   document.getElementById("makerLogoText").textContent = c.make;
+    //document.getElementById("makerLogo").src = c.makerLogo ? `images/makers/${c.makerLogo}` : "";
+    document.getElementById("makerLogo").src = `images/makers/${c.makerLogo}`;
+    document.getElementById("makerLogo").alt = c.make;
+    document.getElementById("makerLogoText").textContent = c.make;
 
 
     // Counter shows position within the filtered list
