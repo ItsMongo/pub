@@ -32,8 +32,9 @@ const viewer = new Viewer(document.getElementById('fullImageContainer'), {
 // Boot
 // ─────────────────────────────────────────────────────────────────────────────
 async function loadData() {
-    const res = await fetch("data/firearms.json");
-    const raw = await res.json();
+    // Pulls from the SQLite database via SHTTPS+'s /api/db REST API (see js/db.js),
+    // falling back to data/firearms.json if the API can't be reached.
+    const raw = await loadCollection();
 
     // Sort master list alphabetically by make, then model
     firearms = raw.slice().sort((a, b) => {

@@ -1,3 +1,10 @@
 images/
 node_modules/
 .env
+
+# SQLite database — the Shield's copy is canonical; refresh a local copy from it
+# when needed, or rebuild from firearms.json. Binary, changes on every edit.
+data/firearms.db
+data/firearms.db-journal
+data/firearms.db-wal
+data/firearms.db-shm
