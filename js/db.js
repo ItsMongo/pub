@@ -96,7 +96,6 @@ function groupByItem(rows) {
 function buildTabs(item, kids) {
     const purchase      = kids.transactions.find(t => t.transaction_type === "Purchase");
     const currentValues = kids.transactions.filter(t => t.transaction_type === "CurrentValue");
-    const load  = kids.load_data[0];
     const range = kids.range_notes[0];
     const service = kids.service_history[0];
 
@@ -137,11 +136,13 @@ function buildTabs(item, kids) {
             wikipedia:  { url: "" }, gunDigest: { url: "" },
         } : {},
 
-        loadData: load ? {
-            title:     load.title   || "Cartridge Load Data:",
-            content:   load.content || "",
-            wikipedia: { url: load.source_url || "" }, gunDigest: { url: "" },
-        } : {},
+        loadData: {
+            title:     "Cartridge Load Data",
+            // One entry per load recipe (see LOAD_FIELDS in app.js). Raw rows —
+            // the read view and editor read columns off them directly.
+            loads:     kids.load_data.slice(),
+            wikipedia: { url: "" }, gunDigest: { url: "" },
+        },
 
         rangeNotes: range ? {
             title:     "Range Visits & Results",
@@ -361,5 +362,15 @@ async function saveMarketValue(firearm, summary, sources) {
             await dbUpdate("transactions", { content: summary || null },
                 dbFilters({ item_id: firearm.itemId, transaction_type: "CurrentValue", source: e.source }));
         }
+    }
+}
+
+// Save the Load Data tab: a list of load recipes in `load_data`. The rows have
+// no identity the UI tracks, so this replaces the whole set for the firearm —
+// delete all, then insert what the form submitted.
+async function saveLoadData(firearm, rows) {
+    await dbDelete("load_data", dbFilters({ item_id: firearm.itemId }));
+    if (rows.length) {
+        await dbInsert("load_data", rows.map(r => ({ item_id: firearm.itemId, ...r })));
     }
 }

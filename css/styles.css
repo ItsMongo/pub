@@ -658,3 +658,55 @@ main {
 }
 .edit-msg { font-size: 0.8rem; color: #3a5c30; }
 .edit-msg.error { color: #a5311f; font-weight: 600; }
+
+/* Load Data — repeating blocks in the editor */
+.load-block {
+  border: 1px solid #7c8a6e;
+  border-radius: 5px;
+  padding: 8px 10px 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.load-block legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a523b;
+}
+.load-remove {
+  font: inherit;
+  font-size: 0.68rem;
+  padding: 1px 8px;
+  color: #a5311f;
+  background: transparent;
+  border: 1px solid #c9a99f;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.load-add {
+  align-self: flex-start;
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 3px 12px;
+  color: #f1efa0;
+  background: #266d33;
+  border: 1px solid #6aaf4c;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+/* Load Data — read view */
+.load-entry { margin-bottom: 14px; }
+.load-headline {
+  font-weight: 700;
+  color: #1a523b;
+  border-bottom: 1px solid #b6a985;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
+}

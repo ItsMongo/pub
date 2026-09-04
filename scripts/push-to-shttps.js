@@ -29,23 +29,16 @@
 
 const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
+const { create, argsFromProcess } = require("./lib/shttps-client");
 
 const ROOT     = path.resolve(__dirname, "..");
 const DB_PATH  = path.resolve(ROOT, process.env.DB || "data/firearms.db");
-const DRY_RUN  = process.argv.includes("--dry-run");
 const BATCH_BYTES = 48 * 1024; // keep each POST body well under any server limit
 
-// URL from the first non-flag argument, else the SHTTPS_URL env var.
-const urlArg = process.argv.slice(2).find(a => !a.startsWith("--"));
-const BASE   = (urlArg || process.env.SHTTPS_URL || "").replace(/\/$/, "");
-
-// Basic-auth credentials: --user=NAME --pass=SECRET  (or SHTTPS_USER / SHTTPS_PASS)
-const argVal = (name) => {
-    const hit = process.argv.find(a => a.startsWith(`--${name}=`));
-    return hit ? hit.slice(name.length + 3) : undefined;
-};
-const USER = argVal("user") || process.env.SHTTPS_USER;
-const PASS = argVal("pass") || process.env.SHTTPS_PASS || "";
+const args    = argsFromProcess();
+const BASE    = args.base;
+const DRY_RUN = args.flags.has("--dry-run");
+const client  = create(args);
 
 if (!BASE && !DRY_RUN) {
     console.error("Usage:  node scripts/push-to-shttps.js http://<shield-ip>:8080  [--dry-run]");
@@ -113,80 +106,13 @@ function chunkRows(rows, maxBytes) {
     return chunks;
 }
 
-// SHTTPS+'s login form hashes the password with this exact function (FNV-1a,
-// 32-bit) before POSTing it — see shttps-static-public/auth/login.js.
-function fnv1aHex(str) {
-    let h = 0x811c9dc5;
-    for (let i = 0; i < str.length; i++) {
-        h ^= str.charCodeAt(i);
-        h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
-    }
-    return (h >>> 0).toString(16);
-}
-
-let sessionCookie = null; // set if the server turns out to use session/web auth
-
-// Log in against session/web auth mode and remember the SESSION_ID cookie.
-async function sessionLogin() {
-    const body = new URLSearchParams({ username: USER, password: fnv1aHex(PASS) }).toString();
-    const res = await fetch(`${BASE}/api/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body,
-    });
-    if (res.status === 404) return false;               // route absent -> not session mode
-    if (!res.ok) throw new Error(`Session login failed (HTTP ${res.status}) — check --user / --pass.`);
-    const raw = (res.headers.getSetCookie?.() || [res.headers.get("set-cookie") || ""]).join("; ");
-    const m = raw.match(/SESSION_ID=([^;]+)/);
-    if (!m) throw new Error("Login succeeded but no SESSION_ID cookie came back.");
-    sessionCookie = `SESSION_ID=${m[1]}`;
-    return true;
-}
-
-// One authenticated request, with a one-time session-login retry if the server
-// turns out to be in session/web auth mode rather than Basic.
-async function apiFetch(pathAndQuery, { method, contentType, body }) {
-    const build = () => {
-        const headers = { "Content-Type": contentType };
-        if (sessionCookie) headers.Cookie = sessionCookie;
-        else if (USER) headers.Authorization =
-            "Basic " + Buffer.from(`${USER}:${PASS}`).toString("base64");
-        return fetch(`${BASE}${pathAndQuery}`, { method, headers, body });
-    };
-
-    let res = await build();
-    if (res.status === 401 && !sessionCookie && USER &&
-        !(res.headers.get("www-authenticate") || "").toLowerCase().includes("basic")) {
-        if (await sessionLogin()) res = await build();
-    }
-
-    const text = await res.text();
-    if (!res.ok) {
-        if (res.status === 401) throw new Error(
-            USER ? `HTTP 401 — credentials rejected. Check --user / --pass.`
-                 : `HTTP 401 — server needs auth. Re-run with  --user=NAME --pass=SECRET`);
-        if (res.status === 403) throw new Error(
-            `HTTP 403 — authenticated but not allowed. In SHTTPS+ turn on "Enable API to call ` +
-            `custom SQL" and "Enable API to modify tables data", and give this user the rights.`);
-        throw new Error(`HTTP ${res.status}: ${text.slice(0, 400)}`);
-    }
-    return text;
-}
-
-const runSql = (sql) =>
-    apiFetch(`/api/db/query?includeNames=true&limit=1000`, { method: "POST", contentType: "text/plain", body: sql });
-
-const insertRows = (table, rows) =>
-    apiFetch(`/api/db/insert`, {
-        method: "POST",
-        contentType: "application/x-www-form-urlencoded",
-        body: new URLSearchParams({ table, values: JSON.stringify(rows) }).toString(),
-    });
+const runSql      = (sql) => client.runSql(sql);
+const insertRows  = (table, rows) => client.insert(table, rows);
 
 async function verify(tables) {
     const sql = tables.map(t => `SELECT '${t}' AS t, COUNT(*) AS n FROM "${t}"`).join(" UNION ALL ");
     try {
-        const json = JSON.parse(await runSql(sql));
+        const json = await client.runSql(sql);
         console.log("\nRow counts on the server:");
         for (const row of json.data || []) console.log(`  ${String(row[0]).padEnd(18)} ${row[1]}`);
     } catch (e) {

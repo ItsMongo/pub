@@ -209,7 +209,37 @@ function loadTabs(firearm) {
 const EDITABLE_TABS = {
     purchase:    renderPurchaseEditor,
     marketValue: renderMarketValueEditor,
+    loadData:    renderLoadDataEditor,
 };
+
+// One reloading load recipe. Order = display order in the read view and editor.
+// `content` -> Notes, `source_url` -> Source link; the rest are load_data columns.
+const LOAD_FIELDS = [
+    { name: "load_date",             label: "Date",             type: "date" },
+    { name: "brass",                 label: "Brass",            type: "text" },
+    { name: "primer",                label: "Primer",           type: "text" },
+    { name: "powder",                label: "Powder",           type: "text" },
+    { name: "charge_grains",         label: "Charge (gr)",      type: "text" },
+    { name: "bullet_caliber",        label: "Bullet caliber",   type: "text" },
+    { name: "bullet_type",           label: "Bullet type",      type: "text" },
+    { name: "bullet_grains",         label: "Bullet wt (gr)",   type: "text" },
+    { name: "ballistic_coefficient", label: "Ballistic coeff.", type: "text" },
+    { name: "sectional_density",     label: "Sectional density", type: "text" },
+    { name: "velocity_fps",          label: "Velocity (fps)",   type: "text" },
+    { name: "content",               label: "Notes",            type: "textarea", rows: 2 },
+    { name: "source_url",            label: "Source",           type: "url" },
+];
+
+// A one-line summary of a load for the read-view / editor block headers.
+function loadHeadline(ld, i) {
+    const bits = [
+        ld.powder,
+        ld.charge_grains && ld.charge_grains + " gr",
+        ld.bullet_grains && ld.bullet_grains + " gr",
+        ld.bullet_type,
+    ].filter(Boolean);
+    return bits.join("  ·  ") || `Load ${i + 1}`;
+}
 
 function renderTabContent(firearm, tabKey) {
     const tab = firearm.tabs?.[tabKey];
@@ -285,7 +315,26 @@ function renderTabContent(firearm, tabKey) {
             break;
         }
 
-        // history, loadData, maintenance — plain text
+        case "loadData": {
+            const loads = tab.loads;
+            if (!loads) {                       // old / JSON-fallback shape
+                contentEl.textContent = tab.content || "—";
+                break;
+            }
+            if (!loads.length) { contentEl.innerHTML = "—"; break; }
+            contentEl.innerHTML = loads.map((ld, i) => {
+                const rows = LOAD_FIELDS
+                    .filter(f => f.name !== "content" && f.name !== "source_url" && ld[f.name])
+                    .map(f => [f.label, ld[f.name]]);
+                if (ld.content)    rows.push(["Notes", ld.content]);
+                if (ld.source_url) rows.push(["Source",
+                    `<a href="${ld.source_url}" target="_blank">${ld.source_url}</a>`]);
+                return `<div class="load-entry"><div class="load-headline">${loadHeadline(ld, i)}</div>${renderKV(rows)}</div>`;
+            }).join("");
+            break;
+        }
+
+        // history, maintenance — plain text
         default:
             contentEl.textContent = tab.content || "";
             break;
@@ -442,6 +491,74 @@ function renderMarketValueEditor(firearm) {
         GunBroker:  { value: fdNull(fd, "gb_value"), url: fdNull(fd, "gb_url"), note: fdNull(fd, "gb_note") },
         RockIsland: { value: fdNull(fd, "ri_value"), url: fdNull(fd, "ri_url"), note: fdNull(fd, "ri_note") },
     }));
+}
+
+// Load Data tab → a list of `load_data` rows. Repeating blocks, add/remove.
+function renderLoadDataEditor(firearm) {
+    const loads = (firearm.raw?.load_data || []).slice();
+    if (!loads.length) loads.push({});   // start with one blank block
+
+    const form = document.createElement("form");
+    form.className = "edit-form load-editor";
+
+    const blocksEl = document.createElement("div");
+    form.appendChild(blocksEl);
+
+    const addBlock = (data = {}) => {
+        const fs = document.createElement("fieldset");
+        fs.className = "load-block";
+
+        const legend = document.createElement("legend");
+        legend.textContent = "Load";
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "load-remove";
+        remove.textContent = "Remove";
+        remove.onclick = () => fs.remove();
+        legend.appendChild(remove);
+        fs.appendChild(legend);
+
+        for (const f of LOAD_FIELDS) {
+            const label = document.createElement("label");
+            label.textContent = f.label;
+            const el = document.createElement(f.type === "textarea" ? "textarea" : "input");
+            if (f.type === "textarea") el.rows = f.rows || 2;
+            else el.type = f.type || "text";
+            el.dataset.field = f.name;
+            el.value = data[f.name] != null ? data[f.name] : "";
+            label.appendChild(el);
+            fs.appendChild(label);
+        }
+        blocksEl.appendChild(fs);
+    };
+    loads.forEach(addBlock);
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "load-add";
+    addBtn.textContent = "+ Add load";
+    addBtn.onclick = () => addBlock();
+    form.appendChild(addBtn);
+
+    const actions = document.createElement("div");
+    actions.className = "edit-actions";
+    actions.innerHTML =
+        `<button type="submit" class="edit-save">Save</button>` +
+        `<button type="button" class="edit-cancel">Cancel</button>` +
+        `<span class="edit-msg" role="status"></span>`;
+    form.appendChild(actions);
+
+    mountEditor(firearm, "loadData", form, () => {
+        const rows = [...form.querySelectorAll(".load-block")].map(fs => {
+            const row = {};
+            for (const el of fs.querySelectorAll("[data-field]")) {
+                const v = el.value.trim();
+                row[el.dataset.field] = v === "" ? null : v;
+            }
+            return row;
+        }).filter(row => Object.values(row).some(v => v != null)); // drop empty blocks
+        return saveLoadData(firearm, rows);
+    });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
