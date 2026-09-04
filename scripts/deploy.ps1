@@ -1,60 +1,96 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# scripts/deploy.ps1 — push the web app from this dev folder to the Shield's
-# served folder (mounted locally as Z:). Static files only.
+# -----------------------------------------------------------------------------
+# scripts/deploy.ps1 - push the web app from this dev folder to the Shield's
+# served folder (mounted locally as Z:, an SMB share over WiFi).
 #
 #   powershell -ExecutionPolicy Bypass -File scripts/deploy.ps1
 #   powershell -ExecutionPolicy Bypass -File scripts/deploy.ps1 -WhatIf
 #
-# The DATABASE is not deployed this way — SHTTPS+ on Android keeps its own
+# Copies only the app files that change, one at a time with plain Copy-Item.
+# robocopy is avoided here: it tries to replicate NTFS attributes onto the
+# Android SMB share, which rejects them, and its default retry policy then
+# hangs for many minutes. Nothing on the target is ever deleted, so images/
+# and flags/ are left alone.
+#
+# The DATABASE is not deployed this way - SHTTPS+ on Android keeps its own
 # database.db and is updated over the network:
-#   $env:SHTTPS_URL='http://<shield-ip>:8080'; node scripts/push-to-shttps.js
-# ─────────────────────────────────────────────────────────────────────────────
+#   node scripts/push-to-shttps.js http://<shield-ip>:8080 --user=NAME --pass=SECRET
+# -----------------------------------------------------------------------------
 
 param(
     [string]$Target = 'Z:\Docs\code\collection\pub',
     [switch]$WhatIf
 )
 
-$ErrorActionPreference = 'Stop'
 $src = Split-Path -Parent $PSScriptRoot   # the pub/ folder
 
-if (-not (Test-Path $Target)) {
-    Write-Error "Target not found: $Target  (is the Shield drive mounted?)"
+if (-not (Test-Path -LiteralPath $Target)) {
+    Write-Error "Target not found: $Target  (is the Shield share mounted / awake?)"
+    exit 1
 }
 
-# Files/folders the running app actually needs. images/ and flags/ are big and
-# already on the Shield — deploy those manually when they change.
-$items = @(
+# Exactly the files the running app loads. Relative paths under pub/.
+$files = @(
     'mycollection.html',
-    'css',
-    'js',
-    'data\firearms.json'   # fallback snapshot used by js/db.js when the API is down
+    'js\app.js',
+    'js\db.js',
+    'css\styles.css',
+    'data\firearms.json'
 )
+
+function Get-Md5($p) {
+    if (-not (Test-Path -LiteralPath $p)) { return $null }
+    (Get-FileHash -LiteralPath $p -Algorithm MD5).Hash
+}
 
 Write-Host "Deploy  $src  ->  $Target" -ForegroundColor Cyan
 
-foreach ($item in $items) {
-    $from = Join-Path $src $item
-    if (-not (Test-Path $from)) { Write-Warning "skip (missing): $item"; continue }
+$copied = 0
+$failed = 0
+foreach ($rel in $files) {
+    $from = Join-Path $src    $rel
+    $to   = Join-Path $Target $rel
 
-    if ((Get-Item $from).PSIsContainer) {
-        $to = Join-Path $Target $item
-        $rc = @($from, $to, '/E', '/PURGE', '/NFL', '/NDL', '/NJH', '/NJS', '/NP')
-        if ($WhatIf) { $rc += '/L' }
-        robocopy @rc | Out-Null
-        Write-Host "  dir   $item" -ForegroundColor Green
-    } else {
-        $to = Join-Path $Target $item
-        if ($WhatIf) {
-            Write-Host "  file  $item  (would copy)" -ForegroundColor DarkGray
-        } else {
-            New-Item -ItemType Directory -Force -Path (Split-Path $to) | Out-Null
-            Copy-Item $from $to -Force
-            Write-Host "  file  $item" -ForegroundColor Green
-        }
+    if (-not (Test-Path -LiteralPath $from)) {
+        Write-Warning "skip (missing locally): $rel"
+        continue
+    }
+
+    if ((Get-Md5 $from) -eq (Get-Md5 $to)) {
+        Write-Host ("  {0,-22} already current" -f $rel) -ForegroundColor DarkGray
+        continue
+    }
+
+    if ($WhatIf) {
+        Write-Host ("  {0,-22} would copy" -f $rel) -ForegroundColor Yellow
+        continue
+    }
+
+    $toDir = Split-Path -Parent $to
+    if (-not (Test-Path -LiteralPath $toDir)) {
+        New-Item -ItemType Directory -Path $toDir -Force | Out-Null
+    }
+
+    try {
+        Copy-Item -LiteralPath $from -Destination $to -Force -ErrorAction Stop
+        Write-Host ("  {0,-22} copied" -f $rel) -ForegroundColor Green
+        $copied++
+    }
+    catch {
+        Write-Host ("  {0,-22} FAILED - {1}" -f $rel, $_.Exception.Message) -ForegroundColor Red
+        $failed++
     }
 }
 
 Write-Host ""
-Write-Host "Static files deployed." -ForegroundColor Cyan
-Write-Host "Remember: to update the live data, run push-to-shttps.js against the Shield." -ForegroundColor Yellow
+if ($WhatIf) {
+    Write-Host "(dry run - nothing copied)" -ForegroundColor Cyan
+}
+else {
+    $tail = "$copied file(s) updated on the Shield."
+    if ($failed -gt 0) {
+        $tail = "$copied updated, $failed FAILED - rerun; the share may have dropped."
+    }
+    Write-Host $tail -ForegroundColor Cyan
+    Write-Host "Data changes go separately:" -ForegroundColor Yellow
+    Write-Host "  node scripts/push-to-shttps.js http://<shield-ip>:8080 --user=NAME --pass=SECRET" -ForegroundColor Yellow
+}
