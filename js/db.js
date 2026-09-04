@@ -270,6 +270,14 @@ function dbUpdate(table, values, filters) {
     });
 }
 
+// DELETE /api/db/delete — delete the rows matching `filters`.
+function dbDelete(table, filters) {
+    return dbWrite("delete", "DELETE", {
+        table,
+        filters: JSON.stringify(filters),
+    });
+}
+
 // Re-fetch one firearm's rows and return a freshly shaped object. Call after a
 // save so the in-memory copy matches the database.
 async function reloadFirearm(itemId) {
@@ -305,4 +313,53 @@ async function savePurchase(firearm, values) {
         transaction_type: "Purchase",
         ...values,
     });
+}
+
+// Save the Market Value tab: one CurrentValue `transactions` row per source
+// (GunBroker, RockIsland), sharing one `summary`.
+//
+//   - a source row exists iff it has a value, link or note of its own
+//   - clearing all three of a source's fields deletes its row
+//   - `summary` is mirrored onto whatever source rows survive; it has no home
+//     of its own, so a summary with no source data can't be saved
+async function saveMarketValue(firearm, summary, sources) {
+    const existing = (firearm.raw?.transactions || [])
+        .filter(t => t.transaction_type === "CurrentValue");
+
+    const anyData = Object.values(sources).some(s => s.value || s.url || s.note);
+    if (summary && !anyData) {
+        throw new Error("Add a value or link for GunBroker or Rock Island before saving a summary.");
+    }
+
+    for (const [source, s] of Object.entries(sources)) {
+        const row  = existing.find(e => e.source === source);
+        const has  = !!(s.value || s.url || s.note);
+        const filt = dbFilters({
+            item_id: firearm.itemId, transaction_type: "CurrentValue", source,
+        });
+        if (has) {
+            const vals = {
+                price:   s.value || null,
+                url:     s.url   || null,
+                notes:   s.note  || null,
+                content: summary || null,
+            };
+            if (row) await dbUpdate("transactions", vals, filt);
+            else await dbInsert("transactions", {
+                item_id: firearm.itemId, transaction_type: "CurrentValue", source, ...vals,
+            });
+        } else if (row) {
+            await dbDelete("transactions", filt);
+        }
+    }
+
+    // Keep the shared summary in sync on any CurrentValue rows from other
+    // sources that this form does not expose.
+    const handled = new Set(Object.keys(sources));
+    for (const e of existing) {
+        if (e.source && !handled.has(e.source)) {
+            await dbUpdate("transactions", { content: summary || null },
+                dbFilters({ item_id: firearm.itemId, transaction_type: "CurrentValue", source: e.source }));
+        }
+    }
 }

@@ -621,6 +621,15 @@ main {
 .edit-form input:focus,
 .edit-form textarea:focus { outline: 2px solid #6aaf4c; border-color: #6aaf4c; }
 
+.edit-group-heading {
+  margin-top: 6px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #7c8a6e;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a523b;
+}
+
 .edit-actions {
   display: flex;
   align-items: center;
