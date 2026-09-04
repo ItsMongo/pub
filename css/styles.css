@@ -570,3 +570,82 @@ main {
 .mv-value { margin-left: 8px; color: #333; }
 .mv-link  { margin-left: 8px; color: #266d33; font-size: 0.82rem; }
 .mv-date  { font-size: 0.78rem; color: #666; margin-top: 2px; }
+
+/* ── Inline editing ───────────────────────────────────────────────────────── */
+.tab-edit-btn {
+  margin-left: 12px;
+  vertical-align: middle;
+  font: inherit;
+  font-size: 0.7rem;
+  padding: 2px 9px;
+  cursor: pointer;
+  color: #f1efa0;
+  background: #266d33;
+  border: 1px solid #6aaf4c;
+  border-radius: 4px;
+}
+.tab-edit-btn:hover { background: #1a523b; }
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  white-space: normal;   /* .scrollableTextContent sets pre-wrap */
+  margin-top: 4px;
+}
+.edit-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #3a5c30;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.edit-form input,
+.edit-form textarea {
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-color);
+  padding: 5px 7px;
+  border: 1px solid #7c8a6e;
+  border-radius: 4px;
+  background: #f3e6c8;
+  box-sizing: border-box;
+}
+.edit-form textarea { resize: vertical; }
+.edit-form input:focus,
+.edit-form textarea:focus { outline: 2px solid #6aaf4c; border-color: #6aaf4c; }
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+.edit-save,
+.edit-cancel {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 5px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.edit-save {
+  color: #f1efa0;
+  background: #266d33;
+  border: 1px solid #6aaf4c;
+}
+.edit-save:hover { background: #1a523b; }
+.edit-save:disabled { opacity: 0.6; cursor: default; }
+.edit-cancel {
+  color: #3a5c30;
+  background: transparent;
+  border: 1px solid #7c8a6e;
+}
+.edit-msg { font-size: 0.8rem; color: #3a5c30; }
+.edit-msg.error { color: #a5311f; font-weight: 600; }

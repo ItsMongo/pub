@@ -205,11 +205,27 @@ function loadTabs(firearm) {
     renderTabContent(firearm, currentTab);
 }
 
+// Tabs that have an inline editor (see edit section below).
+const EDITABLE_TABS = { purchase: renderPurchaseEditor };
+
 function renderTabContent(firearm, tabKey) {
     const tab = firearm.tabs?.[tabKey];
     if (!tab) return;
 
     document.getElementById("scrollableTextTitle").textContent = tab.title || "";
+
+    // Show an "Edit" button next to the title for editable tabs, but only when
+    // we're on the live database (the JSON fallback can't be written to).
+    const titleWrap = document.querySelector(".scrollableTextTitle");
+    titleWrap.querySelector(".tab-edit-btn")?.remove();
+    if (EDITABLE_TABS[tabKey] && typeof isDbLive === "function" && isDbLive()) {
+        const btn = document.createElement("button");
+        btn.className = "tab-edit-btn";
+        btn.type = "button";
+        btn.textContent = "✎ Edit";
+        btn.onclick = () => EDITABLE_TABS[tabKey](firearm);
+        titleWrap.appendChild(btn);
+    }
 
     // Wiki / GunDigest links — safe, shows "—" if url is blank
     const wikiUrl = tab.wikipedia?.url  || "";
@@ -225,10 +241,12 @@ function renderTabContent(firearm, tabKey) {
 
         case "purchase": {
             const rows = [
-                tab.content  ? ["Listing",   tab.content]  : null,
+                tab.date     ? ["Date",    tab.date]     : null,
                 tab.price    ? ["Price",   tab.price]    : null,
                 tab.location ? ["Source",  tab.location] : null,
-                tab.notes    ? ["Notes", tab.notes]    : null,
+                tab.url      ? ["Link",    `<a href="${tab.url}" target="_blank">${tab.url}</a>`] : null,
+                tab.content  ? ["Listing", tab.content]  : null,
+                tab.notes    ? ["Notes",   tab.notes]    : null,
             ].filter(Boolean);
             contentEl.innerHTML = renderKV(rows);
             break;
@@ -282,19 +300,114 @@ function renderKV(rows) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Image handling (unchanged)
+// Inline editing
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Swap a freshly reloaded firearm into both working lists after a save.
+function replaceFirearm(fresh) {
+    for (const list of [firearms, filteredFirearms]) {
+        const i = list.findIndex(f => f.itemId === fresh.itemId);
+        if (i !== -1) list[i] = fresh;
+    }
+}
+
+// Purchase tab editor. Maps to the single `transactions` row where
+// transaction_type = 'Purchase' (db.js savePurchase handles insert vs update).
+function renderPurchaseEditor(firearm) {
+    const contentEl = document.getElementById("scrollableTextContent");
+    const p = (firearm.raw?.transactions || [])
+        .find(t => t.transaction_type === "Purchase") || {};
+
+    const fields = [
+        { name: "date",     label: "Purchase date", type: "date" },
+        { name: "price",    label: "Price",         type: "text", placeholder: "$0.00" },
+        { name: "location", label: "Source",        type: "text", placeholder: "Seller / dealer / location" },
+        { name: "url",      label: "Link",          type: "url",  placeholder: "https://…" },
+        { name: "content",  label: "Listing",       type: "textarea", rows: 4 },
+        { name: "notes",    label: "Notes",         type: "textarea", rows: 3 },
+    ];
+
+    const form = document.createElement("form");
+    form.className = "edit-form";
+
+    for (const f of fields) {
+        const label = document.createElement("label");
+        label.textContent = f.label;
+        const input = document.createElement(f.type === "textarea" ? "textarea" : "input");
+        if (f.type === "textarea") input.rows = f.rows;
+        else input.type = f.type;
+        if (f.placeholder) input.placeholder = f.placeholder;
+        input.name = f.name;
+        input.value = p[f.name] != null ? p[f.name] : "";
+        label.appendChild(input);
+        form.appendChild(label);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "edit-actions";
+    actions.innerHTML =
+        `<button type="submit" class="edit-save">Save</button>` +
+        `<button type="button" class="edit-cancel">Cancel</button>` +
+        `<span class="edit-msg" role="status"></span>`;
+    form.appendChild(actions);
+
+    contentEl.innerHTML = "";
+    contentEl.appendChild(form);
+
+    const msg = actions.querySelector(".edit-msg");
+    actions.querySelector(".edit-cancel").onclick =
+        () => renderTabContent(firearm, "purchase");
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const saveBtn = actions.querySelector(".edit-save");
+        saveBtn.disabled = true;
+        msg.className = "edit-msg";
+        msg.textContent = "Saving…";
+
+        // Empty string -> null so blank fields clear the column.
+        const values = {};
+        for (const f of fields) {
+            const v = form.elements[f.name].value.trim();
+            values[f.name] = v === "" ? null : v;
+        }
+
+        try {
+            await savePurchase(firearm, values);
+            const fresh = await reloadFirearm(firearm.itemId);
+            replaceFirearm(fresh);
+            loadTabs(fresh); // re-render the tab from the refreshed record
+        } catch (err) {
+            msg.className = "edit-msg error";
+            msg.textContent = "Save failed: " + err.message;
+            saveBtn.disabled = false;
+        }
+    };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Image handling
 // ─────────────────────────────────────────────────────────────────────────────
 async function loadImages(firearm) {
     const thumbnailStrip = document.getElementById("thumbnailStrip");
     const fullImage      = document.getElementById("fullImage");
 
     thumbnailStrip.innerHTML = "";
-
-    const basePath = `../images/${firearm.imageID}/`;
-    const response = await fetch(basePath + "images.json");
-    const files    = await response.json();
-
     images = [];
+
+    // Not every firearm has an image folder yet — treat a missing/!ok
+    // images.json as "no images" rather than throwing.
+    const basePath = `../images/${firearm.imageID}/`;
+    let files = [];
+    try {
+        const response = await fetch(basePath + "images.json");
+        if (response.ok) files = await response.json();
+    } catch { /* no images for this item */ }
+
+    if (!files.length) {
+        fullImage.removeAttribute("src");
+        return;
+    }
 
     files.forEach((file, idx) => {
         const src = basePath + file;

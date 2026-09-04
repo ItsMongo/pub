@@ -33,12 +33,31 @@ const DB_API_BASE =
 // renders (read-only, possibly stale). Set window.DB_NO_FALLBACK to disable.
 const DB_FALLBACK_URL = "data/firearms.json";
 
+// True once loadCollection() has read from the live API. Editing is only
+// possible when this is true (the JSON fallback is read-only).
+let dbLive = false;
+function isDbLive() { return dbLive; }
+
+// SHTTPS+ filter object: column names carry an operator suffix, values are bound.
+//   dbFilters({ item_id: "LE41", transaction_type: "Purchase" })
+//   -> { clauses: ["item_id=", "transaction_type="], args: ["LE41", "Purchase"] }
+function dbFilters(equals) {
+    const clauses = [], args = [];
+    for (const [col, val] of Object.entries(equals)) {
+        clauses.push(col + "=");
+        args.push(val);
+    }
+    return { clauses, args };
+}
+
 // ── low-level API calls ──────────────────────────────────────────────────────
 
-// GET /api/db/table — returns every row of one table as an array of objects.
-async function dbTable(table) {
-    const url = `${DB_API_BASE}/table?table=${encodeURIComponent(table)}`
-              + `&rowsAsObjects=true&limit=1000000`;
+// GET /api/db/table — returns rows of one table as an array of objects.
+// Pass `filters` (a dbFilters() object) to restrict to matching rows.
+async function dbTable(table, filters) {
+    let url = `${DB_API_BASE}/table?table=${encodeURIComponent(table)}`
+            + `&rowsAsObjects=true&limit=1000000`;
+    if (filters) url += `&filters=${encodeURIComponent(JSON.stringify(filters))}`;
     const res = await fetch(url, { headers: { Accept: "application/json" } });
     if (!res.ok) {
         throw new Error(`DB API ${res.status} ${res.statusText} for table "${table}"`);
@@ -101,9 +120,11 @@ function buildTabs(item, kids) {
 
         purchase: purchase ? {
             title:     "Purchase History",
+            date:      purchase.date     || "",
             content:   purchase.content  || "",
             price:     purchase.price    || "",
             location:  purchase.location || "",
+            url:       purchase.url      || "",
             notes:     purchase.notes    || "",
             wikipedia: { url: "" }, gunDigest: { url: "" },
         } : {},
@@ -153,6 +174,9 @@ function shapeFirearm(item, childMaps) {
     return {
         itemId:         item.item_id,   // stable key — needed by the edit features
         imageID:        item.item_id,   // image folders are named by item_id
+        // Raw DB rows (real column names + primary keys) for the edit features.
+        // Display code uses `tabs` below; edit code uses `raw`.
+        raw:            { item, ...kids },
         type:           item.type              || "",
         make:           item.make              || "",
         model:          item.model             || "",
@@ -200,6 +224,7 @@ async function loadCollection() {
             transactions:    groupByItem(transactions),
         };
 
+        dbLive = true;
         return items.map(item => shapeFirearm(item, childMaps));
     } catch (err) {
         if (typeof window !== "undefined" && window.DB_NO_FALLBACK) throw err;
@@ -207,10 +232,77 @@ async function loadCollection() {
             `[db.js] Database API unreachable (${err.message}). ` +
             `Falling back to ${DB_FALLBACK_URL} — data may be stale, editing disabled.`
         );
+        dbLive = false;
         const res = await fetch(DB_FALLBACK_URL);
         if (!res.ok) {
             throw new Error(`Fallback ${DB_FALLBACK_URL} failed too: ${res.status}`);
         }
         return await res.json();
     }
+}
+
+// ── writes ──────────────────────────────────────────────────────────────────
+// The browser sends the viewer's cached Basic credentials / session cookie
+// automatically (same origin), so these need no auth handling of their own.
+
+async function dbWrite(endpoint, method, fields) {
+    const res = await fetch(`${DB_API_BASE}/${endpoint}`, {
+        method,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(fields).toString(),
+    });
+    const text = await res.text();
+    if (!res.ok) throw new Error(`${endpoint} failed (${res.status}): ${text.slice(0, 200)}`);
+    try { return JSON.parse(text); } catch { return {}; }
+}
+
+// POST /api/db/insert — insert one row. `values` is a column→value object.
+function dbInsert(table, values) {
+    return dbWrite("insert", "POST", { table, values: JSON.stringify(values) });
+}
+
+// PUT /api/db/update — update the rows matching `filters` (a dbFilters() object).
+function dbUpdate(table, values, filters) {
+    return dbWrite("update", "PUT", {
+        table,
+        values: JSON.stringify(values),
+        filters: JSON.stringify(filters),
+    });
+}
+
+// Re-fetch one firearm's rows and return a freshly shaped object. Call after a
+// save so the in-memory copy matches the database.
+async function reloadFirearm(itemId) {
+    const f = dbFilters({ item_id: itemId });
+    const [items, load_data, range_notes, service_history, transactions] =
+        await Promise.all([
+            dbTable("items", f),
+            dbTable("load_data", f),
+            dbTable("range_notes", f),
+            dbTable("service_history", f),
+            dbTable("transactions", f),
+        ]);
+    if (!items.length) throw new Error(`Firearm "${itemId}" not found after reload`);
+    return shapeFirearm(items[0], {
+        load_data:       groupByItem(load_data),
+        range_notes:     groupByItem(range_notes),
+        service_history: groupByItem(service_history),
+        transactions:    groupByItem(transactions),
+    });
+}
+
+// Upsert the single Purchase row for a firearm. `values` holds the editable
+// columns (date, price, location, url, content, notes).
+async function savePurchase(firearm, values) {
+    const existing = (firearm.raw?.transactions || [])
+        .find(t => t.transaction_type === "Purchase");
+    if (existing) {
+        return dbUpdate("transactions", values,
+            dbFilters({ item_id: firearm.itemId, transaction_type: "Purchase" }));
+    }
+    return dbInsert("transactions", {
+        item_id: firearm.itemId,
+        transaction_type: "Purchase",
+        ...values,
+    });
 }
