@@ -818,7 +818,7 @@ const isImageName    = (name) => IMG_EXTS.includes((name || "").split(".").pop()
 // ── purchase documents ──────────────────────────────────────────────────────
 // transactions.docs (Purchase row) is JSON: [{filename, title, type}].
 
-const DOC_TYPES = ["Bill of Sale", "Transfer", "Auction Listing", "Correspondence", "Certificate", "Bringback Doc"];
+const DOC_TYPES = ["Bill of Sale", "Transfer", "Auction Listing", "Manual","Correspondence", "Certificate", "Bringback Doc"];
 
 const parseDocs = (json) => {
     try { const a = JSON.parse(json || "[]"); return Array.isArray(a) ? a : []; }
