@@ -251,16 +251,19 @@ const MAINT_FIELDS = [
 const TAB_LISTS = {
     loadData: {
         table: "load_data", pk: "load_id", singular: "Load", addLabel: "+ Add load", fields: LOAD_FIELDS,
+        snippet: "content",
         headline: (r, i) => [r.powder, withUnit(r.charge_grains, "gr"),
             withUnit(r.bullet_grains, "gr"), r.bullet_type].filter(Boolean).join(dot) || `Load ${i + 1}`,
     },
     rangeNotes: {
         table: "range_notes", pk: "range_id", singular: "Visit", addLabel: "+ Add visit", fields: RANGE_FIELDS,
+        snippet: "notes",
         headline: (r, i) => [r.date, withUnit(r.distance_yards, "yd"),
             withUnit(r.accuracy_moa, "MOA")].filter(Boolean).join(dot) || `Visit ${i + 1}`,
     },
     maintenance: {
         table: "service_history", pk: "service_id", singular: "Service", addLabel: "+ Add service", fields: MAINT_FIELDS,
+        snippet: "description",
         headline: (r, i) => [r.date, r.svc_type].filter(Boolean).join(dot) || `Service ${i + 1}`,
     },
 };
@@ -566,9 +569,9 @@ function renderMarketValueEditor(firearm) {
     }));
 }
 
-// Summary (read) view for a list tab: every record with per-record Edit /
-// Remove buttons, and an Add button at the bottom. Editing is one record at a
-// time via renderRecordEditor.
+// Summary (read) view for a list tab. Each record is collapsed to a headline
+// (plus a one-line snippet) with an expand/collapse toggle; expanding shows the
+// full detail and per-record Edit / Remove. An Add button sits at the bottom.
 function renderRecordSummary(firearm, tabKey) {
     const cfg = TAB_LISTS[tabKey];
     const tab = firearm.tabs[tabKey];
@@ -582,13 +585,22 @@ function renderRecordSummary(firearm, tabKey) {
 
     rows.forEach((row, i) => {
         const entry = document.createElement("div");
-        entry.className = "load-entry";
+        entry.className = "load-entry collapsed";
 
+        // ── headline: chevron + summary (click to toggle) + actions ──
         const head = document.createElement("div");
         head.className = "load-headline";
-        const title = document.createElement("span");
-        title.textContent = cfg.headline(row, i);
-        head.appendChild(title);
+
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "entry-toggle";
+        toggle.innerHTML = `<span class="chevron">▸</span><span>${cfg.headline(row, i)}</span>`;
+        toggle.onclick = () => {
+            const collapsed = entry.classList.toggle("collapsed");
+            toggle.querySelector(".chevron").textContent = collapsed ? "▸" : "▾";
+        };
+        head.appendChild(toggle);
+
         if (live) {
             const acts = document.createElement("span");
             acts.className = "entry-actions";
@@ -603,6 +615,20 @@ function renderRecordSummary(firearm, tabKey) {
         }
         entry.appendChild(head);
 
+        // ── snippet line (shown while collapsed) ──
+        const snippet = cfg.snippet && row[cfg.snippet];
+        if (snippet) {
+            const sn = document.createElement("div");
+            sn.className = "entry-snippet";
+            sn.textContent = String(snippet).replace(/\s+/g, " ").slice(0, 100)
+                + (String(snippet).length > 100 ? "…" : "");
+            entry.appendChild(sn);
+        }
+
+        // ── details (shown while expanded) ──
+        const details = document.createElement("div");
+        details.className = "entry-details";
+
         const kv = cfg.fields
             .filter(f => f.name !== "targets" && row[f.name])
             .map(f => [f.label, f.type === "url"
@@ -610,7 +636,7 @@ function renderRecordSummary(firearm, tabKey) {
                 : row[f.name]]);
         const kvWrap = document.createElement("div");
         kvWrap.innerHTML = renderKV(kv);
-        entry.appendChild(kvWrap);
+        details.appendChild(kvWrap);
 
         const names = parseTargets(row.targets);
         if (names.length) {
@@ -620,8 +646,10 @@ function renderRecordSummary(firearm, tabKey) {
                 const src = `../images/${firearm.imageID}/targets/${n}`;
                 return `<a href="${src}" target="_blank" class="target-thumb"><img src="${src}" alt="target"></a>`;
             }).join("");
-            entry.appendChild(grid);
+            details.appendChild(grid);
         }
+        entry.appendChild(details);
+
         contentEl.appendChild(entry);
     });
 

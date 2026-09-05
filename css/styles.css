@@ -705,18 +705,47 @@ main {
 .load-add:hover { background: #1a523b; }
 
 /* List tabs — summary (read) view */
-.load-entry { margin-bottom: 14px; white-space: normal; }
+.load-entry { margin-bottom: 10px; white-space: normal; }
 .load-headline {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  font-weight: 700;
-  color: #1a523b;
   border-bottom: 1px solid #b6a985;
   padding-bottom: 2px;
   margin-bottom: 3px;
 }
+.entry-toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font: inherit;
+  font-weight: 700;
+  color: #1a523b;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+}
+.entry-toggle > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chevron { font-size: 0.7rem; flex-shrink: 0; color: #3a5c30; }
+
+.entry-snippet {
+  font-size: 0.82rem;
+  color: #5a5a45;
+  padding: 2px 0 0 14px;
+}
+.load-entry:not(.collapsed) .entry-snippet { display: none; }
+.load-entry.collapsed .entry-details { display: none; }
+.entry-details { padding-left: 6px; }
+
 .entry-actions { display: inline-flex; gap: 6px; flex-shrink: 0; }
 .entry-edit,
 .entry-remove {
