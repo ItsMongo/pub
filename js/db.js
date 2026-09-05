@@ -195,6 +195,8 @@ function shapeFirearm(item, childMaps) {
         weight:         item.weight            || "",
         makerLogo:      item.maker_logo        || "",
         note:           item.note              || "",
+        disposed:       item.disposed === "1" || item.disposed === 1,
+        disposedDate:   item.disposed_date     || "",
         tabs:           buildTabs(item, kids),
     };
 }
@@ -292,6 +294,18 @@ async function reloadFirearm(itemId) {
         service_history: groupByItem(service_history),
         transactions:    groupByItem(transactions),
     });
+}
+
+// ── items (header specs + History) ──────────────────────────────────────────
+
+// Update columns on one firearm's `items` row.
+function saveItem(itemId, values) {
+    return dbUpdate("items", values, dbFilters({ item_id: itemId }));
+}
+
+// Insert a new firearm. `values` must include item_id.
+function addFirearm(values) {
+    return dbInsert("items", values);
 }
 
 // Upsert the single Purchase row for a firearm. `values` holds the editable

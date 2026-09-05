@@ -337,6 +337,36 @@ main {
     white-space: nowrap;
 }
 
+/* Sold / disposed badge */
+.h-disposed {
+    margin-top: 4px;
+    align-self: flex-start;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    color: #fff;
+    background: #a5311f;
+    border-radius: 3px;
+    padding: 2px 6px;
+}
+
+/* Add / Edit firearm buttons in the nav column */
+.nav-manage { display: flex; gap: 5px; margin-top: 4px; }
+.nav-manage-btn {
+    flex: 1;
+    font-family: monospace;
+    font-size: 0.66rem;
+    padding: 3px 4px;
+    color: #f1efa0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.nav-manage-btn:hover { background: #266d33; border-color: #6aaf4c; }
+
 /* Generic label inside header */
 .h-label {
     font-size: 0.7rem;
@@ -622,6 +652,15 @@ main {
 .edit-form input:focus,
 .edit-form textarea:focus,
 .edit-form select:focus { outline: 2px solid #6aaf4c; border-color: #6aaf4c; }
+
+.edit-form label.check-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.edit-form label.check-row input { width: auto; padding: 0; }
 
 .edit-group-heading {
   margin-top: 6px;

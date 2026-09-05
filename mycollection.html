@@ -25,6 +25,7 @@
                 <span class="h-label">Serial:</span>
                 <span class="heading3" id="serialNum"></span>
             </div>
+            <div class="h-disposed" id="disposedBadge" hidden></div>
         </div>
 
         <!-- ② Specs -->
@@ -84,6 +85,10 @@
                 <button class="nav-arrow" onclick="prevImage()" title="Previous image">&#8249;</button>
                 <span class="nav-images-label">Images</span>
                 <button class="nav-arrow" onclick="nextImage()" title="Next image">&#8250;</button>
+            </div>
+            <div class="nav-manage">
+                <button id="editFirearmBtn" class="nav-manage-btn" type="button" hidden>&#9998; Edit Firearm</button>
+                <button id="addFirearmBtn" class="nav-manage-btn" type="button" hidden>+ Add Firearm</button>
             </div>
         </div>
 

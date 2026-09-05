@@ -31,6 +31,10 @@ const WANT = {
     transactions: [
         "docs",   // JSON [{filename,title,type}] — purchase documents/receipts
     ],
+    items: [
+        "disposed",       // "1" when sold / disposed of
+        "disposed_date",  // when (ISO date)
+    ],
 };
 
 const a       = argsFromProcess();

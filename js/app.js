@@ -52,14 +52,12 @@ async function loadData() {
 // ─────────────────────────────────────────────────────────────────────────────
 // Type toggle filter
 // ─────────────────────────────────────────────────────────────────────────────
-function initTypeSelector() {
+// (Re)build the type toggle buttons + hidden select from the current master list.
+function populateTypeToggles() {
     const group      = document.getElementById("typeToggleGroup");
     const typeSelect = document.getElementById("typeSelector"); // hidden, kept for compat
+    const types = [...new Set(firearms.map(c => c.type).filter(Boolean))].sort();
 
-    // Unique types from master list, preserving sorted order
-    const types = [...new Set(firearms.map(c => c.type))].sort();
-
-    // Populate hidden select (for any external JS that may read it)
     typeSelect.innerHTML = "";
     [{ value: "", label: "All" }, ...types.map(t => ({ value: t, label: t }))]
         .forEach(({ value, label }) => {
@@ -69,10 +67,8 @@ function initTypeSelector() {
             typeSelect.appendChild(opt);
         });
 
-    // Build visible toggle buttons — "All" first, then each type
     group.innerHTML = "";
-    const allTypes = ["", ...types];
-    allTypes.forEach(t => {
+    ["", ...types].forEach(t => {
         const btn = document.createElement("button");
         btn.className   = "type-toggle" + (t === activeType ? " active" : "");
         btn.dataset.type = t;
@@ -80,22 +76,20 @@ function initTypeSelector() {
         btn.title        = t || "Show all types";
         group.appendChild(btn);
     });
+}
 
-    // Click handler
-    group.addEventListener("click", e => {
+function initTypeSelector() {
+    populateTypeToggles();
+
+    // Delegated click handler — wired once; survives populateTypeToggles() rebuilds.
+    document.getElementById("typeToggleGroup").addEventListener("click", e => {
         const btn = e.target.closest(".type-toggle");
         if (!btn) return;
 
         activeType = btn.dataset.type;
+        populateTypeToggles();
+        document.getElementById("typeSelector").value = activeType;
 
-        // Update toggle active state
-        group.querySelectorAll(".type-toggle")
-             .forEach(b => b.classList.toggle("active", b.dataset.type === activeType));
-
-        // Sync hidden select
-        typeSelect.value = activeType;
-
-        // Rebuild filtered list and dropdown, reset to first item
         filteredFirearms = activeType
             ? firearms.filter(c => c.type === activeType)
             : firearms.slice();
@@ -149,11 +143,27 @@ document.getElementById("nextBtn").onclick = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Add / Edit firearm (nav tools)
+// ─────────────────────────────────────────────────────────────────────────────
+document.getElementById("addFirearmBtn").onclick  = () => renderItemEditor(null);
+document.getElementById("editFirearmBtn").onclick = () => renderItemEditor(filteredFirearms[currentIndex]);
+
+// ─────────────────────────────────────────────────────────────────────────────
 // updateUI — drives all header fields from filteredFirearms[currentIndex]
 // ─────────────────────────────────────────────────────────────────────────────
 function updateUI() {
     const c = filteredFirearms[currentIndex];
+    const live = typeof isDbLive === "function" && isDbLive();
+    document.getElementById("addFirearmBtn").hidden  = !live;           // works with an empty list
+    document.getElementById("editFirearmBtn").hidden = !live || !c;
+    document.getElementById("manageImagesBtn").hidden = !live || !c;
     if (!c) return;
+
+    const badge = document.getElementById("disposedBadge");
+    badge.hidden = !c.disposed;
+    badge.textContent = c.disposed
+        ? (c.disposedDate ? `SOLD / DISPOSED · ${c.disposedDate}` : "SOLD / DISPOSED")
+        : "";
 
     document.getElementById("titleMake").textContent    = c.make;
     document.getElementById("titleModel").textContent   = c.model;
@@ -272,6 +282,7 @@ const TAB_LISTS = {
 // (loadData / rangeNotes / maintenance) render per-record Edit/Remove/Add
 // controls in the summary view instead — see renderRecordSummary.
 const EDITABLE_TABS = {
+    history:     renderHistoryEditor,
     purchase:    renderPurchaseEditor,
     marketValue: renderMarketValueEditor,
 };
@@ -402,6 +413,11 @@ function makeFieldEl(f, value) {
     } else if (f.type === "textarea") {
         el = document.createElement("textarea");
         el.rows = f.rows || 3;
+    } else if (f.type === "checkbox") {
+        el = document.createElement("input");
+        el.type = "checkbox";
+        el.checked = !!value;
+        return el;
     } else {
         el = document.createElement("input");
         el.type = f.type || "text";
@@ -435,7 +451,12 @@ function buildEditForm(fields) {
         } else {
             const el = makeFieldEl(f, f.value);
             el.name = f.name;
-            label.appendChild(el);
+            if (f.type === "checkbox") {
+                label.classList.add("check-row");
+                label.prepend(el);           // checkbox before its label text
+            } else {
+                label.appendChild(el);
+            }
         }
         form.appendChild(label);
     }
@@ -486,6 +507,144 @@ const fdNull = (fd, key) => {
     const v = (fd.get(key) || "").trim();
     return v === "" ? null : v;
 };
+
+// History tab → the history_* columns on the firearm's `items` row.
+function renderHistoryEditor(firearm) {
+    const it = firearm.raw.item;
+    const form = buildEditForm([
+        { name: "history_title",         label: "Title",           type: "text",     value: it.history_title },
+        { name: "history_content",       label: "History",         type: "textarea", value: it.history_content, rows: 14 },
+        { name: "history_wiki_url",      label: "Wikipedia URL",   type: "url",      value: it.history_wiki_url, placeholder: "https://…" },
+        { name: "history_gundigest_url", label: "Gun Digest URL",  type: "url",      value: it.history_gundigest_url, placeholder: "https://…" },
+    ]);
+    mountEditor(firearm, "history", form, (fd) => saveItem(firearm.itemId, {
+        history_title:         fdNull(fd, "history_title"),
+        history_content:       fdNull(fd, "history_content"),
+        history_wiki_url:      fdNull(fd, "history_wiki_url"),
+        history_gundigest_url: fdNull(fd, "history_gundigest_url"),
+    }));
+}
+
+// ── firearm (header specs) editor & Add Firearm ─────────────────────────────
+
+const ITEM_TYPES = ["Rifle", "Pistol", "Revolver", "Shotgun", "Muzzleloader"];
+
+// Rebuild the whole collection from the DB (after add / a header edit that may
+// change sort order), then navigate to `selectItemId`.
+async function refreshCollection(selectItemId) {
+    const raw = await loadCollection();
+    firearms = raw.slice().sort((a, b) =>
+        a.make.localeCompare(b.make) || a.model.localeCompare(b.model));
+    filteredFirearms = activeType ? firearms.filter(c => c.type === activeType) : firearms.slice();
+
+    let idx = filteredFirearms.findIndex(f => f.itemId === selectItemId);
+    if (idx < 0) {                       // hidden by the active type filter — clear it
+        activeType = "";
+        filteredFirearms = firearms.slice();
+        idx = filteredFirearms.findIndex(f => f.itemId === selectItemId);
+    }
+    currentIndex = Math.max(0, idx);
+    populateTypeToggles();
+    rebuildModelSelector();
+    updateUI();
+}
+
+// Editor for a firearm's `items` row: header/spec fields + Sold/Disposed.
+// `firearm` null => Add Firearm (blank form, requires a new Item ID).
+function renderItemEditor(firearm) {
+    const isNew = !firearm;
+    const it   = firearm ? firearm.raw.item : {};
+
+    const fields = [];
+    if (isNew) {
+        fields.push({ name: "item_id", label: "Item ID (tag)", type: "text", value: "",
+                      placeholder: "short unique tag, e.g. LE41" });
+    }
+    fields.push(
+        { name: "type",               label: "Type",              type: "select", options: ITEM_TYPES, value: it.type },
+        { name: "make",               label: "Make",              type: "text",   value: it.make },
+        { name: "model",              label: "Model",             type: "text",   value: it.model },
+        { name: "year",               label: "Year",              type: "text",   value: it.year },
+        { name: "action",             label: "Action",            type: "text",   value: it.action },
+        { name: "serial_number",      label: "Serial #",          type: "text",   value: it.serial_number },
+        { name: "caliber",            label: "Caliber",           type: "text",   value: it.caliber },
+        { name: "cartridge",          label: "Cartridge",         type: "text",   value: it.cartridge },
+        { name: "coal",               label: "COAL",              type: "text",   value: it.coal },
+        { name: "mag_capacity",       label: "Mag. capacity",     type: "text",   value: it.mag_capacity },
+        { name: "feed",               label: "Feed",              type: "text",   value: it.feed },
+        { name: "weight",             label: "Weight",            type: "text",   value: it.weight },
+        { name: "country",            label: "Country",           type: "text",   value: it.country },
+        { name: "flag_image",         label: "Flag image path",   type: "text",   value: it.flag_image, placeholder: "flags/USA.png" },
+        { name: "cartridge_image",    label: "Cartridge image",   type: "text",   value: it.cartridge_image, placeholder: "in images/cartridges/" },
+        { name: "cartridge_wiki_url", label: "Cartridge wiki URL", type: "url",   value: it.cartridge_wiki_url },
+        { name: "cart_wiki2",         label: "Cartridge wiki 2",  type: "text",   value: it.cart_wiki2 },
+        { name: "maker_logo",         label: "Maker logo file",   type: "text",   value: it.maker_logo, placeholder: "in images/makers/" },
+        { name: "optic",              label: "Optic",             type: "text",   value: it.optic },
+        { name: "optic_spec",         label: "Optic spec",        type: "text",   value: it.optic_spec },
+        { name: "sights",             label: "Sights",            type: "text",   value: it.sights },
+        { name: "sight_type",         label: "Sight type",        type: "text",   value: it.sight_type },
+        { name: "note",               label: "Note",              type: "textarea", value: it.note, rows: 2 },
+        { heading: "Status" },
+        { name: "disposed",           label: "Sold / disposed of", type: "checkbox", value: it.disposed === "1" },
+        { name: "disposed_date",      label: "Disposed date",     type: "date",   value: it.disposed_date },
+    );
+
+    const form = buildEditForm(fields);
+    const back = () => { document.getElementById("editFirearmBtn").hidden = false; updateUI(); };
+
+    mountItemEditor(form, back, async (fd) => {
+        const values = {};
+        for (const f of fields) {
+            if (f.heading || f.name === "item_id") continue;
+            values[f.name] = f.type === "checkbox"
+                ? (fd.get(f.name) ? "1" : null)
+                : fdNull(fd, f.name);
+        }
+
+        if (isNew) {
+            const id = (fd.get("item_id") || "").trim();
+            if (!id) throw new Error("Item ID is required.");
+            if (!/^[A-Za-z0-9_-]+$/.test(id)) throw new Error("Item ID: letters, digits, - and _ only.");
+            if (firearms.some(f => f.itemId === id)) throw new Error(`Item ID "${id}" is already used.`);
+            if (!values.make || !values.model) throw new Error("Make and Model are required.");
+            await addFirearm({ item_id: id, ...values });
+            await refreshCollection(id);
+        } else {
+            await saveItem(firearm.itemId, values);
+            await refreshCollection(firearm.itemId);
+        }
+    });
+}
+
+// Like mountEditor but for the item editor: it isn't tied to a tab, and the
+// save handler does its own refresh/navigation.
+function mountItemEditor(form, onCancel, onSave) {
+    const contentEl = document.getElementById("scrollableTextContent");
+    document.getElementById("scrollableTextTitle").textContent = "";
+    document.querySelector(".scrollableTextTitle").querySelector(".tab-edit-btn")?.remove();
+    document.getElementById("editFirearmBtn").hidden = true;
+    contentEl.innerHTML = "";
+    contentEl.appendChild(form);
+
+    const actions = form.querySelector(".edit-actions");
+    const msg     = actions.querySelector(".edit-msg");
+    actions.querySelector(".edit-cancel").onclick = onCancel;
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const saveBtn = actions.querySelector(".edit-save");
+        saveBtn.disabled = true;
+        msg.className = "edit-msg";
+        msg.textContent = "Saving…";
+        try {
+            await onSave(new FormData(form));
+        } catch (err) {
+            msg.className = "edit-msg error";
+            msg.textContent = "Save failed: " + err.message;
+            saveBtn.disabled = false;
+        }
+    };
+}
 
 // Purchase tab → the single `transactions` row where transaction_type='Purchase'.
 function renderPurchaseEditor(firearm) {
