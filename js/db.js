@@ -96,8 +96,6 @@ function groupByItem(rows) {
 function buildTabs(item, kids) {
     const purchase      = kids.transactions.find(t => t.transaction_type === "Purchase");
     const currentValues = kids.transactions.filter(t => t.transaction_type === "CurrentValue");
-    const range = kids.range_notes[0];
-    const service = kids.service_history[0];
 
     const marketBySource = {};
     for (const cv of currentValues) {
@@ -136,31 +134,23 @@ function buildTabs(item, kids) {
             wikipedia:  { url: "" }, gunDigest: { url: "" },
         } : {},
 
+        // The three "list" tabs. Each is a list of raw child rows; the read
+        // view and editor (see TAB_LISTS in app.js) read columns off them.
         loadData: {
-            title:     "Cartridge Load Data",
-            // One entry per load recipe (see LOAD_FIELDS in app.js). Raw rows —
-            // the read view and editor read columns off them directly.
-            loads:     kids.load_data.slice(),
+            title: "Cartridge Load Data",
+            rows:  kids.load_data.slice(),
             wikipedia: { url: "" }, gunDigest: { url: "" },
         },
-
-        rangeNotes: range ? {
-            title:     "Range Visits & Results",
-            Date:      range.date           || "",
-            Range:     range.range_name     || "",
-            Distance:  range.distance_yards || "",
-            Ammo:      range.ammo           || "",
-            Notes:     range.notes          || "",
-            content:   range.content        || "",
+        rangeNotes: {
+            title: "Range Visits & Results",
+            rows:  kids.range_notes.slice(),
             wikipedia: { url: "" }, gunDigest: { url: "" },
-        } : {},
-
-        maintenance: service ? {
-            title:     "Maintenance & Service",
-            content:   [service.date, service.description, service.notes]
-                           .filter(Boolean).join("\n\n"),
+        },
+        maintenance: {
+            title: "Maintenance & Service",
+            rows:  kids.service_history.slice(),
             wikipedia: { url: "" }, gunDigest: { url: "" },
-        } : {},
+        },
     };
 }
 
@@ -365,12 +355,12 @@ async function saveMarketValue(firearm, summary, sources) {
     }
 }
 
-// Save the Load Data tab: a list of load recipes in `load_data`. The rows have
-// no identity the UI tracks, so this replaces the whole set for the firearm —
-// delete all, then insert what the form submitted.
-async function saveLoadData(firearm, rows) {
-    await dbDelete("load_data", dbFilters({ item_id: firearm.itemId }));
+// Save one of the "list" tabs (load_data / range_notes / service_history). The
+// rows carry no identity the UI tracks, so this replaces the firearm's whole
+// set for that table — delete all, then insert what the form submitted.
+async function saveRecordList(firearm, table, rows) {
+    await dbDelete(table, dbFilters({ item_id: firearm.itemId }));
     if (rows.length) {
-        await dbInsert("load_data", rows.map(r => ({ item_id: firearm.itemId, ...r })));
+        await dbInsert(table, rows.map(r => ({ item_id: firearm.itemId, ...r })));
     }
 }

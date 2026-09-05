@@ -205,41 +205,73 @@ function loadTabs(firearm) {
     renderTabContent(firearm, currentTab);
 }
 
+// ── "list" tabs — a firearm has a running list of records (loads / range
+// visits / services). All three share one read view and one editor, driven by
+// TAB_LISTS below. `content` -> Notes, `source_url` -> Source link, `targets`
+// -> handled separately; every other field maps 1:1 to a DB column.
+const dot = "  ·  ";
+const withUnit = (v, u) => (v ? v + " " + u : null);
+
+const LOAD_FIELDS = [
+    { name: "load_date",             label: "Date",              type: "date" },
+    { name: "brass",                 label: "Brass",             type: "text" },
+    { name: "primer",                label: "Primer",            type: "text" },
+    { name: "powder",                label: "Powder",            type: "text" },
+    { name: "charge_grains",         label: "Charge (gr)",       type: "text" },
+    { name: "bullet_caliber",        label: "Bullet caliber",    type: "text" },
+    { name: "bullet_type",           label: "Bullet type",       type: "text" },
+    { name: "bullet_grains",         label: "Bullet wt (gr)",    type: "text" },
+    { name: "ballistic_coefficient", label: "Ballistic coeff.",  type: "text" },
+    { name: "sectional_density",     label: "Sectional density", type: "text" },
+    { name: "velocity_fps",          label: "Velocity (fps)",    type: "text" },
+    { name: "content",               label: "Notes",             type: "textarea", rows: 2 },
+    { name: "source_url",            label: "Source",            type: "url" },
+];
+
+const RANGE_FIELDS = [
+    { name: "date",           label: "Date",              type: "date" },
+    { name: "batch_num",      label: "Batch #",           type: "text" },
+    { name: "zero_yards",     label: "Zero (yd)",         type: "text" },
+    { name: "sight_type",     label: "Sight type",        type: "select", options: ["Iron", "Optics", "Red dot"] },
+    { name: "distance_yards", label: "Target dist (yd)",  type: "text" },
+    { name: "shooting_pos",   label: "Shooting position", type: "select", options: ["Bench", "Kneeling", "Sitting", "Prone", "Off-Hand"] },
+    { name: "accuracy_moa",   label: "Accuracy (MOA)",    type: "text" },
+    { name: "notes",          label: "Notes",             type: "textarea", rows: 2 },
+];
+
+const MAINT_FIELDS = [
+    { name: "date",        label: "Date",         type: "date" },
+    { name: "svc_type",    label: "Service type", type: "select", options: ["Deep-Clean", "Replace", "Fix", "Modify", "Add", "Restore"] },
+    { name: "description", label: "Description",  type: "textarea", rows: 2 },
+    { name: "maint_cost",  label: "Cost ($)",     type: "text" },
+    { name: "notes",       label: "Notes",        type: "textarea", rows: 2 },
+];
+
+const TAB_LISTS = {
+    loadData: {
+        table: "load_data", addLabel: "+ Add load", fields: LOAD_FIELDS,
+        headline: (r, i) => [r.powder, withUnit(r.charge_grains, "gr"),
+            withUnit(r.bullet_grains, "gr"), r.bullet_type].filter(Boolean).join(dot) || `Load ${i + 1}`,
+    },
+    rangeNotes: {
+        table: "range_notes", addLabel: "+ Add visit", fields: RANGE_FIELDS,
+        headline: (r, i) => [r.date, withUnit(r.distance_yards, "yd"),
+            withUnit(r.accuracy_moa, "MOA")].filter(Boolean).join(dot) || `Visit ${i + 1}`,
+    },
+    maintenance: {
+        table: "service_history", addLabel: "+ Add service", fields: MAINT_FIELDS,
+        headline: (r, i) => [r.date, r.svc_type].filter(Boolean).join(dot) || `Service ${i + 1}`,
+    },
+};
+
 // Tabs that have an inline editor (see edit section below).
 const EDITABLE_TABS = {
     purchase:    renderPurchaseEditor,
     marketValue: renderMarketValueEditor,
-    loadData:    renderLoadDataEditor,
+    loadData:    (f) => renderListEditor(f, "loadData"),
+    rangeNotes:  (f) => renderListEditor(f, "rangeNotes"),
+    maintenance: (f) => renderListEditor(f, "maintenance"),
 };
-
-// One reloading load recipe. Order = display order in the read view and editor.
-// `content` -> Notes, `source_url` -> Source link; the rest are load_data columns.
-const LOAD_FIELDS = [
-    { name: "load_date",             label: "Date",             type: "date" },
-    { name: "brass",                 label: "Brass",            type: "text" },
-    { name: "primer",                label: "Primer",           type: "text" },
-    { name: "powder",                label: "Powder",           type: "text" },
-    { name: "charge_grains",         label: "Charge (gr)",      type: "text" },
-    { name: "bullet_caliber",        label: "Bullet caliber",   type: "text" },
-    { name: "bullet_type",           label: "Bullet type",      type: "text" },
-    { name: "bullet_grains",         label: "Bullet wt (gr)",   type: "text" },
-    { name: "ballistic_coefficient", label: "Ballistic coeff.", type: "text" },
-    { name: "sectional_density",     label: "Sectional density", type: "text" },
-    { name: "velocity_fps",          label: "Velocity (fps)",   type: "text" },
-    { name: "content",               label: "Notes",            type: "textarea", rows: 2 },
-    { name: "source_url",            label: "Source",           type: "url" },
-];
-
-// A one-line summary of a load for the read-view / editor block headers.
-function loadHeadline(ld, i) {
-    const bits = [
-        ld.powder,
-        ld.charge_grains && ld.charge_grains + " gr",
-        ld.bullet_grains && ld.bullet_grains + " gr",
-        ld.bullet_type,
-    ].filter(Boolean);
-    return bits.join("  ·  ") || `Load ${i + 1}`;
-}
 
 function renderTabContent(firearm, tabKey) {
     const tab = firearm.tabs?.[tabKey];
@@ -302,39 +334,25 @@ function renderTabContent(firearm, tabKey) {
             break;
         }
 
-        case "rangeNotes": {
-            const rows = [
-                tab.Date     ? ["Date",     tab.Date]               : null,
-                tab.Range    ? ["Range",    tab.Range]              : null,
-                tab.Distance ? ["Distance", tab.Distance + " yd"]  : null,
-                tab.Ammo     ? ["Ammo",     tab.Ammo]               : null,
-                tab.Notes    ? ["Notes",    tab.Notes]              : null,
-                tab.content  ? ["Summary",  tab.content]            : null,
-            ].filter(Boolean);
-            contentEl.innerHTML = renderKV(rows);
-            break;
-        }
-
-        case "loadData": {
-            const loads = tab.loads;
-            if (!loads) {                       // old / JSON-fallback shape
-                contentEl.textContent = tab.content || "—";
-                break;
-            }
-            if (!loads.length) { contentEl.innerHTML = "—"; break; }
-            contentEl.innerHTML = loads.map((ld, i) => {
-                const rows = LOAD_FIELDS
-                    .filter(f => f.name !== "content" && f.name !== "source_url" && ld[f.name])
-                    .map(f => [f.label, ld[f.name]]);
-                if (ld.content)    rows.push(["Notes", ld.content]);
-                if (ld.source_url) rows.push(["Source",
-                    `<a href="${ld.source_url}" target="_blank">${ld.source_url}</a>`]);
-                return `<div class="load-entry"><div class="load-headline">${loadHeadline(ld, i)}</div>${renderKV(rows)}</div>`;
+        case "loadData":
+        case "rangeNotes":
+        case "maintenance": {
+            const cfg  = TAB_LISTS[tabKey];
+            const rows = tab.rows;
+            if (!rows)          { contentEl.textContent = tab.content || "—"; break; } // JSON fallback
+            if (!rows.length)   { contentEl.innerHTML = "—"; break; }
+            contentEl.innerHTML = rows.map((row, i) => {
+                const kv = cfg.fields
+                    .filter(f => f.name !== "targets" && row[f.name])
+                    .map(f => [f.label, f.type === "url"
+                        ? `<a href="${row[f.name]}" target="_blank">${row[f.name]}</a>`
+                        : row[f.name]]);
+                return `<div class="load-entry"><div class="load-headline">${cfg.headline(row, i)}</div>${renderKV(kv)}</div>`;
             }).join("");
             break;
         }
 
-        // history, maintenance — plain text
+        // history — plain text
         default:
             contentEl.textContent = tab.content || "";
             break;
@@ -368,9 +386,28 @@ function replaceFirearm(fresh) {
     }
 }
 
+// Make an input / textarea / select element for a field spec, pre-filled.
+function makeFieldEl(f, value) {
+    let el;
+    if (f.type === "select") {
+        el = document.createElement("select");
+        el.appendChild(new Option("—", ""));
+        for (const o of f.options) el.appendChild(new Option(o, o));
+    } else if (f.type === "textarea") {
+        el = document.createElement("textarea");
+        el.rows = f.rows || 3;
+    } else {
+        el = document.createElement("input");
+        el.type = f.type || "text";
+    }
+    if (f.placeholder) el.placeholder = f.placeholder;
+    el.value = value != null ? value : "";
+    return el;
+}
+
 // Build a <form class="edit-form"> from a field spec. Entries are either
 //   { heading: "text" }                                       — a section label
-//   { name, label, type, rows?, placeholder?, value }         — an input/textarea
+//   { name, label, type, rows?, placeholder?, options?, value } — a field
 function buildEditForm(fields) {
     const form = document.createElement("form");
     form.className = "edit-form";
@@ -385,12 +422,8 @@ function buildEditForm(fields) {
         }
         const label = document.createElement("label");
         label.textContent = f.label;
-        const el = document.createElement(f.type === "textarea" ? "textarea" : "input");
-        if (f.type === "textarea") el.rows = f.rows || 3;
-        else el.type = f.type || "text";
-        if (f.placeholder) el.placeholder = f.placeholder;
+        const el = makeFieldEl(f, f.value);
         el.name = f.name;
-        el.value = f.value != null ? f.value : "";
         label.appendChild(el);
         form.appendChild(label);
     }
@@ -493,13 +526,15 @@ function renderMarketValueEditor(firearm) {
     }));
 }
 
-// Load Data tab → a list of `load_data` rows. Repeating blocks, add/remove.
-function renderLoadDataEditor(firearm) {
-    const loads = (firearm.raw?.load_data || []).slice();
-    if (!loads.length) loads.push({});   // start with one blank block
+// Generic editor for the "list" tabs (loadData / rangeNotes / maintenance):
+// a stack of record blocks with Add / Remove, saved as a replace-all set.
+function renderListEditor(firearm, tabKey) {
+    const cfg  = TAB_LISTS[tabKey];
+    const rows = (firearm.raw?.[cfg.table] || []).slice();
+    if (!rows.length) rows.push({});   // start with one blank block
 
     const form = document.createElement("form");
-    form.className = "edit-form load-editor";
+    form.className = "edit-form list-editor";
 
     const blocksEl = document.createElement("div");
     form.appendChild(blocksEl);
@@ -509,7 +544,7 @@ function renderLoadDataEditor(firearm) {
         fs.className = "load-block";
 
         const legend = document.createElement("legend");
-        legend.textContent = "Load";
+        legend.textContent = cfg.addLabel.replace(/^\+\s*Add\s*/i, "");
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "load-remove";
@@ -518,25 +553,22 @@ function renderLoadDataEditor(firearm) {
         legend.appendChild(remove);
         fs.appendChild(legend);
 
-        for (const f of LOAD_FIELDS) {
+        for (const f of cfg.fields) {
             const label = document.createElement("label");
             label.textContent = f.label;
-            const el = document.createElement(f.type === "textarea" ? "textarea" : "input");
-            if (f.type === "textarea") el.rows = f.rows || 2;
-            else el.type = f.type || "text";
+            const el = makeFieldEl(f, data[f.name]);
             el.dataset.field = f.name;
-            el.value = data[f.name] != null ? data[f.name] : "";
             label.appendChild(el);
             fs.appendChild(label);
         }
         blocksEl.appendChild(fs);
     };
-    loads.forEach(addBlock);
+    rows.forEach(addBlock);
 
     const addBtn = document.createElement("button");
     addBtn.type = "button";
     addBtn.className = "load-add";
-    addBtn.textContent = "+ Add load";
+    addBtn.textContent = cfg.addLabel;
     addBtn.onclick = () => addBlock();
     form.appendChild(addBtn);
 
@@ -548,8 +580,8 @@ function renderLoadDataEditor(firearm) {
         `<span class="edit-msg" role="status"></span>`;
     form.appendChild(actions);
 
-    mountEditor(firearm, "loadData", form, () => {
-        const rows = [...form.querySelectorAll(".load-block")].map(fs => {
+    mountEditor(firearm, tabKey, form, () => {
+        const out = [...form.querySelectorAll(".load-block")].map(fs => {
             const row = {};
             for (const el of fs.querySelectorAll("[data-field]")) {
                 const v = el.value.trim();
@@ -557,7 +589,7 @@ function renderLoadDataEditor(firearm) {
             }
             return row;
         }).filter(row => Object.values(row).some(v => v != null)); // drop empty blocks
-        return saveLoadData(firearm, rows);
+        return saveRecordList(firearm, cfg.table, out);
     });
 }
 

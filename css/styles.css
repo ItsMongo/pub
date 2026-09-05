@@ -604,7 +604,8 @@ main {
   letter-spacing: 0.04em;
 }
 .edit-form input,
-.edit-form textarea {
+.edit-form textarea,
+.edit-form select {
   font-family: var(--font-main);
   font-size: 0.9rem;
   font-weight: normal;
@@ -619,7 +620,8 @@ main {
 }
 .edit-form textarea { resize: vertical; }
 .edit-form input:focus,
-.edit-form textarea:focus { outline: 2px solid #6aaf4c; border-color: #6aaf4c; }
+.edit-form textarea:focus,
+.edit-form select:focus { outline: 2px solid #6aaf4c; border-color: #6aaf4c; }
 
 .edit-group-heading {
   margin-top: 6px;

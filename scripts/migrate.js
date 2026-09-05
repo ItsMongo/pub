@@ -21,6 +21,13 @@ const WANT = {
         "bullet_caliber", "bullet_type", "bullet_grains",
         "ballistic_coefficient", "sectional_density", "velocity_fps",
     ],
+    range_notes: [
+        "batch_num", "zero_yards", "sight_type", "shooting_pos", "accuracy_moa",
+        "targets",   // JSON array of target-image filenames (upload feature)
+    ],
+    service_history: [
+        "svc_type", "maint_cost",
+    ],
 };
 
 const a       = argsFromProcess();
