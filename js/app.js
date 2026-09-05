@@ -6,6 +6,7 @@ let filteredFirearms = [];   // current working set (subset by activeType)
 let currentIndex     = 0;   // index into filteredFirearms
 let images           = [];
 let thumbIndex       = 0;
+let imagesJsonVersion = 0;   // cache-bust token, bumped by the image manager
 let activeType       = "";   // "" = All
 let currentTab       = "history";
 
@@ -1130,11 +1131,13 @@ async function loadImages(firearm) {
     document.getElementById("imageManager").hidden = true;
 
     // Not every firearm has an image folder yet — treat a missing/!ok
-    // images.json as "no images" rather than throwing.
+    // images.json as "no images" rather than throwing. `imagesJsonVersion` is
+    // bumped after the image manager rewrites a file, to defeat any caching.
     const basePath = `../images/${firearm.imageID}/`;
+    const bust = imagesJsonVersion ? `?v=${imagesJsonVersion}` : "";
     let files = [];
     try {
-        const response = await fetch(basePath + "images.json", { cache: "no-store" });
+        const response = await fetch(basePath + "images.json" + bust);
         if (response.ok) files = await response.json();
     } catch { /* no images for this item */ }
 
@@ -1231,7 +1234,7 @@ async function renderImageManager(firearm) {
     // Authoritative current list.
     let original = [];
     try {
-        const r = await fetch(basePath + "images.json", { cache: "no-store" });
+        const r = await fetch(basePath + "images.json?v=" + (imagesJsonVersion || Date.now()));
         if (r.ok) original = await r.json();
     } catch { /* none yet */ }
 
@@ -1335,6 +1338,7 @@ async function renderImageManager(firearm) {
             await deleteImages(firearm.imageID, original.filter(n => !finalList.includes(n)));
             await writeImagesJson(firearm.imageID, finalList);
 
+            imagesJsonVersion = Date.now();   // force a fresh images.json read
             panel.hidden = true;
             thumbIndex = 0;
             await loadImages(firearm);
