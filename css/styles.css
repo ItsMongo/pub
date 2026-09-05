@@ -712,3 +712,40 @@ main {
   padding-bottom: 2px;
   margin-bottom: 3px;
 }
+
+/* Range-visit target images */
+.target-widget { display: flex; flex-direction: column; gap: 6px; }
+.target-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.target-grid.read { margin-top: 6px; }
+.target-thumb {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border: 1px solid #7c8a6e;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f3e6c8;
+  display: block;
+}
+.target-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.target-thumb.target-new { border-color: #6aaf4c; border-width: 2px; }
+.target-x {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  padding: 0;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(165, 49, 31, 0.85);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.target-add { font-size: 0.78rem; }

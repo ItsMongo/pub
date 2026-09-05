@@ -237,6 +237,7 @@ const RANGE_FIELDS = [
     { name: "shooting_pos",   label: "Shooting position", type: "select", options: ["Bench", "Kneeling", "Sitting", "Prone", "Off-Hand"] },
     { name: "accuracy_moa",   label: "Accuracy (MOA)",    type: "text" },
     { name: "notes",          label: "Notes",             type: "textarea", rows: 2 },
+    { name: "targets",        label: "Targets",           type: "targets" },
 ];
 
 const MAINT_FIELDS = [
@@ -347,7 +348,15 @@ function renderTabContent(firearm, tabKey) {
                     .map(f => [f.label, f.type === "url"
                         ? `<a href="${row[f.name]}" target="_blank">${row[f.name]}</a>`
                         : row[f.name]]);
-                return `<div class="load-entry"><div class="load-headline">${cfg.headline(row, i)}</div>${renderKV(kv)}</div>`;
+                let targetsHtml = "";
+                const names = parseTargets(row.targets);
+                if (names.length) {
+                    targetsHtml = `<div class="target-grid read">` + names.map(n => {
+                        const src = `../images/${firearm.imageID}/targets/${n}`;
+                        return `<a href="${src}" target="_blank" class="target-thumb"><img src="${src}" alt="target"></a>`;
+                    }).join("") + `</div>`;
+                }
+                return `<div class="load-entry"><div class="load-headline">${cfg.headline(row, i)}</div>${renderKV(kv)}${targetsHtml}</div>`;
             }).join("");
             break;
         }
@@ -556,9 +565,15 @@ function renderListEditor(firearm, tabKey) {
         for (const f of cfg.fields) {
             const label = document.createElement("label");
             label.textContent = f.label;
-            const el = makeFieldEl(f, data[f.name]);
-            el.dataset.field = f.name;
-            label.appendChild(el);
+            if (f.type === "targets") {
+                const widget = buildTargetWidget(data[f.name], firearm.imageID);
+                widget.el.__widget = widget;
+                label.appendChild(widget.el);
+            } else {
+                const el = makeFieldEl(f, data[f.name]);
+                el.dataset.field = f.name;
+                label.appendChild(el);
+            }
             fs.appendChild(label);
         }
         blocksEl.appendChild(fs);
@@ -580,17 +595,127 @@ function renderListEditor(firearm, tabKey) {
         `<span class="edit-msg" role="status"></span>`;
     form.appendChild(actions);
 
-    mountEditor(firearm, tabKey, form, () => {
-        const out = [...form.querySelectorAll(".load-block")].map(fs => {
+    mountEditor(firearm, tabKey, form, async () => {
+        const blocks = [...form.querySelectorAll(".load-block")];
+
+        // Target images (range visits only): every filename referenced before
+        // this save, so we can delete the ones dropped from the form.
+        const before = new Set();
+        for (const r of (firearm.raw?.[cfg.table] || [])) {
+            (parseTargets(r.targets)).forEach(n => before.add(n));
+        }
+        // Next T-number for this firearm = highest still referenced + 1.
+        let nextT = 0;
+        for (const fs of blocks) {
+            const w = fs.querySelector(".target-widget")?.__widget;
+            for (const n of (w ? w.kept() : [])) {
+                const m = n.match(/-T(\d+)-/);
+                if (m) nextT = Math.max(nextT, +m[1]);
+            }
+        }
+
+        const after = new Set();
+        const out = [];
+        for (const fs of blocks) {
             const row = {};
             for (const el of fs.querySelectorAll("[data-field]")) {
                 const v = el.value.trim();
                 row[el.dataset.field] = v === "" ? null : v;
             }
-            return row;
-        }).filter(row => Object.values(row).some(v => v != null)); // drop empty blocks
-        return saveRecordList(firearm, cfg.table, out);
+            const w = fs.querySelector(".target-widget")?.__widget;
+            if (w) {
+                const names = w.kept();
+                for (const file of w.pending()) {
+                    nextT += 1;
+                    const name = targetFilename(firearm.imageID, nextT, file.name);
+                    await uploadTarget(firearm.imageID, name, file);
+                    names.push(name);
+                }
+                names.forEach(n => after.add(n));
+                row.targets = names.length ? JSON.stringify(names) : null;
+            }
+            out.push(row);
+        }
+
+        const rowsToSave = out.filter(row => Object.values(row).some(v => v != null));
+        await saveRecordList(firearm, cfg.table, rowsToSave);
+        await deleteTargets(firearm.imageID, [...before].filter(n => !after.has(n)));
     });
+}
+
+const parseTargets = (json) => {
+    try { const a = JSON.parse(json || "[]"); return Array.isArray(a) ? a : []; }
+    catch { return []; }
+};
+
+// Build a target-image field: existing thumbnails (each removable) + a file
+// picker for new ones. Uploads happen on Save (see renderListEditor).
+function buildTargetWidget(targetsJson, imageID) {
+    let kept = parseTargets(targetsJson);
+    const pending = [];   // File objects not yet uploaded
+
+    const el = document.createElement("div");
+    el.className = "target-widget";
+    const grid = document.createElement("div");
+    grid.className = "target-grid";
+    el.appendChild(grid);
+
+    const thumb = (src, onRemove, isNew) => {
+        const d = document.createElement("div");
+        d.className = "target-thumb" + (isNew ? " target-new" : "");
+        const img = document.createElement("img");
+        img.src = src;
+        d.appendChild(img);
+        const x = document.createElement("button");
+        x.type = "button";
+        x.className = "target-x";
+        x.textContent = "×";
+        x.onclick = onRemove;
+        d.appendChild(x);
+        return d;
+    };
+
+    const render = () => {
+        grid.innerHTML = "";
+        kept.forEach(name => grid.appendChild(
+            thumb(`../images/${imageID}/targets/${name}`, () => {
+                kept = kept.filter(n => n !== name);
+                render();
+            })));
+        pending.forEach(file => {
+            const url = URL.createObjectURL(file);
+            grid.appendChild(thumb(url, () => {
+                pending.splice(pending.indexOf(file), 1);
+                URL.revokeObjectURL(url);
+                render();
+            }, true));
+        });
+    };
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    input.className = "target-add";
+    input.onchange = () => {
+        for (const f of input.files) pending.push(f);
+        input.value = "";
+        render();
+    };
+    el.appendChild(input);
+    render();
+
+    return { el, kept: () => kept.slice(), pending: () => pending.slice() };
+}
+
+// images/<id>/targets/<id>-T<n>-<sanitised-original>.<ext>
+function targetFilename(imageID, n, original) {
+    const dotAt = original.lastIndexOf(".");
+    let ext = (dotAt > -1 ? original.slice(dotAt + 1) : "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!["jpg", "jpeg", "png", "webp", "gif"].includes(ext)) ext = "jpg";
+    const base = (dotAt > -1 ? original.slice(0, dotAt) : original)
+        .replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "target";
+    return `${imageID}-T${n}-${base}.${ext}`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

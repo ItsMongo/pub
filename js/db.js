@@ -29,6 +29,9 @@
 const DB_API_BASE =
     (typeof window !== "undefined" && window.DB_API_BASE) || "/api/db";
 
+// SHTTPS+ file API (used for range-visit target images) lives next to the DB API.
+const FILE_API_BASE = DB_API_BASE.replace(/\/db$/, "/file");
+
 // If the API can't be reached, fall back to this JSON snapshot so the page still
 // renders (read-only, possibly stale). Set window.DB_NO_FALLBACK to disable.
 const DB_FALLBACK_URL = "data/firearms.json";
@@ -362,5 +365,33 @@ async function saveRecordList(firearm, table, rows) {
     await dbDelete(table, dbFilters({ item_id: firearm.itemId }));
     if (rows.length) {
         await dbInsert(table, rows.map(r => ({ item_id: firearm.itemId, ...r })));
+    }
+}
+
+// ── range-visit target images ───────────────────────────────────────────────
+// Stored under images/<itemId>/targets/ ; each range_notes row's `targets`
+// column is a JSON array of the filenames it owns.
+
+// Upload one target image. `filename` already carries the <itemId>-T<n>- prefix.
+async function uploadTarget(itemId, filename, file) {
+    const fd = new FormData();
+    // The part filename's leading path is created under ?path=images automatically.
+    fd.append("files[]", file, `${itemId}/targets/${filename}`);
+    const res = await fetch(`${FILE_API_BASE}/upload?path=images`, { method: "PUT", body: fd });
+    if (!res.ok) {
+        throw new Error(`Target upload failed (${res.status}): ${(await res.text()).slice(0, 150)}`);
+    }
+}
+
+// Delete target image files for a firearm (no-op on an empty list).
+async function deleteTargets(itemId, filenames) {
+    if (!filenames.length) return;
+    const res = await fetch(`${FILE_API_BASE}/delete`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: `images/${itemId}/targets`, files: filenames }),
+    });
+    if (!res.ok && res.status !== 404) {
+        throw new Error(`Target delete failed (${res.status})`);
     }
 }

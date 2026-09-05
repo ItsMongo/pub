@@ -68,6 +68,45 @@ const readBody = (req) => new Promise((resolve, reject) => {
     req.on("error", reject);
 });
 
+const readBodyBuffer = (req) => new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", c => chunks.push(c));
+    req.on("end", () => resolve(Buffer.concat(chunks)));
+    req.on("error", reject);
+});
+
+// Minimal multipart/form-data parser — just enough for the file-upload endpoint.
+function parseMultipart(buf, boundary) {
+    const parts = [];
+    const delim = Buffer.from(`--${boundary}`);
+    let i = buf.indexOf(delim);
+    while (i !== -1) {
+        i += delim.length;
+        if (buf.slice(i, i + 2).toString() === "--") break;      // closing delimiter
+        i += 2;                                                   // skip CRLF
+        const headerEnd = buf.indexOf("\r\n\r\n", i);
+        if (headerEnd === -1) break;
+        const headers = buf.slice(i, headerEnd).toString();
+        const contentStart = headerEnd + 4;
+        const next = buf.indexOf(delim, contentStart);
+        if (next === -1) break;
+        const content = buf.slice(contentStart, next - 2);       // strip trailing CRLF
+        parts.push({
+            name:     (headers.match(/name="([^"]*)"/) || [])[1],
+            filename: (headers.match(/filename="([^"]*)"/) || [])[1],
+            content,
+        });
+        i = next;
+    }
+    return parts;
+}
+
+const safeUnder = (rel) => {
+    const full = path.join(ROOT, path.normalize(rel));
+    if (!full.startsWith(ROOT)) throw new Error("path escapes root");
+    return full;
+};
+
 // filters JSON: { "clauses": ["col=", "col?"], "args": [1, "%x%"] }
 // operator is the trailing char of each clause string.
 const OPS = { "=": "=", ">": ">", "<": "<", "]": ">=", "[": "<=", "!": "!=", "?": "LIKE" };
@@ -192,6 +231,35 @@ async function handleApi(req, res, url) {
         const { sql: whereSql, args } = whereFromFilters(body.get("filters"));
         const info = db.prepare(`DELETE FROM "${table}"${whereSql}`).run(...args);
         return sendJson(res, 200, { deleted_rows: info.changes });
+    }
+
+    // ── file API (subset used by the target-image upload) ───────────────────
+
+    // PUT /api/file/upload?path=<dir> — multipart; part name "files[]", the part
+    // filename may include a relative subpath which is created under <dir>.
+    if (p === "/api/file/upload" && req.method === "PUT") {
+        const dest = q.get("path") || "";
+        const boundary = (req.headers["content-type"] || "").match(/boundary=(.+)$/);
+        if (!boundary) return sendJson(res, 400, { error: "missing multipart boundary" });
+        const parts = parseMultipart(await readBodyBuffer(req), boundary[1]);
+        for (const part of parts) {
+            if (part.name !== "files[]" || !part.filename) continue;
+            if (part.filename.includes("..")) return sendJson(res, 400, { error: "bad filename" });
+            const full = safeUnder(path.join(dest, part.filename));
+            fs.mkdirSync(path.dirname(full), { recursive: true });
+            fs.writeFileSync(full, part.content);
+        }
+        return sendJson(res, 200, { ok: true });
+    }
+
+    // DELETE /api/file/delete — JSON { path: <dir>, files: [names] }
+    if (p === "/api/file/delete" && req.method === "DELETE") {
+        const { path: dir, files = [] } = JSON.parse(await readBody(req) || "{}");
+        for (const name of files) {
+            if (String(name).includes("..") || String(name).includes("/")) continue;
+            try { fs.unlinkSync(safeUnder(path.join(dir, name))); } catch { /* already gone */ }
+        }
+        return send(res, 204, "");
     }
 
     return sendJson(res, 404, { error: `unknown endpoint ${req.method} ${p}` });
