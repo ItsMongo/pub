@@ -28,6 +28,9 @@ const WANT = {
     service_history: [
         "svc_type", "maint_cost",
     ],
+    transactions: [
+        "docs",   // JSON [{filename,title,type}] — purchase documents/receipts
+    ],
 };
 
 const a       = argsFromProcess();

@@ -126,6 +126,7 @@ function buildTabs(item, kids) {
             location:  purchase.location || "",
             url:       purchase.url      || "",
             notes:     purchase.notes    || "",
+            docs:      purchase.docs     || "",
             wikipedia: { url: "" }, gunDigest: { url: "" },
         } : {},
 
@@ -358,30 +359,36 @@ async function saveMarketValue(firearm, summary, sources) {
     }
 }
 
-// ── range-visit target images ───────────────────────────────────────────────
-// Stored under images/<itemId>/targets/ ; each range_notes row's `targets`
-// column is a JSON array of the filenames it owns.
+// ── uploaded files: range-visit targets & purchase documents ─────────────────
+// Both live under images/<itemId>/<subdir>/ (subdir = "targets" | "docs").
+// The owning DB column (range_notes.targets / transactions.docs) is JSON that
+// lists the filenames.
 
-// Upload one target image. `filename` already carries the <itemId>-T<n>- prefix.
-async function uploadTarget(itemId, filename, file) {
+// Upload one file. `filename` already carries the <itemId>-<T|D><n>- prefix;
+// SHTTPS+ creates images/<itemId>/<subdir>/ from the multipart part filename.
+async function uploadFile(itemId, subdir, filename, file) {
     const fd = new FormData();
-    // The part filename's leading path is created under ?path=images automatically.
-    fd.append("files[]", file, `${itemId}/targets/${filename}`);
+    fd.append("files[]", file, `${itemId}/${subdir}/${filename}`);
     const res = await fetch(`${FILE_API_BASE}/upload?path=images`, { method: "PUT", body: fd });
     if (!res.ok) {
-        throw new Error(`Target upload failed (${res.status}): ${(await res.text()).slice(0, 150)}`);
+        throw new Error(`Upload failed (${res.status}): ${(await res.text()).slice(0, 150)}`);
     }
 }
 
-// Delete target image files for a firearm (no-op on an empty list).
-async function deleteTargets(itemId, filenames) {
+// Delete files from images/<itemId>/<subdir>/ (no-op on an empty list).
+async function deleteFiles(itemId, subdir, filenames) {
     if (!filenames.length) return;
     const res = await fetch(`${FILE_API_BASE}/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path: `images/${itemId}/targets`, files: filenames }),
+        body: JSON.stringify({ path: `images/${itemId}/${subdir}`, files: filenames }),
     });
     if (!res.ok && res.status !== 404) {
-        throw new Error(`Target delete failed (${res.status})`);
+        throw new Error(`Delete failed (${res.status})`);
     }
 }
+
+const uploadTarget  = (id, name, file) => uploadFile(id, "targets", name, file);
+const deleteTargets = (id, names)      => deleteFiles(id, "targets", names);
+const uploadDoc     = (id, name, file) => uploadFile(id, "docs", name, file);
+const deleteDocs    = (id, names)      => deleteFiles(id, "docs", names);

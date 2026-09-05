@@ -313,7 +313,22 @@ function renderTabContent(firearm, tabKey) {
                 tab.content  ? ["Listing", tab.content]  : null,
                 tab.notes    ? ["Notes",   tab.notes]    : null,
             ].filter(Boolean);
-            contentEl.innerHTML = renderKV(rows);
+            let html = renderKV(rows);
+            const docs = parseDocs(tab.docs);
+            if (docs.length) {
+                html += `<div class="doc-read"><div class="doc-read-head">Documents</div>`
+                    + docs.map(d => {
+                        const src = `../images/${firearm.imageID}/docs/${d.filename}`;
+                        const media = isImageName(d.filename)
+                            ? `<img src="${src}" alt="">`
+                            : `<span class="doc-file">${(d.filename.split(".").pop() || "doc").toUpperCase()}</span>`;
+                        const tag = d.type ? `<span class="doc-tag">${d.type}</span>` : "";
+                        return `<a href="${src}" target="_blank" class="doc-card">${media}`
+                            + `<span class="doc-card-meta">${tag}<span class="doc-card-title">${d.title || d.filename}</span></span></a>`;
+                    }).join("")
+                    + `</div>`;
+            }
+            contentEl.innerHTML = html;
             break;
         }
 
@@ -410,9 +425,15 @@ function buildEditForm(fields) {
         }
         const label = document.createElement("label");
         label.textContent = f.label;
-        const el = makeFieldEl(f, f.value);
-        el.name = f.name;
-        label.appendChild(el);
+        if (f.type === "docs") {
+            const w = buildDocWidget(f.value, f.imageID);
+            w.el.__widget = w;
+            label.appendChild(w.el);
+        } else {
+            const el = makeFieldEl(f, f.value);
+            el.name = f.name;
+            label.appendChild(el);
+        }
         form.appendChild(label);
     }
 
@@ -475,16 +496,47 @@ function renderPurchaseEditor(firearm) {
         { name: "url",      label: "Link",          type: "url",      value: p.url,      placeholder: "https://…" },
         { name: "content",  label: "Listing",       type: "textarea", value: p.content, rows: 4 },
         { name: "notes",    label: "Notes",         type: "textarea", value: p.notes,   rows: 3 },
+        { name: "docs",     label: "Documents",     type: "docs",     value: p.docs, imageID: firearm.imageID },
     ]);
 
-    mountEditor(firearm, "purchase", form, (fd) => savePurchase(firearm, {
-        date:     fdNull(fd, "date"),
-        price:    fdNull(fd, "price"),
-        location: fdNull(fd, "location"),
-        url:      fdNull(fd, "url"),
-        content:  fdNull(fd, "content"),
-        notes:    fdNull(fd, "notes"),
-    }));
+    mountEditor(firearm, "purchase", form, async () => {
+        const widget = form.querySelector(".doc-widget")?.__widget;
+        let docsValue = null;
+        if (widget) {
+            const beforeFiles = parseDocs(p.docs).map(d => d.filename);
+            let nextD = 0;
+            for (const d of parseDocs(p.docs)) {
+                const m = (d.filename || "").match(/-D(\d+)-/);
+                if (m) nextD = Math.max(nextD, +m[1]);
+            }
+            const final = [];
+            for (const entry of widget.state()) {
+                let filename = entry.filename;
+                if (!filename && entry.file) {
+                    nextD += 1;
+                    filename = docFilename(firearm.imageID, nextD, entry.file.name);
+                    await uploadDoc(firearm.imageID, filename, entry.file);
+                }
+                if (filename) {
+                    final.push({ filename, title: entry.title || null, type: entry.type || null });
+                }
+            }
+            docsValue = final.length ? JSON.stringify(final) : null;
+            const keptFiles = final.map(d => d.filename);
+            await deleteDocs(firearm.imageID, beforeFiles.filter(f => !keptFiles.includes(f)));
+        }
+
+        const fd = new FormData(form);
+        return savePurchase(firearm, {
+            date:     fdNull(fd, "date"),
+            price:    fdNull(fd, "price"),
+            location: fdNull(fd, "location"),
+            url:      fdNull(fd, "url"),
+            content:  fdNull(fd, "content"),
+            notes:    fdNull(fd, "notes"),
+            docs:     docsValue,
+        });
+    });
 }
 
 // Market Value tab → the `transactions` rows where transaction_type='CurrentValue'
@@ -749,14 +801,113 @@ function buildTargetWidget(targetsJson, imageID) {
     return { el, kept: () => kept.slice(), pending: () => pending.slice() };
 }
 
-// images/<id>/targets/<id>-T<n>-<sanitised-original>.<ext>
-function targetFilename(imageID, n, original) {
+// images/<id>/<subdir>/<id>-<tag><n>-<sanitised-original>.<ext>
+function uploadFilename(imageID, tag, n, original, allowedExts, fallbackExt) {
     const dotAt = original.lastIndexOf(".");
     let ext = (dotAt > -1 ? original.slice(dotAt + 1) : "").toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (!["jpg", "jpeg", "png", "webp", "gif"].includes(ext)) ext = "jpg";
+    if (!allowedExts.includes(ext)) ext = fallbackExt;
     const base = (dotAt > -1 ? original.slice(0, dotAt) : original)
-        .replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "target";
-    return `${imageID}-T${n}-${base}.${ext}`;
+        .replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "file";
+    return `${imageID}-${tag}${n}-${base}.${ext}`;
+}
+const IMG_EXTS = ["jpg", "jpeg", "png", "webp", "gif"];
+const targetFilename = (id, n, orig) => uploadFilename(id, "T", n, orig, IMG_EXTS, "jpg");
+const docFilename    = (id, n, orig) => uploadFilename(id, "D", n, orig, [...IMG_EXTS, "pdf"], "pdf");
+const isImageName    = (name) => IMG_EXTS.includes((name || "").split(".").pop().toLowerCase());
+
+// ── purchase documents ──────────────────────────────────────────────────────
+// transactions.docs (Purchase row) is JSON: [{filename, title, type}].
+
+const DOC_TYPES = ["Bill of Sale", "Transfer", "Auction Listing", "Correspondence", "Certificate", "Bringback Doc"];
+
+const parseDocs = (json) => {
+    try { const a = JSON.parse(json || "[]"); return Array.isArray(a) ? a : []; }
+    catch { return []; }
+};
+
+// A documents field: rows of (preview) + Title + Type + remove, plus a file
+// picker (images or PDFs). Uploads happen on Save (see renderPurchaseEditor).
+function buildDocWidget(docsJson, imageID) {
+    // entry: { filename?, file?, title, type }  (filename = existing, file = pending)
+    const entries = parseDocs(docsJson).map(d => ({ ...d }));
+
+    const el = document.createElement("div");
+    el.className = "doc-widget";
+    const list = document.createElement("div");
+    list.className = "doc-list";
+    el.appendChild(list);
+
+    const render = () => {
+        list.innerHTML = "";
+        entries.forEach((entry, idx) => {
+            const name = entry.filename || entry.file.name;
+            const src  = entry.filename
+                ? `../images/${imageID}/docs/${entry.filename}`
+                : (entry.__url ||= URL.createObjectURL(entry.file));
+
+            const row = document.createElement("div");
+            row.className = "doc-row";
+
+            const prev = document.createElement("a");
+            prev.className = "doc-preview";
+            prev.href = src;
+            prev.target = "_blank";
+            if (isImageName(name)) {
+                const img = document.createElement("img");
+                img.src = src;
+                prev.appendChild(img);
+            } else {
+                prev.classList.add("doc-file");
+                prev.textContent = (name.split(".").pop() || "doc").toUpperCase();
+            }
+            row.appendChild(prev);
+
+            const title = document.createElement("input");
+            title.type = "text";
+            title.className = "doc-title";
+            title.placeholder = "Title";
+            title.value = entry.title || "";
+            title.oninput = () => { entry.title = title.value; };
+            row.appendChild(title);
+
+            const type = document.createElement("select");
+            type.className = "doc-type";
+            type.appendChild(new Option("—", ""));
+            for (const t of DOC_TYPES) type.appendChild(new Option(t, t));
+            type.value = entry.type || "";
+            type.onchange = () => { entry.type = type.value; };
+            row.appendChild(type);
+
+            const x = document.createElement("button");
+            x.type = "button";
+            x.className = "doc-x";
+            x.textContent = "×";
+            x.onclick = () => {
+                if (entry.__url) URL.revokeObjectURL(entry.__url);
+                entries.splice(idx, 1);
+                render();
+            };
+            row.appendChild(x);
+            list.appendChild(row);
+        });
+    };
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*,application/pdf";
+    input.multiple = true;
+    input.className = "doc-add";
+    input.onchange = () => {
+        for (const f of input.files) {
+            entries.push({ file: f, title: f.name.replace(/\.[^.]+$/, ""), type: "" });
+        }
+        input.value = "";
+        render();
+    };
+    el.appendChild(input);
+    render();
+
+    return { el, state: () => entries };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
