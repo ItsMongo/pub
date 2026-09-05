@@ -948,12 +948,17 @@ async function loadImages(firearm) {
     thumbnailStrip.innerHTML = "";
     images = [];
 
+    // "Manage images" is available whenever we're on the live database.
+    const manageBtn = document.getElementById("manageImagesBtn");
+    manageBtn.hidden = !(typeof isDbLive === "function" && isDbLive());
+    document.getElementById("imageManager").hidden = true;
+
     // Not every firearm has an image folder yet — treat a missing/!ok
     // images.json as "no images" rather than throwing.
     const basePath = `../images/${firearm.imageID}/`;
     let files = [];
     try {
-        const response = await fetch(basePath + "images.json");
+        const response = await fetch(basePath + "images.json", { cache: "no-store" });
         if (response.ok) files = await response.json();
     } catch { /* no images for this item */ }
 
@@ -1020,6 +1025,152 @@ function highlightThumbnail() {
         thumbs[thumbIndex].classList.add("selected");
         thumbs[thumbIndex].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Image library manager — add / remove / reorder images.json
+// ─────────────────────────────────────────────────────────────────────────────
+
+// images/<id>/<id>-<sanitised-original>.<ext>, de-duped against `taken`.
+function galleryFilename(imageID, original, taken) {
+    const dotAt = original.lastIndexOf(".");
+    let ext = (dotAt > -1 ? original.slice(dotAt + 1) : "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!IMG_EXTS.includes(ext)) ext = "jpg";
+    const base = (dotAt > -1 ? original.slice(0, dotAt) : original)
+        .replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "image";
+    if (!taken.has(`${imageID}-${base}.${ext}`)) return `${imageID}-${base}.${ext}`;
+    for (let i = 2; ; i++) {
+        if (!taken.has(`${imageID}-${base}-${i}.${ext}`)) return `${imageID}-${base}-${i}.${ext}`;
+    }
+}
+
+document.getElementById("manageImagesBtn").onclick = () => {
+    renderImageManager(filteredFirearms[currentIndex]);
+};
+
+async function renderImageManager(firearm) {
+    const panel = document.getElementById("imageManager");
+    const basePath = `../images/${firearm.imageID}/`;
+
+    // Authoritative current list.
+    let original = [];
+    try {
+        const r = await fetch(basePath + "images.json", { cache: "no-store" });
+        if (r.ok) original = await r.json();
+    } catch { /* none yet */ }
+
+    // Working entries: { name } for existing, { file } for new.
+    let entries = original.map(name => ({ name }));
+
+    panel.hidden = false;
+    panel.innerHTML = "";
+
+    const head = document.createElement("div");
+    head.className = "im-head";
+    head.innerHTML = `<span>Manage images</span>`;
+    const close = document.createElement("button");
+    close.type = "button"; close.className = "im-close"; close.textContent = "×";
+    close.onclick = () => { panel.hidden = true; };
+    head.appendChild(close);
+    panel.appendChild(head);
+
+    const list = document.createElement("div");
+    list.className = "im-list";
+    panel.appendChild(list);
+
+    const render = () => {
+        list.innerHTML = "";
+        entries.forEach((e, i) => {
+            const row = document.createElement("div");
+            row.className = "im-row";
+
+            const img = document.createElement("img");
+            img.src = e.name ? basePath + e.name : (e.__url ||= URL.createObjectURL(e.file));
+            row.appendChild(img);
+
+            const name = document.createElement("span");
+            name.className = "im-name";
+            name.textContent = e.name || e.file.name + "  (new)";
+            row.appendChild(name);
+
+            const up = document.createElement("button");
+            up.type = "button"; up.className = "im-btn"; up.textContent = "▲";
+            up.disabled = i === 0;
+            up.onclick = () => { [entries[i - 1], entries[i]] = [entries[i], entries[i - 1]]; render(); };
+
+            const down = document.createElement("button");
+            down.type = "button"; down.className = "im-btn"; down.textContent = "▼";
+            down.disabled = i === entries.length - 1;
+            down.onclick = () => { [entries[i + 1], entries[i]] = [entries[i], entries[i + 1]]; render(); };
+
+            const del = document.createElement("button");
+            del.type = "button"; del.className = "im-btn im-del"; del.textContent = "×";
+            del.onclick = () => {
+                if (e.__url) URL.revokeObjectURL(e.__url);
+                entries.splice(i, 1);
+                render();
+            };
+
+            row.append(up, down, del);
+            list.appendChild(row);
+        });
+        if (!entries.length) {
+            const empty = document.createElement("div");
+            empty.className = "im-empty";
+            empty.textContent = "No images yet.";
+            list.appendChild(empty);
+        }
+    };
+    render();
+
+    const foot = document.createElement("div");
+    foot.className = "im-foot";
+
+    const addInput = document.createElement("input");
+    addInput.type = "file";
+    addInput.accept = "image/*";
+    addInput.multiple = true;
+    addInput.className = "im-add";
+    addInput.onchange = () => {
+        for (const f of addInput.files) entries.push({ file: f });
+        addInput.value = "";
+        render();
+    };
+    foot.appendChild(addInput);
+
+    const msg = document.createElement("span");
+    msg.className = "im-msg";
+
+    const save = document.createElement("button");
+    save.type = "button"; save.className = "im-save"; save.textContent = "Save";
+    save.onclick = async () => {
+        save.disabled = true;
+        msg.className = "im-msg"; msg.textContent = "Saving…";
+        try {
+            const taken = new Set(entries.filter(e => e.name).map(e => e.name));
+            const finalList = [];
+            for (const e of entries) {
+                if (e.name) { finalList.push(e.name); continue; }
+                const name = galleryFilename(firearm.imageID, e.file.name, taken);
+                taken.add(name);
+                await uploadImage(firearm.imageID, name, e.file);
+                finalList.push(name);
+            }
+            await deleteImages(firearm.imageID, original.filter(n => !finalList.includes(n)));
+            await writeImagesJson(firearm.imageID, finalList);
+
+            panel.hidden = true;
+            thumbIndex = 0;
+            await loadImages(firearm);
+        } catch (err) {
+            msg.className = "im-msg error";
+            msg.textContent = "Save failed: " + err.message;
+            save.disabled = false;
+        }
+    };
+
+    foot.append(save, msg);
+    panel.appendChild(foot);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -359,29 +359,31 @@ async function saveMarketValue(firearm, summary, sources) {
     }
 }
 
-// ── uploaded files: range-visit targets & purchase documents ─────────────────
-// Both live under images/<itemId>/<subdir>/ (subdir = "targets" | "docs").
-// The owning DB column (range_notes.targets / transactions.docs) is JSON that
-// lists the filenames.
+// ── uploaded files: gallery images, range-visit targets, purchase documents ──
+// Gallery images live in images/<itemId>/ ; targets and docs in a subdir. The
+// owning list is images.json (gallery) or a DB JSON column (targets / docs).
 
-// Upload one file. `filename` already carries the <itemId>-<T|D><n>- prefix;
-// SHTTPS+ creates images/<itemId>/<subdir>/ from the multipart part filename.
+const imgRel = (itemId, subdir, filename) =>
+    subdir ? `${itemId}/${subdir}/${filename}` : `${itemId}/${filename}`;
+
+// Upload one file into images/<itemId>/[<subdir>/]. SHTTPS+ creates the folder
+// from the multipart part filename.
 async function uploadFile(itemId, subdir, filename, file) {
     const fd = new FormData();
-    fd.append("files[]", file, `${itemId}/${subdir}/${filename}`);
+    fd.append("files[]", file, imgRel(itemId, subdir, filename));
     const res = await fetch(`${FILE_API_BASE}/upload?path=images`, { method: "PUT", body: fd });
     if (!res.ok) {
         throw new Error(`Upload failed (${res.status}): ${(await res.text()).slice(0, 150)}`);
     }
 }
 
-// Delete files from images/<itemId>/<subdir>/ (no-op on an empty list).
+// Delete files from images/<itemId>/[<subdir>/] (no-op on an empty list).
 async function deleteFiles(itemId, subdir, filenames) {
     if (!filenames.length) return;
     const res = await fetch(`${FILE_API_BASE}/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path: `images/${itemId}/${subdir}`, files: filenames }),
+        body: JSON.stringify({ path: `images/${itemId}${subdir ? "/" + subdir : ""}`, files: filenames }),
     });
     if (!res.ok && res.status !== 404) {
         throw new Error(`Delete failed (${res.status})`);
@@ -392,3 +394,11 @@ const uploadTarget  = (id, name, file) => uploadFile(id, "targets", name, file);
 const deleteTargets = (id, names)      => deleteFiles(id, "targets", names);
 const uploadDoc     = (id, name, file) => uploadFile(id, "docs", name, file);
 const deleteDocs    = (id, names)      => deleteFiles(id, "docs", names);
+const uploadImage   = (id, name, file) => uploadFile(id, "", name, file);
+const deleteImages  = (id, names)      => deleteFiles(id, "", names);
+
+// Overwrite images/<itemId>/images.json with an ordered array of filenames.
+async function writeImagesJson(itemId, list) {
+    const blob = new Blob([JSON.stringify(list)], { type: "application/json" });
+    await uploadFile(itemId, "", "images.json", blob);
+}

@@ -25,9 +25,12 @@ const fs   = require("node:fs");
 const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
 
-const ROOT    = path.resolve(__dirname, "..");
+const REPO    = path.resolve(__dirname, "..");
+// Static/served root. Override with WEBROOT to test file-writing features
+// against a throwaway tree instead of the real project.
+const ROOT    = process.env.WEBROOT ? path.resolve(process.env.WEBROOT) : REPO;
 const PORT    = Number(process.env.PORT || 8080);
-const DB_PATH = path.resolve(ROOT, process.env.DB || "data/firearms.db");
+const DB_PATH = path.resolve(REPO, process.env.DB || "data/firearms.db");
 
 const db = new DatabaseSync(DB_PATH);
 
