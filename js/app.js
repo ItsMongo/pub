@@ -418,6 +418,18 @@ function makeFieldEl(f, value) {
         el.type = "checkbox";
         el.checked = !!value;
         return el;
+    } else if (f.type === "datalist") {
+        // free-text input with a dropdown of known values
+        el = document.createElement("input");
+        el.type = "text";
+        if (f.options && f.options.length) {
+            const listId = "dl-" + Math.random().toString(36).slice(2, 8);
+            el.setAttribute("list", listId);
+            const dl = document.createElement("datalist");
+            dl.id = listId;
+            for (const o of f.options) dl.appendChild(new Option(o));
+            el.__datalist = dl;   // buildEditForm mounts this next to the input
+        }
     } else {
         el = document.createElement("input");
         el.type = f.type || "text";
@@ -456,6 +468,7 @@ function buildEditForm(fields) {
                 label.prepend(el);           // checkbox before its label text
             } else {
                 label.appendChild(el);
+                if (el.__datalist) label.appendChild(el.__datalist);
             }
         }
         form.appendChild(label);
@@ -555,6 +568,10 @@ function renderItemEditor(firearm) {
     const isNew = !firearm;
     const it   = firearm ? firearm.raw.item : {};
 
+    // Suggestion lists from values already in the collection.
+    const distinct = (prop) => [...new Set(firearms.map(f => f[prop]).filter(Boolean))]
+        .sort((a, b) => String(a).localeCompare(String(b)));
+
     const fields = [];
     if (isNew) {
         fields.push({ name: "item_id", label: "Item ID (tag)", type: "text", value: "",
@@ -565,20 +582,20 @@ function renderItemEditor(firearm) {
         { name: "make",               label: "Make",              type: "text",   value: it.make },
         { name: "model",              label: "Model",             type: "text",   value: it.model },
         { name: "year",               label: "Year",              type: "text",   value: it.year },
-        { name: "action",             label: "Action",            type: "text",   value: it.action },
+        { name: "action",             label: "Action",            type: "datalist", options: distinct("action"), value: it.action },
         { name: "serial_number",      label: "Serial #",          type: "text",   value: it.serial_number },
-        { name: "caliber",            label: "Caliber",           type: "text",   value: it.caliber },
-        { name: "cartridge",          label: "Cartridge",         type: "text",   value: it.cartridge },
+        { name: "caliber",            label: "Caliber",           type: "datalist", options: distinct("caliber"), value: it.caliber },
+        { name: "cartridge",          label: "Cartridge",         type: "datalist", options: distinct("cartridge"), value: it.cartridge },
         { name: "coal",               label: "COAL",              type: "text",   value: it.coal },
         { name: "mag_capacity",       label: "Mag. capacity",     type: "text",   value: it.mag_capacity },
-        { name: "feed",               label: "Feed",              type: "text",   value: it.feed },
+        { name: "feed",               label: "Feed",              type: "datalist", options: distinct("feed"), value: it.feed },
         { name: "weight",             label: "Weight",            type: "text",   value: it.weight },
-        { name: "country",            label: "Country",           type: "text",   value: it.country },
-        { name: "flag_image",         label: "Flag image path",   type: "text",   value: it.flag_image, placeholder: "flags/USA.png" },
-        { name: "cartridge_image",    label: "Cartridge image",   type: "text",   value: it.cartridge_image, placeholder: "in images/cartridges/" },
+        { name: "country",            label: "Country",           type: "datalist", options: distinct("country"), value: it.country },
+        { name: "flag_image",         label: "Flag image path",   type: "datalist", options: distinct("flag"), value: it.flag_image, placeholder: "flags/USA.png" },
+        { name: "cartridge_image",    label: "Cartridge image",   type: "datalist", options: distinct("cartridgeImage"), value: it.cartridge_image, placeholder: "in images/cartridges/" },
         { name: "cartridge_wiki_url", label: "Cartridge wiki URL", type: "url",   value: it.cartridge_wiki_url },
         { name: "cart_wiki2",         label: "Cartridge wiki 2",  type: "text",   value: it.cart_wiki2 },
-        { name: "maker_logo",         label: "Maker logo file",   type: "text",   value: it.maker_logo, placeholder: "in images/makers/" },
+        { name: "maker_logo",         label: "Maker logo file",   type: "datalist", options: distinct("makerLogo"), value: it.maker_logo, placeholder: "in images/makers/" },
         { name: "optic",              label: "Optic",             type: "text",   value: it.optic },
         { name: "optic_spec",         label: "Optic spec",        type: "text",   value: it.optic_spec },
         { name: "sights",             label: "Sights",            type: "text",   value: it.sights },

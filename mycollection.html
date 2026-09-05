@@ -73,7 +73,13 @@
         <!-- ⑥ Navigation -->
         <div class="hcol hcol-nav">
             <div class="nav-jump">
-                <label class="nav-label" for="modelSelector">&#9654; Jump To</label>
+                <div class="nav-jump-head">
+                    <label class="nav-label" for="modelSelector">&#9654; Jump To</label>
+                    <span class="nav-manage">
+                        <button id="editFirearmBtn" class="nav-manage-btn" type="button" title="Edit this firearm" hidden>&#9998;</button>
+                        <button id="addFirearmBtn" class="nav-manage-btn" type="button" title="Add a firearm" hidden>+&nbsp;Add</button>
+                    </span>
+                </div>
                 <select id="modelSelector"></select>
             </div>
             <div class="nav-pager">
@@ -85,10 +91,6 @@
                 <button class="nav-arrow" onclick="prevImage()" title="Previous image">&#8249;</button>
                 <span class="nav-images-label">Images</span>
                 <button class="nav-arrow" onclick="nextImage()" title="Next image">&#8250;</button>
-            </div>
-            <div class="nav-manage">
-                <button id="editFirearmBtn" class="nav-manage-btn" type="button" hidden>&#9998; Edit Firearm</button>
-                <button id="addFirearmBtn" class="nav-manage-btn" type="button" hidden>+ Add Firearm</button>
             </div>
         </div>
 
