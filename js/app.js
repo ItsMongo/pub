@@ -250,28 +250,27 @@ const MAINT_FIELDS = [
 
 const TAB_LISTS = {
     loadData: {
-        table: "load_data", addLabel: "+ Add load", fields: LOAD_FIELDS,
+        table: "load_data", pk: "load_id", singular: "Load", addLabel: "+ Add load", fields: LOAD_FIELDS,
         headline: (r, i) => [r.powder, withUnit(r.charge_grains, "gr"),
             withUnit(r.bullet_grains, "gr"), r.bullet_type].filter(Boolean).join(dot) || `Load ${i + 1}`,
     },
     rangeNotes: {
-        table: "range_notes", addLabel: "+ Add visit", fields: RANGE_FIELDS,
+        table: "range_notes", pk: "range_id", singular: "Visit", addLabel: "+ Add visit", fields: RANGE_FIELDS,
         headline: (r, i) => [r.date, withUnit(r.distance_yards, "yd"),
             withUnit(r.accuracy_moa, "MOA")].filter(Boolean).join(dot) || `Visit ${i + 1}`,
     },
     maintenance: {
-        table: "service_history", addLabel: "+ Add service", fields: MAINT_FIELDS,
+        table: "service_history", pk: "service_id", singular: "Service", addLabel: "+ Add service", fields: MAINT_FIELDS,
         headline: (r, i) => [r.date, r.svc_type].filter(Boolean).join(dot) || `Service ${i + 1}`,
     },
 };
 
-// Tabs that have an inline editor (see edit section below).
+// Tabs whose title gets an "✎ Edit" button (single-form editors). The list tabs
+// (loadData / rangeNotes / maintenance) render per-record Edit/Remove/Add
+// controls in the summary view instead — see renderRecordSummary.
 const EDITABLE_TABS = {
     purchase:    renderPurchaseEditor,
     marketValue: renderMarketValueEditor,
-    loadData:    (f) => renderListEditor(f, "loadData"),
-    rangeNotes:  (f) => renderListEditor(f, "rangeNotes"),
-    maintenance: (f) => renderListEditor(f, "maintenance"),
 };
 
 function renderTabContent(firearm, tabKey) {
@@ -337,29 +336,9 @@ function renderTabContent(firearm, tabKey) {
 
         case "loadData":
         case "rangeNotes":
-        case "maintenance": {
-            const cfg  = TAB_LISTS[tabKey];
-            const rows = tab.rows;
-            if (!rows)          { contentEl.textContent = tab.content || "—"; break; } // JSON fallback
-            if (!rows.length)   { contentEl.innerHTML = "—"; break; }
-            contentEl.innerHTML = rows.map((row, i) => {
-                const kv = cfg.fields
-                    .filter(f => f.name !== "targets" && row[f.name])
-                    .map(f => [f.label, f.type === "url"
-                        ? `<a href="${row[f.name]}" target="_blank">${row[f.name]}</a>`
-                        : row[f.name]]);
-                let targetsHtml = "";
-                const names = parseTargets(row.targets);
-                if (names.length) {
-                    targetsHtml = `<div class="target-grid read">` + names.map(n => {
-                        const src = `../images/${firearm.imageID}/targets/${n}`;
-                        return `<a href="${src}" target="_blank" class="target-thumb"><img src="${src}" alt="target"></a>`;
-                    }).join("") + `</div>`;
-                }
-                return `<div class="load-entry"><div class="load-headline">${cfg.headline(row, i)}</div>${renderKV(kv)}${targetsHtml}</div>`;
-            }).join("");
+        case "maintenance":
+            renderRecordSummary(firearm, tabKey);
             break;
-        }
 
         // history — plain text
         default:
@@ -535,57 +514,113 @@ function renderMarketValueEditor(firearm) {
     }));
 }
 
-// Generic editor for the "list" tabs (loadData / rangeNotes / maintenance):
-// a stack of record blocks with Add / Remove, saved as a replace-all set.
-function renderListEditor(firearm, tabKey) {
-    const cfg  = TAB_LISTS[tabKey];
-    const rows = (firearm.raw?.[cfg.table] || []).slice();
-    if (!rows.length) rows.push({});   // start with one blank block
+// Summary (read) view for a list tab: every record with per-record Edit /
+// Remove buttons, and an Add button at the bottom. Editing is one record at a
+// time via renderRecordEditor.
+function renderRecordSummary(firearm, tabKey) {
+    const cfg = TAB_LISTS[tabKey];
+    const tab = firearm.tabs[tabKey];
+    const contentEl = document.getElementById("scrollableTextContent");
+    const rows = tab.rows;
+    const live = typeof isDbLive === "function" && isDbLive();
+
+    if (!rows) { contentEl.textContent = tab.content || "—"; return; }  // JSON fallback
+
+    contentEl.innerHTML = "";
+
+    rows.forEach((row, i) => {
+        const entry = document.createElement("div");
+        entry.className = "load-entry";
+
+        const head = document.createElement("div");
+        head.className = "load-headline";
+        const title = document.createElement("span");
+        title.textContent = cfg.headline(row, i);
+        head.appendChild(title);
+        if (live) {
+            const acts = document.createElement("span");
+            acts.className = "entry-actions";
+            const ed = document.createElement("button");
+            ed.type = "button"; ed.className = "entry-edit"; ed.textContent = "Edit";
+            ed.onclick = () => renderRecordEditor(firearm, tabKey, row);
+            const rm = document.createElement("button");
+            rm.type = "button"; rm.className = "entry-remove"; rm.textContent = "Remove";
+            rm.onclick = () => removeRecord(firearm, tabKey, row);
+            acts.append(ed, rm);
+            head.appendChild(acts);
+        }
+        entry.appendChild(head);
+
+        const kv = cfg.fields
+            .filter(f => f.name !== "targets" && row[f.name])
+            .map(f => [f.label, f.type === "url"
+                ? `<a href="${row[f.name]}" target="_blank">${row[f.name]}</a>`
+                : row[f.name]]);
+        const kvWrap = document.createElement("div");
+        kvWrap.innerHTML = renderKV(kv);
+        entry.appendChild(kvWrap);
+
+        const names = parseTargets(row.targets);
+        if (names.length) {
+            const grid = document.createElement("div");
+            grid.className = "target-grid read";
+            grid.innerHTML = names.map(n => {
+                const src = `../images/${firearm.imageID}/targets/${n}`;
+                return `<a href="${src}" target="_blank" class="target-thumb"><img src="${src}" alt="target"></a>`;
+            }).join("");
+            entry.appendChild(grid);
+        }
+        contentEl.appendChild(entry);
+    });
+
+    if (!rows.length) {
+        const dash = document.createElement("div");
+        dash.textContent = "—";
+        contentEl.appendChild(dash);
+    }
+
+    if (live) {
+        const add = document.createElement("button");
+        add.type = "button";
+        add.className = "load-add";
+        add.textContent = cfg.addLabel;
+        add.onclick = () => renderRecordEditor(firearm, tabKey, null);   // null -> new record
+        contentEl.appendChild(add);
+    }
+}
+
+// Edit or add one record of a list tab. `row` is the DB row to edit, or null
+// to add a new one. Save updates (by primary key) or inserts; Cancel returns
+// to the summary.
+function renderRecordEditor(firearm, tabKey, row) {
+    const cfg    = TAB_LISTS[tabKey];
+    const data   = row || {};
+    const isNew  = !row;
 
     const form = document.createElement("form");
     form.className = "edit-form list-editor";
 
-    const blocksEl = document.createElement("div");
-    form.appendChild(blocksEl);
+    const fs = document.createElement("fieldset");
+    fs.className = "load-block";
+    const legend = document.createElement("legend");
+    legend.textContent = (isNew ? "New " : "") + cfg.singular;
+    fs.appendChild(legend);
 
-    const addBlock = (data = {}) => {
-        const fs = document.createElement("fieldset");
-        fs.className = "load-block";
-
-        const legend = document.createElement("legend");
-        legend.textContent = cfg.addLabel.replace(/^\+\s*Add\s*/i, "");
-        const remove = document.createElement("button");
-        remove.type = "button";
-        remove.className = "load-remove";
-        remove.textContent = "Remove";
-        remove.onclick = () => fs.remove();
-        legend.appendChild(remove);
-        fs.appendChild(legend);
-
-        for (const f of cfg.fields) {
-            const label = document.createElement("label");
-            label.textContent = f.label;
-            if (f.type === "targets") {
-                const widget = buildTargetWidget(data[f.name], firearm.imageID);
-                widget.el.__widget = widget;
-                label.appendChild(widget.el);
-            } else {
-                const el = makeFieldEl(f, data[f.name]);
-                el.dataset.field = f.name;
-                label.appendChild(el);
-            }
-            fs.appendChild(label);
+    for (const f of cfg.fields) {
+        const label = document.createElement("label");
+        label.textContent = f.label;
+        if (f.type === "targets") {
+            const widget = buildTargetWidget(data[f.name], firearm.imageID);
+            widget.el.__widget = widget;
+            label.appendChild(widget.el);
+        } else {
+            const el = makeFieldEl(f, data[f.name]);
+            el.dataset.field = f.name;
+            label.appendChild(el);
         }
-        blocksEl.appendChild(fs);
-    };
-    rows.forEach(addBlock);
-
-    const addBtn = document.createElement("button");
-    addBtn.type = "button";
-    addBtn.className = "load-add";
-    addBtn.textContent = cfg.addLabel;
-    addBtn.onclick = () => addBlock();
-    form.appendChild(addBtn);
+        fs.appendChild(label);
+    }
+    form.appendChild(fs);
 
     const actions = document.createElement("div");
     actions.className = "edit-actions";
@@ -596,51 +631,57 @@ function renderListEditor(firearm, tabKey) {
     form.appendChild(actions);
 
     mountEditor(firearm, tabKey, form, async () => {
-        const blocks = [...form.querySelectorAll(".load-block")];
-
-        // Target images (range visits only): every filename referenced before
-        // this save, so we can delete the ones dropped from the form.
-        const before = new Set();
-        for (const r of (firearm.raw?.[cfg.table] || [])) {
-            (parseTargets(r.targets)).forEach(n => before.add(n));
-        }
-        // Next T-number for this firearm = highest still referenced + 1.
-        let nextT = 0;
-        for (const fs of blocks) {
-            const w = fs.querySelector(".target-widget")?.__widget;
-            for (const n of (w ? w.kept() : [])) {
-                const m = n.match(/-T(\d+)-/);
-                if (m) nextT = Math.max(nextT, +m[1]);
-            }
+        const values = {};
+        for (const el of fs.querySelectorAll("[data-field]")) {
+            const v = el.value.trim();
+            values[el.dataset.field] = v === "" ? null : v;
         }
 
-        const after = new Set();
-        const out = [];
-        for (const fs of blocks) {
-            const row = {};
-            for (const el of fs.querySelectorAll("[data-field]")) {
-                const v = el.value.trim();
-                row[el.dataset.field] = v === "" ? null : v;
-            }
-            const w = fs.querySelector(".target-widget")?.__widget;
-            if (w) {
-                const names = w.kept();
-                for (const file of w.pending()) {
-                    nextT += 1;
-                    const name = targetFilename(firearm.imageID, nextT, file.name);
-                    await uploadTarget(firearm.imageID, name, file);
-                    names.push(name);
+        // Target images (range visits): upload the pending files, then delete
+        // any this record used to reference but no longer does.
+        const w = fs.querySelector(".target-widget")?.__widget;
+        if (w) {
+            const before = parseTargets(data.targets);
+            let nextT = 0;
+            for (const r of (firearm.raw?.[cfg.table] || [])) {
+                for (const n of parseTargets(r.targets)) {
+                    const m = n.match(/-T(\d+)-/);
+                    if (m) nextT = Math.max(nextT, +m[1]);
                 }
-                names.forEach(n => after.add(n));
-                row.targets = names.length ? JSON.stringify(names) : null;
             }
-            out.push(row);
+            const names = w.kept();
+            for (const file of w.pending()) {
+                nextT += 1;
+                const name = targetFilename(firearm.imageID, nextT, file.name);
+                await uploadTarget(firearm.imageID, name, file);
+                names.push(name);
+            }
+            values.targets = names.length ? JSON.stringify(names) : null;
+            await deleteTargets(firearm.imageID, before.filter(n => !names.includes(n)));
         }
 
-        const rowsToSave = out.filter(row => Object.values(row).some(v => v != null));
-        await saveRecordList(firearm, cfg.table, rowsToSave);
-        await deleteTargets(firearm.imageID, [...before].filter(n => !after.has(n)));
+        if (isNew) {
+            await dbInsert(cfg.table, { item_id: firearm.itemId, ...values });
+        } else {
+            await dbUpdate(cfg.table, values, dbFilters({ [cfg.pk]: row[cfg.pk] }));
+        }
     });
+}
+
+// Delete one record of a list tab (and its target images), with a confirm.
+async function removeRecord(firearm, tabKey, row) {
+    const cfg = TAB_LISTS[tabKey];
+    if (!window.confirm(`Remove this ${cfg.singular.toLowerCase()}?`)) return;
+    try {
+        const targets = parseTargets(row.targets);
+        if (targets.length) await deleteTargets(firearm.imageID, targets);
+        await dbDelete(cfg.table, dbFilters({ [cfg.pk]: row[cfg.pk] }));
+        const fresh = await reloadFirearm(firearm.itemId);
+        replaceFirearm(fresh);
+        loadTabs(fresh);
+    } catch (err) {
+        window.alert("Remove failed: " + err.message);
+    }
 }
 
 const parseTargets = (json) => {
@@ -649,7 +690,7 @@ const parseTargets = (json) => {
 };
 
 // Build a target-image field: existing thumbnails (each removable) + a file
-// picker for new ones. Uploads happen on Save (see renderListEditor).
+// picker for new ones. Uploads happen on Save (see renderRecordEditor).
 function buildTargetWidget(targetsJson, imageID) {
     let kept = parseTargets(targetsJson);
     const pending = [];   // File objects not yet uploaded

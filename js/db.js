@@ -358,16 +358,6 @@ async function saveMarketValue(firearm, summary, sources) {
     }
 }
 
-// Save one of the "list" tabs (load_data / range_notes / service_history). The
-// rows carry no identity the UI tracks, so this replaces the firearm's whole
-// set for that table — delete all, then insert what the form submitted.
-async function saveRecordList(firearm, table, rows) {
-    await dbDelete(table, dbFilters({ item_id: firearm.itemId }));
-    if (rows.length) {
-        await dbInsert(table, rows.map(r => ({ item_id: firearm.itemId, ...r })));
-    }
-}
-
 // ── range-visit target images ───────────────────────────────────────────────
 // Stored under images/<itemId>/targets/ ; each range_notes row's `targets`
 // column is a JSON array of the filenames it owns.
