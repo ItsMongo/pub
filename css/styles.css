@@ -955,6 +955,8 @@ main {
   padding: 10px;
   box-sizing: border-box;
 }
+/* the ID selector above beats the UA [hidden] rule, so hide it explicitly */
+#imageManager[hidden] { display: none; }
 .im-head {
   display: flex;
   justify-content: space-between;
