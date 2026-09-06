@@ -416,3 +416,21 @@ async function writeImagesJson(itemId, list) {
     const blob = new Blob([JSON.stringify(list)], { type: "application/json" });
     await uploadFile(itemId, "", "images.json", blob);
 }
+
+// Read images/<itemId>/images.json THROUGH the file API (/api/file/download).
+// Plain static serving of .json can fail on some SHTTPS+ file-access modes,
+// but the file API works (it's the same path the uploads use). Returns an
+// array, or null if there's no list.
+async function downloadImagesJson(itemId) {
+    try {
+        const res = await fetch(
+            `${FILE_API_BASE}/download?path=`
+            + encodeURIComponent(`images/${itemId}/images.json`)
+            + `&_=${Date.now()}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        return Array.isArray(data) ? data : null;
+    } catch {
+        return null;
+    }
+}

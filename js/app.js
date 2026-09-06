@@ -6,7 +6,6 @@ let filteredFirearms = [];   // current working set (subset by activeType)
 let currentIndex     = 0;   // index into filteredFirearms
 let images           = [];
 let thumbIndex       = 0;
-let imagesJsonVersion = 0;   // cache-bust token, bumped by the image manager
 let activeType       = "";   // "" = All
 let currentTab       = "history";
 
@@ -1130,19 +1129,22 @@ async function loadImages(firearm) {
     manageBtn.hidden = !(typeof isDbLive === "function" && isDbLive());
     document.getElementById("imageManager").hidden = true;
 
-    // Not every firearm has an image folder yet — treat a missing/!ok
-    // images.json as "no images" rather than throwing. `imagesJsonVersion` is
-    // bumped after the image manager rewrites a file, to defeat any caching.
-    const basePath = `../images/${firearm.imageID}/`;
-    const bust = imagesJsonVersion ? `?v=${imagesJsonVersion}` : "";
-    let files = [];
-    try {
-        const response = await fetch(basePath + "images.json" + bust);
-        if (response.ok) files = await response.json();
-    } catch { /* no images for this item */ }
+    // Image files themselves load fine as plain static requests (they're the
+    // same form as the header images). Read the images.json manifest through
+    // the file API instead — static .json serving fails on some SHTTPS+
+    // file-access modes. Fall back to a static fetch if the API isn't there.
+    const basePath = `images/${firearm.imageID}/`;
+    let files = await downloadImagesJson(firearm.imageID);
+    if (!Array.isArray(files)) {
+        try {
+            const r = await fetch(basePath + "images.json");
+            if (r.ok) files = await r.json();
+        } catch { /* no list */ }
+    }
 
-    if (!files.length) {
+    if (!Array.isArray(files) || !files.length) {
         fullImage.removeAttribute("src");
+        thumbnailStrip.textContent = "";
         return;
     }
 
@@ -1231,12 +1233,8 @@ async function renderImageManager(firearm) {
     const panel = document.getElementById("imageManager");
     const basePath = `../images/${firearm.imageID}/`;
 
-    // Authoritative current list.
-    let original = [];
-    try {
-        const r = await fetch(basePath + "images.json?v=" + (imagesJsonVersion || Date.now()));
-        if (r.ok) original = await r.json();
-    } catch { /* none yet */ }
+    // Authoritative current list (via the file API — see loadImages).
+    const original = (await downloadImagesJson(firearm.imageID)) || [];
 
     // Working entries: { name } for existing, { file } for new.
     let entries = original.map(name => ({ name }));
@@ -1338,10 +1336,9 @@ async function renderImageManager(firearm) {
             await deleteImages(firearm.imageID, original.filter(n => !finalList.includes(n)));
             await writeImagesJson(firearm.imageID, finalList);
 
-            imagesJsonVersion = Date.now();   // force a fresh images.json read
             panel.hidden = true;
             thumbIndex = 0;
-            await loadImages(firearm);
+            await loadImages(firearm);   // downloadImagesJson() always cache-busts
         } catch (err) {
             msg.className = "im-msg error";
             msg.textContent = "Save failed: " + err.message;

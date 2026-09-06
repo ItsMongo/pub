@@ -255,6 +255,16 @@ async function handleApi(req, res, url) {
         return sendJson(res, 200, { ok: true });
     }
 
+    // GET /api/file/download?path=<file> — serve a file through the API.
+    if (p === "/api/file/download" && req.method === "GET") {
+        let full;
+        try { full = safeUnder(q.get("path") || ""); } catch { return send(res, 403, "forbidden"); }
+        if (!fs.existsSync(full) || fs.statSync(full).isDirectory()) return send(res, 404, "not found");
+        res.writeHead(200, { ...CORS, "Content-Type":
+            MIME[path.extname(full).toLowerCase()] || "application/octet-stream" });
+        return fs.createReadStream(full).pipe(res);
+    }
+
     // DELETE /api/file/delete — JSON { path: <dir>, files: [names] }
     if (p === "/api/file/delete" && req.method === "DELETE") {
         const { path: dir, files = [] } = JSON.parse(await readBody(req) || "{}");
