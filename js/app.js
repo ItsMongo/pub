@@ -148,6 +148,39 @@ document.getElementById("nextBtn").onclick = () => {
 document.getElementById("addFirearmBtn").onclick  = () => renderItemEditor(null);
 document.getElementById("editFirearmBtn").onclick = () => renderItemEditor(filteredFirearms[currentIndex]);
 
+// Shrink an element's font-size until its content fits its (bounded) box.
+function fitText(el, maxPx, minPx) {
+    if (!el) return;
+    el.style.fontSize = maxPx + "px";
+    let size = maxPx;
+    while (size > minPx &&
+           (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1)) {
+        el.style.fontSize = (--size) + "px";
+    }
+}
+
+// Tidy the weight string: drop "unloaded" / "approximate" and any punctuation
+// they leave behind. Length is capped by CSS (ellipsis on .specs .value).
+function cleanWeight(w) {
+    if (w == null) return "";
+    return String(w)
+        .replace(/\b(un-?loaded|approx(?:imate|\.)?)\b/gi, "")
+        .replace(/[,;]\s*(?=[,;)\s]|$)/g, "")
+        .replace(/\s+([)\].,;])/g, "$1")
+        .replace(/\(\s*\)/g, "")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+}
+
+// Re-fit the model text on resize.
+let _fitRAF;
+window.addEventListener("resize", () => {
+    cancelAnimationFrame(_fitRAF);
+    _fitRAF = requestAnimationFrame(() => {
+        if (filteredFirearms[currentIndex]) fitText(document.querySelector(".heading1"), 32, 13);
+    });
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // updateUI — drives all header fields from filteredFirearms[currentIndex]
 // ─────────────────────────────────────────────────────────────────────────────
@@ -167,11 +200,12 @@ function updateUI() {
 
     document.getElementById("titleMake").textContent    = c.make;
     document.getElementById("titleModel").textContent   = c.model;
+    fitText(document.querySelector(".heading1"), 32, 13);
     document.getElementById("titleAction").textContent  = c.action;
     document.getElementById("titleYear").textContent    = c.year;
     document.getElementById("serialNum").textContent    = c.serialNumber;
     document.getElementById("caliber").textContent      = c.caliber;
-    document.getElementById("weight").textContent       = c.weight;
+    document.getElementById("weight").textContent       = cleanWeight(c.weight);
     document.getElementById("feed").textContent         = c.feed;
     document.getElementById("magCapacity").textContent  = c.magCapacity;
     document.getElementById("cartridge").textContent    = c.cartridge;

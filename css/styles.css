@@ -32,7 +32,7 @@ body {
 
 header {
     display: grid;
-    grid-template-columns: 1.4fr 1.1fr auto auto 0.6fr auto;
+    grid-template-columns: 1.4fr 1fr auto auto 0.9fr auto;
     align-items: stretch;
     gap: 0;
     flex-shrink: 0;
@@ -52,14 +52,14 @@ header {
 }
 /* Title content area */
 .heading1 {
-    font-size: clamp(0.95rem, 2.2vw, 2.2rem);
+    /* font-size is set by fitText() in app.js to fill this bounded box */
+    font-size: 2rem;
     font-weight: bold;
-    line-height: 1.2;
+    line-height: 1.1;
+    max-height: 2.3em;      /* ~2 lines — the "allowed space" fitText shrinks into */
     overflow: hidden;
-    display: -webkit-box;
-    /*  -webkit-line-clamp: 2; */
-    -webkit-box-orient: vertical;
     white-space: normal;
+    word-break: break-word;
 }
 
 .heading2 {
@@ -300,17 +300,15 @@ main {
     align-items: center;
     justify-content: center;
     gap: 4px;
-    min-width: 200px;
+    min-width: 176px;
     flex: 2;
 }
 
-/* ⑤ Added info column */
+/* ⑤ Added info column (Filter Type) — widened by trimming the cartridge image */
 .hcol-info {
     justify-content: center;
     gap: 3px;
     font-size: 0.78rem;
-    min-width: 100px;
-    flex: 1;
 }
 
 /* ⑥ Nav column */
@@ -322,13 +320,21 @@ main {
     flex: 2;
 }
 
-/* Serial line */
-.h-serial {
+/* Action · Feed · Serial — one wrapping line under the model */
+.h-meta {
     display: flex;
-    gap: 6px;
+    flex-wrap: wrap;
     align-items: baseline;
-    margin-top: 2px;
+    gap: 2px 12px;
+    margin-top: 4px;
 }
+.h-meta-item {
+    font-size: clamp(0.72rem, 0.95vw, 0.95rem);
+    font-style: italic;
+    color: #f1efa0f1;
+    white-space: nowrap;
+}
+.h-serial { font-style: normal; }
 
 /* COAL label under cartridge */
 .h-coal {
@@ -394,9 +400,8 @@ main {
 }
 
 .specs .label {
-    /* font-weight: 600; */
     opacity: .85;
-    text-align: right  
+    text-align: right;
 }
 
 .specs .value {
@@ -405,6 +410,7 @@ main {
     border-radius: 3px;
     text-align: left;
     color: #f1efa0;
+    min-width: 0;
 }
 
 .web-links {
@@ -418,7 +424,7 @@ main {
 }
 
 .cartridgeImage {
-    width: 220px;
+    width: 176px;
     height: 75px;
     object-fit: contain;
     object-position: center;
@@ -429,7 +435,7 @@ main {
 }
 /* Cartridge image container — fixed size, image scales within */
 .cartspan {
-    width: 220px;
+    width: 176px;
     height: 75px;
     flex-shrink: 0;
     display: flex;
