@@ -204,6 +204,9 @@ function updateUI() {
     document.getElementById("titleAction").textContent  = c.action;
     document.getElementById("titleYear").textContent    = c.year;
     document.getElementById("serialNum").textContent    = c.serialNumber;
+    document.querySelector(".h-serial").hidden          = !c.serialNumber;
+    document.getElementById("titleAction").hidden       = !c.action;
+    document.getElementById("feed").hidden              = !c.feed;
     document.getElementById("caliber").textContent      = c.caliber;
     document.getElementById("weight").textContent       = cleanWeight(c.weight);
     document.getElementById("feed").textContent         = c.feed;
