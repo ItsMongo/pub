@@ -41,6 +41,89 @@ const DB_FALLBACK_URL = "data/firearms.json";
 let dbLive = false;
 function isDbLive() { return dbLive; }
 
+// ── sync outbox ─────────────────────────────────────────────────────────────
+// Every write this file makes to a collection table or an images/ file is also
+// appended to sync_outbox, so "Sync Data" (js/sync.js) can replay exactly those
+// changes onto another device. The five collection tables are syncable; the
+// outbox / bookkeeping tables are not.
+const SYNC_TABLES = new Set([
+    "items", "transactions", "load_data", "range_notes", "service_history",
+]);
+
+// items and transactions are edited by natural keys (item_id, or item_id +
+// transaction_type [+ source]) that replay onto another device unchanged.
+// These three are edited by an AUTOINCREMENT integer PK, which differs per
+// device — so every row gets a stable sync_uid and the sync layer keys on that.
+const UID_TABLES = new Set(["load_data", "range_notes", "service_history"]);
+
+// RFC-4122-ish v4 id. crypto.randomUUID() needs a secure context and the app is
+// served over plain http on the LAN, so build it from getRandomValues.
+function newUid() {
+    try {
+        const b = crypto.getRandomValues(new Uint8Array(16));
+        b[6] = (b[6] & 0x0f) | 0x40;
+        b[8] = (b[8] & 0x3f) | 0x80;
+        const h = [...b].map(x => x.toString(16).padStart(2, "0")).join("");
+        return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+    } catch {
+        return "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    }
+}
+
+// Bumped whenever an outbox append fails — the change was made locally but
+// won't be picked up by a Sync. The panel surfaces this.
+let outboxDegraded = 0;
+function outboxHealth() { return { degraded: outboxDegraded }; }
+
+// DDL for the sync tables — shared with js/sync.js, which ensures them on a
+// target before a push. sync_outbox lives on every device; sync_state is only
+// written on a target (it records how far each source device has been replayed).
+const SYNC_DDL = [
+    `CREATE TABLE IF NOT EXISTS sync_outbox (seq INTEGER PRIMARY KEY AUTOINCREMENT,`
+    + ` ts TEXT NOT NULL, kind TEXT NOT NULL, tbl TEXT, payload TEXT NOT NULL,`
+    + ` synced INTEGER NOT NULL DEFAULT 0, synced_ts TEXT)`,
+    `CREATE TABLE IF NOT EXISTS sync_state (source_host TEXT PRIMARY KEY,`
+    + ` last_seq INTEGER NOT NULL DEFAULT 0, updated_ts TEXT)`,
+];
+
+// Create the sync tables locally if they're missing, and make sure the three
+// list tables carry a sync_uid column. Idempotent; safe to run every boot.
+async function ensureSyncSchema() {
+    for (const sql of SYNC_DDL) await dbWrite("query", "POST", null, sql);
+    for (const t of UID_TABLES) {
+        let hasCol = true;
+        try {
+            const info = await dbQuery(`PRAGMA table_info("${t}")`);
+            hasCol = info.some(c => c.name === "sync_uid");
+        } catch { /* PRAGMA blocked — fall through and try the ALTER */ hasCol = false; }
+        if (!hasCol) {
+            try {
+                await dbWrite("query", "POST", null, `ALTER TABLE "${t}" ADD COLUMN sync_uid TEXT`);
+            } catch { /* raced / already there */ }
+        }
+    }
+}
+
+// Append one row to sync_outbox. Never throws — a failure here must not break
+// the user's actual edit, but it does mean the edit won't sync, so we shout.
+async function recordOutbox(kind, tbl, payload) {
+    if (!dbLive) return;
+    try {
+        await dbWrite("insert", "POST", {
+            table: "sync_outbox",
+            values: JSON.stringify({
+                ts: new Date().toISOString(),
+                kind, tbl: tbl || null,
+                payload: JSON.stringify(payload),
+                synced: 0,
+            }),
+        });
+    } catch (err) {
+        outboxDegraded++;
+        console.error(`[db.js] sync_outbox append failed (${kind} ${tbl || ""}): ${err.message}`);
+    }
+}
+
 // SHTTPS+ filter object: column names carry an operator suffix, values are bound.
 //   dbFilters({ item_id: "LE41", transaction_type: "Purchase" })
 //   -> { clauses: ["item_id=", "transaction_type="], args: ["LE41", "Purchase"] }
@@ -203,6 +286,18 @@ function shapeFirearm(item, childMaps) {
 
 // ── public entry point ──────────────────────────────────────────────────────
 
+// Turn the five raw table arrays into the firearm-object shape the UI uses.
+// Shared with js/sync.js (regenerating data/firearms.json after a sync).
+function shapeCollection({ items, load_data, range_notes, service_history, transactions }) {
+    const childMaps = {
+        load_data:       groupByItem(load_data       || []),
+        range_notes:     groupByItem(range_notes     || []),
+        service_history: groupByItem(service_history || []),
+        transactions:    groupByItem(transactions    || []),
+    };
+    return (items || []).map(item => shapeFirearm(item, childMaps));
+}
+
 async function loadCollection() {
     try {
         const [items, load_data, range_notes, service_history, transactions] =
@@ -214,15 +309,13 @@ async function loadCollection() {
                 dbTable("transactions"),
             ]);
 
-        const childMaps = {
-            load_data:       groupByItem(load_data),
-            range_notes:     groupByItem(range_notes),
-            service_history: groupByItem(service_history),
-            transactions:    groupByItem(transactions),
-        };
-
         dbLive = true;
-        return items.map(item => shapeFirearm(item, childMaps));
+        try {
+            await ensureSyncSchema();
+        } catch (err) {
+            console.warn(`[db.js] could not ensure sync schema (${err.message}) — Sync may be unavailable.`);
+        }
+        return shapeCollection({ items, load_data, range_notes, service_history, transactions });
     } catch (err) {
         if (typeof window !== "undefined" && window.DB_NO_FALLBACK) throw err;
         console.warn(
@@ -242,11 +335,15 @@ async function loadCollection() {
 // The browser sends the viewer's cached Basic credentials / session cookie
 // automatically (same origin), so these need no auth handling of their own.
 
-async function dbWrite(endpoint, method, fields) {
-    const res = await fetch(`${DB_API_BASE}/${endpoint}`, {
+async function dbWrite(endpoint, method, fields, rawSql) {
+    const isSql = typeof rawSql === "string";
+    const url = isSql
+        ? `${DB_API_BASE}/query?includeNames=true&limit=1&offset=0`
+        : `${DB_API_BASE}/${endpoint}`;
+    const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(fields).toString(),
+        headers: { "Content-Type": isSql ? "text/plain" : "application/x-www-form-urlencoded" },
+        body: isSql ? rawSql : new URLSearchParams(fields).toString(),
     });
     const text = await res.text();
     if (!res.ok) throw new Error(`${endpoint} failed (${res.status}): ${text.slice(0, 200)}`);
@@ -254,25 +351,34 @@ async function dbWrite(endpoint, method, fields) {
 }
 
 // POST /api/db/insert — insert one row. `values` is a column→value object.
-function dbInsert(table, values) {
-    return dbWrite("insert", "POST", { table, values: JSON.stringify(values) });
+async function dbInsert(table, values) {
+    if (UID_TABLES.has(table) && !values.sync_uid) {
+        values = { ...values, sync_uid: newUid() };
+    }
+    const r = await dbWrite("insert", "POST", { table, values: JSON.stringify(values) });
+    if (SYNC_TABLES.has(table)) await recordOutbox("db.insert", table, { table, values });
+    return r;
 }
 
 // PUT /api/db/update — update the rows matching `filters` (a dbFilters() object).
-function dbUpdate(table, values, filters) {
-    return dbWrite("update", "PUT", {
+async function dbUpdate(table, values, filters) {
+    const r = await dbWrite("update", "PUT", {
         table,
         values: JSON.stringify(values),
         filters: JSON.stringify(filters),
     });
+    if (SYNC_TABLES.has(table)) await recordOutbox("db.update", table, { table, values, filters });
+    return r;
 }
 
 // DELETE /api/db/delete — delete the rows matching `filters`.
-function dbDelete(table, filters) {
-    return dbWrite("delete", "DELETE", {
+async function dbDelete(table, filters) {
+    const r = await dbWrite("delete", "DELETE", {
         table,
         filters: JSON.stringify(filters),
     });
+    if (SYNC_TABLES.has(table)) await recordOutbox("db.delete", table, { table, filters });
+    return r;
 }
 
 // Re-fetch one firearm's rows and return a freshly shaped object. Call after a
@@ -389,19 +495,22 @@ async function uploadFile(itemId, subdir, filename, file) {
     if (!res.ok) {
         throw new Error(`Upload failed (${res.status}): ${(await res.text()).slice(0, 150)}`);
     }
+    await recordOutbox("file.put", null, { path: `images/${imgRel(itemId, subdir, filename)}` });
 }
 
 // Delete files from images/<itemId>/[<subdir>/] (no-op on an empty list).
 async function deleteFiles(itemId, subdir, filenames) {
     if (!filenames.length) return;
+    const dir = `images/${itemId}${subdir ? "/" + subdir : ""}`;
     const res = await fetch(`${FILE_API_BASE}/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path: `images/${itemId}${subdir ? "/" + subdir : ""}`, files: filenames }),
+        body: JSON.stringify({ path: dir, files: filenames }),
     });
     if (!res.ok && res.status !== 404) {
         throw new Error(`Delete failed (${res.status})`);
     }
+    await recordOutbox("file.del", null, { dir, files: filenames });
 }
 
 const uploadTarget  = (id, name, file) => uploadFile(id, "targets", name, file);

@@ -33,9 +33,18 @@ $files = @(
     'mycollection.html',
     'js\app.js',
     'js\db.js',
+    'js\config.js',
+    'js\sync.js',
     'css\styles.css',
     'data\firearms.json'
 )
+
+# config.json is per-device (hostId, sync targets, saved creds) - never
+# overwrite the target's own. Seed it only if the target has none.
+$seedIfMissing = @('config.json')
+
+# Folders the app needs to exist on the target (Sync writes DB snapshots here).
+$ensureDirs = @('archive\database')
 
 function Get-Md5($p) {
     if (-not (Test-Path -LiteralPath $p)) { return $null }
@@ -73,6 +82,44 @@ foreach ($rel in $files) {
     try {
         Copy-Item -LiteralPath $from -Destination $to -Force -ErrorAction Stop
         Write-Host ("  {0,-22} copied" -f $rel) -ForegroundColor Green
+        $copied++
+    }
+    catch {
+        Write-Host ("  {0,-22} FAILED - {1}" -f $rel, $_.Exception.Message) -ForegroundColor Red
+        $failed++
+    }
+}
+
+# Ensure required folders exist on the target.
+foreach ($rel in $ensureDirs) {
+    $dir = Join-Path $Target $rel
+    if (-not (Test-Path -LiteralPath $dir)) {
+        if ($WhatIf) {
+            Write-Host ("  {0,-22} would create" -f $rel) -ForegroundColor Yellow
+        }
+        else {
+            New-Item -ItemType Directory -Path $dir -Force | Out-Null
+            Write-Host ("  {0,-22} created" -f $rel) -ForegroundColor Green
+        }
+    }
+}
+
+# Seed per-device files only when the target doesn't have them yet.
+foreach ($rel in $seedIfMissing) {
+    $from = Join-Path $src    $rel
+    $to   = Join-Path $Target $rel
+    if (Test-Path -LiteralPath $to) {
+        Write-Host ("  {0,-22} kept (device's own)" -f $rel) -ForegroundColor DarkGray
+        continue
+    }
+    if (-not (Test-Path -LiteralPath $from)) { continue }
+    if ($WhatIf) {
+        Write-Host ("  {0,-22} would seed" -f $rel) -ForegroundColor Yellow
+        continue
+    }
+    try {
+        Copy-Item -LiteralPath $from -Destination $to -Force -ErrorAction Stop
+        Write-Host ("  {0,-22} seeded - edit hostId / targets on the device" -f $rel) -ForegroundColor Green
         $copied++
     }
     catch {

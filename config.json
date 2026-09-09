@@ -1,0 +1,8 @@
+{
+  "hostId": "dev",
+  "syncTargets": [
+    { "name": "Shield (home)", "hostId": "shield", "base": "http://192.168.4.167:8080" }
+  ],
+  "archiveDir": "archive/database",
+  "keepBackups": 30
+}

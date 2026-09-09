@@ -20,13 +20,16 @@ const WANT = {
         "load_date", "brass", "primer", "powder", "charge_grains",
         "bullet_caliber", "bullet_type", "bullet_grains",
         "ballistic_coefficient", "sectional_density", "velocity_fps",
+        "sync_uid",   // stable id for cross-device sync (js/sync.js)
     ],
     range_notes: [
         "batch_num", "zero_yards", "sight_type", "shooting_pos", "accuracy_moa",
         "targets",   // JSON array of target-image filenames (upload feature)
+        "sync_uid",
     ],
     service_history: [
         "svc_type", "maint_cost",
+        "sync_uid",
     ],
     transactions: [
         "docs",   // JSON [{filename,title,type}] — purchase documents/receipts
@@ -37,13 +40,27 @@ const WANT = {
     ],
 };
 
+// Tables that must exist (created if missing). Sync bookkeeping — see js/db.js
+// (SYNC_DDL) and js/sync.js.
+const WANT_TABLES = [
+    `CREATE TABLE IF NOT EXISTS sync_outbox (seq INTEGER PRIMARY KEY AUTOINCREMENT,`
+    + ` ts TEXT NOT NULL, kind TEXT NOT NULL, tbl TEXT, payload TEXT NOT NULL,`
+    + ` synced INTEGER NOT NULL DEFAULT 0, synced_ts TEXT)`,
+    `CREATE TABLE IF NOT EXISTS sync_state (source_host TEXT PRIMARY KEY,`
+    + ` last_seq INTEGER NOT NULL DEFAULT 0, updated_ts TEXT)`,
+];
+
 const a       = argsFromProcess();
 const DRY_RUN = a.flags.has("--dry-run");
 const ROOT    = path.resolve(__dirname, "..");
 const DB_PATH = path.resolve(ROOT, process.env.DB || "data/firearms.db");
 
-function planFor(existingByTable) {
+function planFor(existingByTable, haveTables) {
     const stmts = [];
+    for (const ddl of WANT_TABLES) {
+        const name = (ddl.match(/EXISTS (\w+)/) || [])[1];
+        if (name && haveTables && !haveTables.has(name)) stmts.push(ddl);
+    }
     for (const [table, cols] of Object.entries(WANT)) {
         const have = existingByTable[table];
         if (!have) { console.warn(`(table "${table}" not found — skipping)`); continue; }
@@ -64,7 +81,9 @@ async function migrateLocal() {
                 db.prepare(`PRAGMA table_info("${table}")`).all().map(r => r.name));
         } catch { /* table missing */ }
     }
-    const stmts = planFor(existing);
+    const haveTables = new Set(
+        db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map(r => r.name));
+    const stmts = planFor(existing, haveTables);
     finish(stmts, (sql) => { db.exec(sql); });
 }
 
@@ -78,7 +97,10 @@ async function migrateRemote() {
         if (nameIdx === -1) continue;
         existing[table] = new Set((r.data || []).map(row => row[nameIdx]));
     }
-    await finishAsync(planFor(existing), (sql) => client.runSql(sql));
+    const tbl = await client.runSql("SELECT name FROM sqlite_master WHERE type='table'");
+    const tIdx = (tbl.columns || []).indexOf("name");
+    const haveTables = new Set(tIdx === -1 ? [] : (tbl.data || []).map(row => row[tIdx]));
+    await finishAsync(planFor(existing, haveTables), (sql) => client.runSql(sql));
 }
 
 function finish(stmts, run) {

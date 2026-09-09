@@ -1057,3 +1057,114 @@ main {
 .im-save:disabled { opacity: 0.6; cursor: default; }
 .im-msg { font-size: 0.8rem; color: #3a5c30; }
 .im-msg.error { color: #a5311f; font-weight: 600; }
+
+/* ── Sync ─────────────────────────────────────────────────────────────────── */
+.nav-manage { flex-wrap: wrap; }
+.nav-manage-btn.has-pending {
+  color: #fff;
+  background: #a5311f;
+  border-color: #d98c7f;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal[hidden] { display: none; }
+.modal-box {
+  background: var(--panel);
+  border: 2px solid #266d33;
+  border-radius: 8px;
+  width: min(520px, 94vw);
+  max-height: 88vh;
+  overflow: auto;
+  padding: 14px 16px 16px;
+  box-sizing: border-box;
+}
+.sync-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #1a523b;
+  border-bottom: 1px solid #b6a985;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.sync-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #3a3a2a;
+  margin-bottom: 10px;
+}
+.sync-field select,
+.sync-field input {
+  font: inherit;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 6px 8px;
+  border: 1px solid #9c8f6d;
+  border-radius: 4px;
+  background: #f3e9d0;
+}
+.sync-creds { margin: 2px 0 6px; }
+.sync-creds[hidden] { display: none; }
+.sync-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #3a3a2a;
+}
+.sync-check input { width: auto; }
+.sync-note {
+  font-size: 0.82rem;
+  color: #7a3b1e;
+  background: #f0dcc0;
+  border: 1px solid #d8b48c;
+  border-radius: 4px;
+  padding: 7px 9px;
+  margin-bottom: 10px;
+}
+.sync-note[hidden] { display: none; }
+.sync-summary {
+  font-size: 0.82rem;
+  color: #3a5c30;
+  margin: 4px 0 10px;
+  min-height: 1em;
+}
+.sync-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.sync-actions .im-save { flex: 1; }
+.sync-pull { background: #2b5c86; border-color: #6a9fc9; }
+.sync-log {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: #2b2b1e;
+  background: #f6efdd;
+  border: 1px solid #cdbd97;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 0;
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.sync-log[hidden] { display: none; }

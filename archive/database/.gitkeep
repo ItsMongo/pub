@@ -1,0 +1,2 @@
+# Sync snapshots land here (js/sync.js). Tracked so the folder exists;
+# the snapshots themselves are git-ignored.

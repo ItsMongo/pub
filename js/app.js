@@ -190,6 +190,7 @@ function updateUI() {
     document.getElementById("addFirearmBtn").hidden  = !live;           // works with an empty list
     document.getElementById("editFirearmBtn").hidden = !live || !c;
     document.getElementById("manageImagesBtn").hidden = !live || !c;
+    if (typeof updateSyncButton === "function") updateSyncButton();
     if (!c) return;
 
     const badge = document.getElementById("disposedBadge");

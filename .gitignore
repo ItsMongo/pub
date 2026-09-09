@@ -8,3 +8,7 @@ data/firearms.db
 data/firearms.db-journal
 data/firearms.db-wal
 data/firearms.db-shm
+
+# Per-device Sync snapshots (js/sync.js) — keep the folder, ignore the dumps
+archive/database/*.json
+!archive/database/.gitkeep
