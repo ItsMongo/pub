@@ -35,6 +35,22 @@ function ddmmmyy(d = new Date()) {
 const sqlStr = (s) => String(s).replace(/'/g, "''");
 const nowIso = () => new Date().toISOString();
 
+// dbFilters shape ({ clauses:["col="], args:[v] }) -> " WHERE ..." SQL. Sync only
+// ever uses "=" filters. Used to run deletes through the query endpoint, because
+// SHTTPS+'s CORS allows GET/POST/PUT but not the DELETE method cross-origin.
+function filtersToWhere(f) {
+    if (!f || !(f.clauses || []).length) return "";
+    const parts = f.clauses.map((cl, i) => {
+        const col = cl.replace(/[=<>!?[\]]+$/, "");
+        const v = f.args[i];
+        const lit = v === null || v === undefined ? "NULL"
+            : typeof v === "number" ? String(v)
+            : `'${String(v).replace(/'/g, "''")}'`;
+        return `"${col}" = ${lit}`;
+    });
+    return " WHERE " + parts.join(" AND ");
+}
+
 // { columns, data } (SHTTPS+ query shape) -> array of row objects.
 function rowsFromQuery(res) {
     const cols = res?.columns || [];
@@ -69,7 +85,17 @@ function makeClient(base, creds) {
         }
         if (!res.ok) {
             const body = (await res.text().catch(() => "")).slice(0, 200);
-            const err = new Error(`${opts.method || "GET"} ${path} → ${res.status} ${res.statusText}${body ? " — " + body : ""}`);
+            let msg;
+            if (res.status === 401) {
+                msg = `401 Unauthorized from ${root || "this device"} — the username / password for this ` +
+                      `target were missing or wrong. Type them in the panel (the server itself is reachable).`;
+            } else if (res.status === 403) {
+                msg = `403 from ${root || "this device"} — signed in but not allowed. In SHTTPS+ enable ` +
+                      `"call custom SQL" + "modify tables data" and grant this user those rights.`;
+            } else {
+                msg = `${opts.method || "GET"} ${path} → ${res.status} ${res.statusText}${body ? " — " + body : ""}`;
+            }
+            const err = new Error(msg);
             err.status = res.status;
             throw err;
         }
@@ -80,8 +106,11 @@ function makeClient(base, creds) {
         root,
         base: root || "(this device)",
 
+        // Reachability + auth check in one: the query endpoint needs a valid
+        // login (a plain GET may not), so this catches bad credentials up front.
         async ping() {
-            await raw(`/api/db/table?table=items&rowsAsObjects=true&limit=1`);
+            await raw(`/api/db/query?includeNames=true&limit=1&offset=0`,
+                { method: "POST", headers: { "Content-Type": "text/plain" }, body: "SELECT 1" });
         },
         async rows(table) {
             const r = await raw(`/api/db/table?table=${encodeURIComponent(table)}&rowsAsObjects=true&limit=1000000`);
@@ -101,9 +130,9 @@ function makeClient(base, creds) {
             return raw(`/api/db/update`, { method: "PUT", headers: form,
                 body: new URLSearchParams({ table, values: JSON.stringify(values), filters: JSON.stringify(filters) }) });
         },
+        // Run as SQL through POST — SHTTPS+ CORS permits GET/POST/PUT, not DELETE.
         del(table, filters) {
-            return raw(`/api/db/delete`, { method: "DELETE", headers: form,
-                body: new URLSearchParams({ table, filters: JSON.stringify(filters) }) });
+            return this.sql(`DELETE FROM "${table}"${filtersToWhere(filters)}`);
         },
         async downloadBlob(path) {
             const r = await raw(`/api/file/download?path=${encodeURIComponent(path)}&_=${Date.now()}`);
@@ -239,7 +268,15 @@ async function applyOp(row, remote, local, log) {
         return remote.uploadBlob(p.path.slice(0, slash), p.path.slice(slash + 1), blob);
     }
     if (row.kind === "file.del") {
-        return remote.deleteFilesIn(p.dir, p.files);
+        // The DELETE method is usually blocked cross-origin by SHTTPS+ CORS.
+        // A left-behind file is harmless (images.json controls what shows), so
+        // don't fail the whole sync over it.
+        try {
+            await remote.deleteFilesIn(p.dir, p.files);
+        } catch (err) {
+            log(`   (couldn't remove ${p.files.length} file(s) on target — left as orphans: ${err.message.slice(0, 60)})`);
+        }
+        return;
     }
     throw new Error(`unknown op "${row.kind}"`);
 }
@@ -486,6 +523,14 @@ async function openSyncPanel() {
 
     function currentTarget() { return cfg.syncTargets[Number(tgtSel.value)]; }
 
+    // Fill the credential fields from config — only when the target changes, so
+    // a value the user just typed is never wiped by a state refresh.
+    function loadCredsFromConfig() {
+        const t = currentTarget();
+        userIn.value = t.user || "";
+        passIn.value = t.pass || "";
+    }
+
     async function refreshState() {
         const t = currentTarget();
         const isSource = isSourceHost(t);
@@ -495,8 +540,6 @@ async function openSyncPanel() {
             : "";
         creds.hidden = isSource;
         pushBtn.disabled = pullBtn.disabled = isSource || _syncBusy;
-        userIn.value = t.user || "";
-        passIn.value = t.pass || "";
         const n = await syncPendingCount();
         summary.textContent = isSource
             ? ""
@@ -504,7 +547,8 @@ async function openSyncPanel() {
               (outboxHealth().degraded ? `  •  ⚠ ${outboxHealth().degraded} change(s) failed to queue` : "");
     }
 
-    tgtSel.onchange = refreshState;
+    tgtSel.onchange = () => { loadCredsFromConfig(); refreshState(); };
+    loadCredsFromConfig();
 
     async function run(kind) {
         if (_syncBusy) return;
