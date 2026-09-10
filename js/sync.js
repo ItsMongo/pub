@@ -140,7 +140,14 @@ async function syncPendingCount() {
 async function ensureRemoteSyncSchema(remote) {
     for (const sql of SYNC_DDL) await remote.sql(sql);
     for (const t of UID_TABLES) {
-        try { await remote.sql(`ALTER TABLE "${t}" ADD COLUMN sync_uid TEXT`); } catch { /* have it */ }
+        let hasCol = false;
+        try {
+            const info = rowsFromQuery(await remote.sql(`PRAGMA table_info("${t}")`));
+            hasCol = info.some(c => c.name === "sync_uid");
+        } catch { /* PRAGMA blocked — fall through and try the ALTER */ }
+        if (!hasCol) {
+            try { await remote.sql(`ALTER TABLE "${t}" ADD COLUMN sync_uid TEXT`); } catch { /* raced */ }
+        }
     }
 }
 
