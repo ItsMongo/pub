@@ -1150,7 +1150,8 @@ main {
   gap: 10px;
   margin-bottom: 10px;
 }
-.sync-actions .im-save { flex: 1; }
+.sync-actions .im-save { flex: 1; font-size: 0.8rem; padding: 5px 8px; }
+.sync-mirror { background: #6d4d17; border-color: #b98a3a; }
 .sync-pull { background: #2b5c86; border-color: #6a9fc9; }
 .sync-log {
   font-family: ui-monospace, Menlo, Consolas, monospace;

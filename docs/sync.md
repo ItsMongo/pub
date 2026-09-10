@@ -2,14 +2,30 @@
 
 Each device that serves this app (Shield, tablet, laptop) runs its own SHTTPS+
 server against its own SQLite copy and its own `images/` tree. **Sync Data** moves
-edits between them.
+edits between them. Three operations:
 
-- **Push** — replay this device's queued edits onto another device.
-- **Pull** — make this device match another device.
+- **Push →** — replay this device's queued edits onto the target (incremental).
+- **Copy all →** — replace the target with a full copy of this device, images
+  included. All reads are same-origin here, so it works even when the target's
+  `/api/file/download` isn't CORS-reachable.
+- **← Pull** — replace this device with a full copy of the target.
 
 The webroot `data/firearms.db` is never touched — SHTTPS+ on Android serves from
 its own private copy, so everything goes over the REST API (the same path the
 Edit buttons use).
+
+## Typical workflow (Shield = production)
+
+1. **Before a trip** — on the **Shield**: Sync → *Copy all →* the tablet. The
+   tablet is now a full offline copy (rows + images).
+2. **On the trip** — edit on the tablet, offline.
+3. **Back home** — on the **tablet**: Sync → *Push →* the Shield. The trip's
+   edits (including any photos added) land on the Shield.
+
+*Copy all →* is the pre-trip step because it reads from the Shield locally and
+only writes across the network — the Shield's file API doesn't need to serve
+downloads cross-origin. A tablet-side *← Pull* would need that and can't bring
+images from the Shield.
 
 ## How Push works
 

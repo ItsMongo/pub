@@ -424,6 +424,40 @@ function keyOf(table, row) {
 }
 const uidPk = (t) => ({ load_data: "load_id", range_notes: "range_id", service_history: "service_id" }[t]);
 
+// Row-by-row reconcile: make `to` match `from` for the five collection tables.
+// Returns the set of item_ids whose gallery may need refreshing.
+async function reconcileTables(from, to, log) {
+    const touched = new Set();
+    for (const [table] of SYNC_COLLECTION_TABLES) {
+        const [src, dst] = await Promise.all([from.rows(table), to.rows(table)]);
+        const srcByKey = new Map(src.map(r => [keyOf(table, r), r]));
+        const dstByKey = new Map(dst.map(r => [keyOf(table, r), r]));
+        let ins = 0, upd = 0, del = 0;
+
+        // Deletes first, so a divergent row frees its integer PK before the
+        // matching source row is inserted at that same PK.
+        for (const [k, r] of dstByKey) {
+            if (srcByKey.has(k)) continue;
+            await to.del(table, updateKeyFilter(table, r)); del++;
+            if (r.item_id) touched.add(r.item_id);
+        }
+        for (const [k, r] of srcByKey) {
+            const cur = dstByKey.get(k);
+            if (!cur) {
+                await to.insert(table, r); ins++;
+                if (r.item_id) touched.add(r.item_id);
+            } else if (!sameRow(cur, r)) {
+                const vals = { ...r }; delete vals[pkOf(table)];
+                await to.update(table, vals, updateKeyFilter(table, cur)); upd++;
+                if (r.item_id) touched.add(r.item_id);
+            }
+        }
+        log(`${table}: +${ins} ~${upd} -${del}`);
+    }
+    return touched;
+}
+
+// PULL — replace THIS device with a full copy of the target.
 async function pullFromTarget(target, creds, log) {
     const remote = makeClient(target.base, creds);
     const local  = makeClient("");
@@ -433,43 +467,39 @@ async function pullFromTarget(target, creds, log) {
     log("connected");
 
     await snapshot(local, "pre-pull", log);
+    const touched = await reconcileTables(remote, local, log);
+    await syncGalleries(remote, local, touched, log);
 
-    const touched = new Set();     // item_ids whose gallery should be refreshed
-
-    for (const [table] of SYNC_COLLECTION_TABLES) {
-        const [src, dst] = await Promise.all([remote.rows(table), local.rows(table)]);
-        const srcByKey = new Map(src.map(r => [keyOf(table, r), r]));
-        const dstByKey = new Map(dst.map(r => [keyOf(table, r), r]));
-        let ins = 0, upd = 0, del = 0;
-
-        // Deletes first, so a divergent local row frees its integer PK before
-        // the matching source row is inserted at that same PK.
-        for (const [k, r] of dstByKey) {
-            if (srcByKey.has(k)) continue;
-            await local.del(table, updateKeyFilter(table, r)); del++;
-            if (r.item_id) touched.add(r.item_id);
-        }
-        for (const [k, r] of srcByKey) {
-            const cur = dstByKey.get(k);
-            if (!cur) {
-                await local.insert(table, r); ins++;
-                if (r.item_id) touched.add(r.item_id);
-            } else if (!sameRow(cur, r)) {
-                const vals = { ...r }; delete vals[pkOf(table)];
-                await local.update(table, vals, updateKeyFilter(table, cur)); upd++;
-                if (r.item_id) touched.add(r.item_id);
-            }
-        }
-        log(`${table}: +${ins} ~${upd} -${del}`);
-    }
-
-    await pullImages(remote, local, touched, log);
-
-    // Local outbox is now void — this device mirrors the source.
+    // This device now mirrors the source — its own queue is void.
     await local.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`);
     await refreshFallback(local, log);
 
     log(`pulled — ${touched.size} item(s) touched`);
+    return { touched: touched.size };
+}
+
+// MIRROR — replace the TARGET with a full copy of this device. Runs the writes
+// against the target's API (POST for rows, PUT for image files), and all the
+// reads are same-origin here — so it never needs the target's file DOWNLOAD to
+// be CORS-reachable (which /api/file/download often isn't).
+async function mirrorToTarget(target, creds, log) {
+    const remote = makeClient(target.base, creds);
+    const local  = makeClient("");
+
+    log(`target ${target.base}`);
+    await remote.ping();
+    log("connected");
+    await ensureRemoteSyncSchema(remote);
+
+    await snapshot(remote, "pre-mirror", log);
+    const touched = await reconcileTables(local, remote, log);
+    await syncGalleries(local, remote, touched, log);
+
+    // The target is now a fresh copy — clear its outbox so nothing stale pushes.
+    try { await remote.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`); } catch {}
+    await refreshFallback(remote, log);
+
+    log(`mirrored — ${touched.size} item(s) touched`);
     return { touched: touched.size };
 }
 
@@ -489,35 +519,37 @@ function updateKeyFilter(table, row) {
     return { clauses: [uidPk(table) + "="], args: [row[uidPk(table)]] };
 }
 
-// Bring gallery images for the touched items, plus any whose manifest differs.
-async function pullImages(remote, local, touched, log) {
-    const items = await local.rows("items");
+// Make `to`'s galleries match `from`'s, for touched items + any whose manifest
+// differs. Reads come from `from` (same-origin when this is a mirror), writes go
+// to `to`.
+async function syncGalleries(from, to, touched, log) {
+    const items = await to.rows("items");
     let changed = 0, unreachable = 0;
     for (const it of items) {
         const id = it.item_id;
-        let rList;
-        try { rList = await remote.downloadJson(`images/${id}/images.json`); }
+        let srcList;
+        try { srcList = await from.downloadJson(`images/${id}/images.json`); }
         catch (e) { if (/CORS|Allow-Origin|Failed to fetch/i.test(e.message)) unreachable++; continue; }
-        if (!Array.isArray(rList)) continue;
-        const lList = await local.downloadJson(`images/${id}/images.json`).catch(() => null) || [];
-        const differs = touched.has(id) || rList.length !== lList.length ||
-            rList.some((n, i) => n !== lList[i]);
+        if (!Array.isArray(srcList)) continue;
+        const dstList = await to.downloadJson(`images/${id}/images.json`).catch(() => null) || [];
+        const differs = touched.has(id) || srcList.length !== dstList.length ||
+            srcList.some((n, i) => n !== dstList[i]);
         if (!differs) continue;
 
-        for (const name of rList) {
-            const blob = await remote.downloadBlob(`images/${id}/${name}`).catch(() => null);
-            if (blob) await local.uploadBlob(`images/${id}`, name, blob);
+        for (const name of srcList) {
+            const blob = await from.downloadBlob(`images/${id}/${name}`).catch(() => null);
+            if (blob) await to.uploadBlob(`images/${id}`, name, blob);
         }
-        await local.uploadBlob(`images/${id}`, "images.json",
-            new Blob([JSON.stringify(rList)], { type: "application/json" }));
-        const extras = lList.filter(n => !rList.includes(n));
-        if (extras.length) await local.deleteFilesIn(`images/${id}`, extras).catch(() => {});
+        await to.uploadBlob(`images/${id}`, "images.json",
+            new Blob([JSON.stringify(srcList)], { type: "application/json" }));
+        const extras = dstList.filter(n => !srcList.includes(n));
+        if (extras.length) await to.deleteFilesIn(`images/${id}`, extras).catch(() => {});
         changed++;
     }
     log(`images: ${changed} gallery/galleries updated`);
     if (unreachable) {
         log(`  ⚠ couldn't read images from the source for ${unreachable} item(s) — its /api/file/download`);
-        log(`    sends no Access-Control-Allow-Origin. DB pulled fine; images not refreshed.`);
+        log(`    sends no Access-Control-Allow-Origin (see docs/sync.md).`);
     }
 }
 
@@ -582,9 +614,10 @@ async function openSyncPanel() {
     box.appendChild(summary);
 
     const actions = el("div", "sync-actions");
-    const pushBtn = el("button", "im-save", { type: "button" }, "Push →");
-    const pullBtn = el("button", "im-save sync-pull", { type: "button" }, "← Pull");
-    actions.append(pushBtn, pullBtn);
+    const pushBtn   = el("button", "im-save", { type: "button", title: "Send this device's queued edits to the target" }, "Push →");
+    const mirrorBtn = el("button", "im-save sync-mirror", { type: "button", title: "Replace the target with a full copy of this device (images too)" }, "Copy all →");
+    const pullBtn   = el("button", "im-save sync-pull", { type: "button", title: "Replace THIS device with a full copy of the target" }, "← Pull");
+    actions.append(pushBtn, mirrorBtn, pullBtn);
     box.appendChild(actions);
 
     const logBox = el("pre", "sync-log", { id: "syncLog", hidden: true });
@@ -614,7 +647,7 @@ async function openSyncPanel() {
             ? "This device is the source for that target — its edits are already live there."
             : "";
         creds.hidden = isSource;
-        pushBtn.disabled = pullBtn.disabled = isSource || _syncBusy;
+        pushBtn.disabled = mirrorBtn.disabled = pullBtn.disabled = isSource || _syncBusy;
         const n = await syncPendingCount();
         summary.textContent = isSource
             ? ""
@@ -635,28 +668,28 @@ async function openSyncPanel() {
         }
         if (kind === "pull") {
             const n = await syncPendingCount();
-            if (n > 0 && !confirm(
-                `This device has ${n} change(s) not yet pushed.\n` +
-                `Pull overwrites local data with the source and voids those changes.\n\nContinue?`)) {
-                return;
-            }
+            if (!confirm(
+                `Replace THIS device with a full copy of ${t.name}?\n` +
+                (n > 0 ? `\n${n} un-pushed change(s) on this device will be lost.\n` : "") +
+                `\nA backup of this device is made first.`)) return;
+        } else if (kind === "mirror") {
+            if (!confirm(
+                `Replace ${t.name} (${t.base}) with a full copy of THIS device — rows and images?\n` +
+                `Anything only on ${t.name} will be removed. A backup of ${t.name} is made first.`)) return;
         } else {
-            if (!confirm(`Push this device's changes to ${t.name} (${t.base})?\nA dated backup of the target is made first.`)) return;
+            if (!confirm(`Push this device's queued changes to ${t.name} (${t.base})?\nA backup of ${t.name} is made first.`)) return;
         }
 
         _syncBusy = true;
-        pushBtn.disabled = pullBtn.disabled = true;
+        pushBtn.disabled = mirrorBtn.disabled = pullBtn.disabled = true;
         logBox.hidden = false; logBox.textContent = "";
-        log(`${kind === "pull" ? "PULL" : "PUSH"} — ${new Date().toLocaleString()}`);
+        log(`${kind.toUpperCase()} — ${new Date().toLocaleString()}`);
         try {
-            const res = kind === "pull"
-                ? await pullFromTarget(t, c, log)
-                : await pushToTarget(t, c, log);
+            if (kind === "pull")        await pullFromTarget(t, c, log);
+            else if (kind === "mirror") await mirrorToTarget(t, c, log);
+            else                        await pushToTarget(t, c, log);
             log("done.");
-            if (kind === "pull") {
-                log("reloading…");
-                await loadData();
-            }
+            if (kind === "pull") { log("reloading…"); await loadData(); }
         } catch (err) {
             log("");
             log("ERROR: " + err.message);
@@ -667,8 +700,9 @@ async function openSyncPanel() {
         }
     }
 
-    pushBtn.onclick = () => run("push");
-    pullBtn.onclick = () => run("pull");
+    pushBtn.onclick   = () => run("push");
+    mirrorBtn.onclick = () => run("mirror");
+    pullBtn.onclick   = () => run("pull");
 
     panel.addEventListener("click", (e) => { if (e.target === panel) panel.remove(); });
     document.body.appendChild(panel);
