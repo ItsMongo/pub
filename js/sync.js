@@ -492,10 +492,12 @@ function updateKeyFilter(table, row) {
 // Bring gallery images for the touched items, plus any whose manifest differs.
 async function pullImages(remote, local, touched, log) {
     const items = await local.rows("items");
-    let changed = 0;
+    let changed = 0, unreachable = 0;
     for (const it of items) {
         const id = it.item_id;
-        const rList = await remote.downloadJson(`images/${id}/images.json`).catch(() => null);
+        let rList;
+        try { rList = await remote.downloadJson(`images/${id}/images.json`); }
+        catch (e) { if (/CORS|Allow-Origin|Failed to fetch/i.test(e.message)) unreachable++; continue; }
         if (!Array.isArray(rList)) continue;
         const lList = await local.downloadJson(`images/${id}/images.json`).catch(() => null) || [];
         const differs = touched.has(id) || rList.length !== lList.length ||
@@ -513,6 +515,10 @@ async function pullImages(remote, local, touched, log) {
         changed++;
     }
     log(`images: ${changed} gallery/galleries updated`);
+    if (unreachable) {
+        log(`  ⚠ couldn't read images from the source for ${unreachable} item(s) — its /api/file/download`);
+        log(`    sends no Access-Control-Allow-Origin. DB pulled fine; images not refreshed.`);
+    }
 }
 
 // ── panel ───────────────────────────────────────────────────────────────────
