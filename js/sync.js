@@ -142,10 +142,19 @@ function makeClient(base, creds) {
             const r = await raw(`/api/file/download?path=${encodeURIComponent(path)}&_=${Date.now()}`);
             return r.json();
         },
+        // Mirrors js/db.js uploadFile: ?path= is the FIRST path segment only
+        // (e.g. "images", "archive", "data") and the rest rides in the multipart
+        // part filename, which SHTTPS+ turns into folders. An encoded slash in
+        // ?path= makes some SHTTPS+ builds error without CORS headers → the
+        // browser then reports it as "Failed to fetch".
         async uploadBlob(destDir, relName, blob) {
+            const full  = destDir ? `${destDir}/${relName}` : relName;
+            const slash = full.indexOf("/");
+            const top   = slash === -1 ? "" : full.slice(0, slash);
+            const part  = slash === -1 ? full : full.slice(slash + 1);
             const fd = new FormData();
-            fd.append("files[]", blob, relName);
-            await raw(`/api/file/upload?path=${encodeURIComponent(destDir)}`, { method: "PUT", body: fd });
+            fd.append("files[]", blob, part);
+            await raw(`/api/file/upload?path=${encodeURIComponent(top)}`, { method: "PUT", body: fd });
         },
         async deleteFilesIn(dir, files) {
             if (!files.length) return;
@@ -264,8 +273,7 @@ async function applyOp(row, remote, local, log) {
     if (row.kind === "file.put") {
         const blob = await local.downloadBlob(p.path).catch(() => null);
         if (!blob) { log(`   (local file gone: ${p.path} — skipped)`); return; }
-        const slash = p.path.indexOf("/");                 // "images" / "<rest>"
-        return remote.uploadBlob(p.path.slice(0, slash), p.path.slice(slash + 1), blob);
+        return remote.uploadBlob("", p.path, blob);        // uploadBlob splits off the top segment
     }
     if (row.kind === "file.del") {
         // The DELETE method is usually blocked cross-origin by SHTTPS+ CORS.
