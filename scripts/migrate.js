@@ -48,6 +48,8 @@ const WANT_TABLES = [
     + ` synced INTEGER NOT NULL DEFAULT 0, synced_ts TEXT)`,
     `CREATE TABLE IF NOT EXISTS sync_state (source_host TEXT PRIMARY KEY,`
     + ` last_seq INTEGER NOT NULL DEFAULT 0, updated_ts TEXT)`,
+    `CREATE TABLE IF NOT EXISTS sync_snapshot (id INTEGER PRIMARY KEY AUTOINCREMENT,`
+    + ` ts TEXT NOT NULL, label TEXT, source_host TEXT, enc TEXT, payload TEXT NOT NULL)`,
 ];
 
 const a       = argsFromProcess();

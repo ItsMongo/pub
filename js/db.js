@@ -84,6 +84,11 @@ const SYNC_DDL = [
     + ` synced INTEGER NOT NULL DEFAULT 0, synced_ts TEXT)`,
     `CREATE TABLE IF NOT EXISTS sync_state (source_host TEXT PRIMARY KEY,`
     + ` last_seq INTEGER NOT NULL DEFAULT 0, updated_ts TEXT)`,
+    // Pre-sync DB backup, stored as a row so it needs only the CORS-friendly
+    // /api/db endpoints (the file API's CORS/preflight is unreliable on some
+    // SHTTPS+ builds). js/sync.js also writes a .json file when it can.
+    `CREATE TABLE IF NOT EXISTS sync_snapshot (id INTEGER PRIMARY KEY AUTOINCREMENT,`
+    + ` ts TEXT NOT NULL, label TEXT, source_host TEXT, enc TEXT, payload TEXT NOT NULL)`,
 ];
 
 // Create the sync tables locally if they're missing, and make sure the three

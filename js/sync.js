@@ -35,6 +35,22 @@ function ddmmmyy(d = new Date()) {
 const sqlStr = (s) => String(s).replace(/'/g, "''");
 const nowIso = () => new Date().toISOString();
 
+// gzip + base64 a string (SHTTPS+ POST bodies have a size ceiling; a full
+// snapshot is ~250 KB raw, ~30 KB packed). Returns null if the browser has no
+// CompressionStream — caller then stores the raw JSON.
+async function gzipB64(str) {
+    if (typeof CompressionStream === "undefined") return null;
+    try {
+        const stream = new Blob([str]).stream().pipeThrough(new CompressionStream("gzip"));
+        const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+        let bin = "";
+        for (let i = 0; i < bytes.length; i += 8192) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+        }
+        return btoa(bin);
+    } catch { return null; }
+}
+
 // dbFilters shape ({ clauses:["col="], args:[v] }) -> " WHERE ..." SQL. Sync only
 // ever uses "=" filters. Used to run deletes through the query endpoint, because
 // SHTTPS+'s CORS allows GET/POST/PUT but not the DELETE method cross-origin.
@@ -190,42 +206,50 @@ async function ensureRemoteSyncSchema(remote) {
 }
 
 // ── snapshot backup ─────────────────────────────────────────────────────────
+//
+// The reliable copy is a row in sync_snapshot (needs only /api/db, which has
+// solid CORS). We ALSO try to drop the same JSON as a dated file in archiveDir,
+// but the file API's CORS is unreliable across SHTTPS+ builds, so that part is
+// best-effort and never blocks the sync.
 
 async function snapshot(client, label, log) {
     const cfg = getConfig();
-    const dir = cfg.archiveDir || "archive/database";
-    const dump = { _meta: { app: "firearms-collection", label, ts: nowIso(), from: client.root || "local" } };
+    const host = getConfig().hostId || "unknown";
+    const dump = { _meta: { app: "firearms-collection", label, ts: nowIso(), from: client.root || "local", host } };
     for (const [t] of SYNC_COLLECTION_TABLES) dump[t] = await client.rows(t);
+    const json = JSON.stringify(dump);
 
+    // 1. the dependable one — a DB row (packed if the browser can)
+    const packed = await gzipB64(json);
+    const stored = packed || json;
+    await client.insert("sync_snapshot", {
+        ts: nowIso(), label, source_host: host,
+        enc: packed ? "gzip+b64" : "json", payload: stored,
+    });
+    const keep = cfg.keepBackups > 0 ? cfg.keepBackups : 30;
+    try {
+        await client.sql(
+            `DELETE FROM sync_snapshot WHERE id NOT IN ` +
+            `(SELECT id FROM sync_snapshot ORDER BY id DESC LIMIT ${keep})`);
+    } catch { /* prune is housekeeping */ }
+    log(`backup → sync_snapshot row (${(stored.length / 1024).toFixed(0)} KB${packed ? " packed" : ""})`);
+
+    // 2. the nice-to-have — a dated file
+    const dir = cfg.archiveDir || "archive/database";
     const stem = `firearms.${ddmmmyy()}`;
     let name = `${stem}.json`;
-    for (let i = 2; i <= 50; i++) {
+    for (let i = 2; i <= 20; i++) {
         const taken = await client.downloadJson(`${dir}/${name}`).then(() => true).catch(() => false);
         if (!taken) break;
         name = `${stem}-${i}.json`;
     }
-    await client.uploadBlob(dir, name, new Blob([JSON.stringify(dump)], { type: "application/json" }));
-    log(`backup → ${dir}/${name}`);
-    await pruneBackups(client, dir, name, label, cfg.keepBackups, log);
-    return name;
-}
-
-// No "list directory" in the API, so track snapshots in an index.json.
-async function pruneBackups(client, dir, addedName, label, keep, log) {
-    let index = [];
-    try { index = await client.downloadJson(`${dir}/index.json`); } catch { /* first run */ }
-    if (!Array.isArray(index)) index = [];
-    index.push({ name: addedName, ts: nowIso(), label });
-    index.sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
-
-    if (keep > 0 && index.length > keep) {
-        const drop = index.splice(0, index.length - keep);
-        try { await client.deleteFilesIn(dir, drop.map(e => e.name)); } catch { /* ignore */ }
-        log(`pruned ${drop.length} old backup(s)`);
-    }
     try {
-        await client.uploadBlob(dir, "index.json", new Blob([JSON.stringify(index, null, 1)], { type: "application/json" }));
-    } catch { /* index is a convenience, not critical */ }
+        await client.uploadBlob(dir, name, new Blob([json], { type: "application/json" }));
+        log(`backup file → ${dir}/${name}`);
+    } catch (err) {
+        log(`(file backup skipped: ${err.message.slice(0, 70)} — the sync_snapshot row is the real backup)`);
+    }
+    return name;
 }
 
 // Regenerate <client>/data/firearms.json (the offline read-only fallback) from

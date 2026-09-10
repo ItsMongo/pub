@@ -18,7 +18,11 @@ tables, or an `images/…` file add/remove/reorder) is also appended to a local
 `sync_outbox` table. Push:
 
 1. Connects to the target, ensures its sync tables exist.
-2. Writes a dated JSON snapshot of **the target** to `archive/database/firearms.<DDMMMYY>.json`.
+2. Backs up **the target**: a full row snapshot into its `sync_snapshot` table
+   (gzip+base64, pruned to `keepBackups`), plus — best-effort — the same JSON as
+   `archive/database/firearms.<DDMMMYY>.json`. The file uses the SHTTPS+ file API,
+   whose CORS is unreliable across builds, so if it fails the sync still proceeds;
+   the `sync_snapshot` row is the real backup.
 3. Replays each unsynced outbox row in order through the target's API.
 4. Records how far it got in the target's `sync_state` (so re-running Push is safe
    and only sends what's new).
@@ -75,7 +79,8 @@ autoincrement integer PK that differs per device, so each row also gets a
 
 ## Restoring a snapshot
 
-Snapshots in `archive/database/` are plain JSON row dumps — `{ _meta, items:[…],
-transactions:[…], … }` — tracked in `index.json`, pruned to `keepBackups`. There
-is no one-click restore yet; to roll a device back, replay a snapshot's row
-arrays through `/api/db/*` (same shape `push-to-shttps.js` uses).
+Backups live in the `sync_snapshot` table (`enc` = `gzip+b64` or `json`,
+`payload` = `{ _meta, items:[…], transactions:[…], … }`) and, when the file API
+cooperates, as `archive/database/firearms.<DDMMMYY>.json`. There is no one-click
+restore yet; to roll a device back, decode a snapshot and replay its row arrays
+through `/api/db/*` (same shape `push-to-shttps.js` uses).
