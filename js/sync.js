@@ -32,6 +32,8 @@ function ddmmmyy(d = new Date()) {
     return String(d.getDate()).padStart(2, "0") + MONTHS3[d.getMonth()] +
         String(d.getFullYear() % 100).padStart(2, "0");
 }
+const hhmm = (d = new Date()) =>
+    String(d.getHours()).padStart(2, "0") + String(d.getMinutes()).padStart(2, "0");
 const sqlStr = (s) => String(s).replace(/'/g, "''");
 const nowIso = () => new Date().toISOString();
 
@@ -51,21 +53,24 @@ async function gzipB64(str) {
     } catch { return null; }
 }
 
-// dbFilters shape ({ clauses:["col="], args:[v] }) -> " WHERE ..." SQL. Sync only
-// ever uses "=" filters. Used to run deletes through the query endpoint, because
-// SHTTPS+'s CORS allows GET/POST/PUT but not the DELETE method cross-origin.
+// SHTTPS+'s CORS preflight lists methods lowercase ("get, post, put"), which
+// browsers reject for PUT/DELETE (they compare against the uppercase request
+// method). So sync uses ONLY GET and POST: reads via /api/db/table, and every
+// write as SQL through POST /api/db/query. These helpers build that SQL.
+const sqlLit = (v) => v === null || v === undefined ? "NULL"
+    : typeof v === "number" ? String(v)
+    : `'${String(v).replace(/'/g, "''")}'`;
+
+// dbFilters shape ({ clauses:["col="], args:[v] }) -> " WHERE ..." (sync only
+// ever uses "=" filters).
 function filtersToWhere(f) {
     if (!f || !(f.clauses || []).length) return "";
-    const parts = f.clauses.map((cl, i) => {
-        const col = cl.replace(/[=<>!?[\]]+$/, "");
-        const v = f.args[i];
-        const lit = v === null || v === undefined ? "NULL"
-            : typeof v === "number" ? String(v)
-            : `'${String(v).replace(/'/g, "''")}'`;
-        return `"${col}" = ${lit}`;
-    });
+    const parts = f.clauses.map((cl, i) => `"${cl.replace(/[=<>!?[\]]+$/, "")}" = ${sqlLit(f.args[i])}`);
     return " WHERE " + parts.join(" AND ");
 }
+
+const valuesToSet = (values) =>
+    Object.entries(values).map(([k, v]) => `"${k}" = ${sqlLit(v)}`).join(", ");
 
 // { columns, data } (SHTTPS+ query shape) -> array of row objects.
 function rowsFromQuery(res) {
@@ -138,15 +143,17 @@ function makeClient(base, creds) {
                 { method: "POST", headers: { "Content-Type": "text/plain" }, body: text });
             return r.json().catch(() => ({}));
         },
+        // POST is fine cross-origin; the /insert endpoint keeps type coercion
+        // (JSON values) that raw SQL would lose, so use it for inserts.
         insert(table, values) {
             return raw(`/api/db/insert`, { method: "POST", headers: form,
                 body: new URLSearchParams({ table, values: JSON.stringify(values) }) });
         },
+        // update / delete as SQL through POST — the PUT and DELETE methods fail
+        // the CORS preflight (see note above).
         update(table, values, filters) {
-            return raw(`/api/db/update`, { method: "PUT", headers: form,
-                body: new URLSearchParams({ table, values: JSON.stringify(values), filters: JSON.stringify(filters) }) });
+            return this.sql(`UPDATE "${table}" SET ${valuesToSet(values)}${filtersToWhere(filters)}`);
         },
-        // Run as SQL through POST — SHTTPS+ CORS permits GET/POST/PUT, not DELETE.
         del(table, filters) {
             return this.sql(`DELETE FROM "${table}"${filtersToWhere(filters)}`);
         },
@@ -234,20 +241,16 @@ async function snapshot(client, label, log) {
     } catch { /* prune is housekeeping */ }
     log(`backup → sync_snapshot row (${(stored.length / 1024).toFixed(0)} KB${packed ? " packed" : ""})`);
 
-    // 2. the nice-to-have — a dated file
-    const dir = cfg.archiveDir || "archive/database";
-    const stem = `firearms.${ddmmmyy()}`;
-    let name = `${stem}.json`;
-    for (let i = 2; i <= 20; i++) {
-        const taken = await client.downloadJson(`${dir}/${name}`).then(() => true).catch(() => false);
-        if (!taken) break;
-        name = `${stem}-${i}.json`;
-    }
+    // 2. the nice-to-have — a dated file. Time in the name keeps it unique, so
+    // there's no need to probe for collisions (that probe was the stray 404 in
+    // the logs). Pure best-effort: the file API may not answer cross-origin.
+    const dir  = cfg.archiveDir || "archive/database";
+    const name = `firearms.${ddmmmyy()}-${hhmm()}.json`;
     try {
         await client.uploadBlob(dir, name, new Blob([json], { type: "application/json" }));
         log(`backup file → ${dir}/${name}`);
     } catch (err) {
-        log(`(file backup skipped: ${err.message.slice(0, 70)} — the sync_snapshot row is the real backup)`);
+        log(`(dated file backup skipped — ${err.message.slice(0, 60)}; the sync_snapshot row is the backup)`);
     }
     return name;
 }
@@ -283,9 +286,29 @@ async function translateFilter(payload, local) {
     return uid ? { clauses: ["sync_uid="], args: [uid] } : f;
 }
 
+// Is this insert's row already on the target? Keeps replay idempotent without a
+// per-source high-water mark, so a retried push can't double-insert.
+async function remoteHasRow(remote, table, values) {
+    let where;
+    if (table === "items") {
+        where = `item_id = '${sqlStr(values.item_id)}'`;
+    } else if (UID_TABLES.has(table) && values.sync_uid) {
+        where = `sync_uid = '${sqlStr(values.sync_uid)}'`;
+    } else if (table === "transactions") {
+        const w = [`item_id = '${sqlStr(values.item_id)}'`,
+                   `transaction_type = '${sqlStr(values.transaction_type)}'`];
+        if (values.source) w.push(`source = '${sqlStr(values.source)}'`);
+        where = w.join(" AND ");
+    } else {
+        return false;
+    }
+    return !!firstCell(await remote.sql(`SELECT 1 FROM "${table}" WHERE ${where} LIMIT 1`));
+}
+
 async function applyOp(row, remote, local, log) {
     const p = JSON.parse(row.payload);
     if (row.kind === "db.insert") {
+        if (await remoteHasRow(remote, p.table, p.values)) { log(`   (row already on target)`); return; }
         return remote.insert(p.table, p.values);
     }
     if (row.kind === "db.update") {
@@ -300,15 +323,7 @@ async function applyOp(row, remote, local, log) {
         return remote.uploadBlob("", p.path, blob);        // uploadBlob splits off the top segment
     }
     if (row.kind === "file.del") {
-        // The DELETE method is usually blocked cross-origin by SHTTPS+ CORS.
-        // A left-behind file is harmless (images.json controls what shows), so
-        // don't fail the whole sync over it.
-        try {
-            await remote.deleteFilesIn(p.dir, p.files);
-        } catch (err) {
-            log(`   (couldn't remove ${p.files.length} file(s) on target — left as orphans: ${err.message.slice(0, 60)})`);
-        }
-        return;
+        return remote.deleteFilesIn(p.dir, p.files);
     }
     throw new Error(`unknown op "${row.kind}"`);
 }
@@ -330,46 +345,68 @@ async function pushToTarget(target, creds, log) {
 
     await snapshot(remote, "pre-push", log);
 
-    const stateRows = rowsFromQuery(await remote.sql(
-        `SELECT last_seq FROM sync_state WHERE source_host = '${sqlStr(host)}'`));
-    const lastSeq = Number(stateRows[0]?.last_seq) || 0;
-    const haveState = stateRows.length > 0;
-    if (!haveState) {
-        await remote.insert("sync_state", { source_host: host, last_seq: 0, updated_ts: nowIso() });
-    }
+    const dbOps   = pending.filter(r => r.kind.startsWith("db."));
+    const fileOps = pending.filter(r => r.kind.startsWith("file."));
+    let pushed = 0;
 
-    // For repeated file.put on one path, only the last write matters.
-    const lastPut = new Map();
-    for (const r of pending) {
-        if (r.kind !== "file.put") continue;
-        lastPut.set(JSON.parse(r.payload).path, r.seq);
-    }
-
-    let pushed = 0, skipped = 0;
-    for (const r of pending) {
-        const seq = Number(r.seq);
-        if (seq <= lastSeq) { await markSynced(local, seq); skipped++; continue; }
+    // ── DB changes: ordered, and a failure stops the run (it's a real problem).
+    for (const r of dbOps) {
         const p = JSON.parse(r.payload);
         try {
-            if (r.kind === "file.put" && lastPut.get(p.path) !== r.seq) {
-                log(`#${seq} superseded ${p.path}`);
-            } else {
-                await applyOp(r, remote, local, log);
-                log(`#${seq} ${r.kind}${r.tbl ? " " + r.tbl : ""}${p.path ? " " + p.path : ""}`);
-            }
-            await remote.update("sync_state", { last_seq: seq, updated_ts: nowIso() },
-                { clauses: ["source_host="], args: [host] });
-            await markSynced(local, seq);
+            await applyOp(r, remote, local, log);
+            log(`#${r.seq} ${r.kind} ${r.tbl || ""}`);
+            await markSynced(local, Number(r.seq));
             pushed++;
         } catch (err) {
-            log(`#${seq} FAILED — ${err.message}`);
-            throw new Error(`stopped at change #${seq} (${r.kind}); ${pushed} applied. Fix, then Sync again.`);
+            log(`#${r.seq} FAILED — ${err.message}`);
+            throw new Error(`stopped at change #${r.seq} (${r.kind}); ${pushed} applied. Fix, then Sync again.`);
         }
     }
-    if (skipped) log(`${skipped} already on target`);
+
+    // ── Image files: best-effort. The target's file API is often not reachable
+    // cross-origin; a deferred file stays queued and retries next push.
+    const lastPut = new Map();
+    for (const r of fileOps) {
+        if (r.kind === "file.put") lastPut.set(JSON.parse(r.payload).path, r.seq);
+    }
+    const deferred = [];
+    for (const r of fileOps) {
+        const p = JSON.parse(r.payload);
+        if (r.kind === "file.put" && lastPut.get(p.path) !== r.seq) {
+            await markSynced(local, Number(r.seq));           // superseded by a later write
+            continue;
+        }
+        try {
+            await applyOp(r, remote, local, log);
+            log(`#${r.seq} ${r.kind} ${p.path || p.dir || ""}`);
+            await markSynced(local, Number(r.seq));
+            pushed++;
+        } catch (err) {
+            deferred.push(p.path || `${p.dir}/*`);
+            log(`#${r.seq} deferred — ${err.message.slice(0, 60)}`);
+        }
+    }
+
+    // sync_state: informational only now (idempotent replay guards double-apply).
+    try {
+        const maxSeq = Math.max(0, ...pending.map(r => Number(r.seq)));
+        if (rowsFromQuery(await remote.sql(
+                `SELECT 1 FROM sync_state WHERE source_host = '${sqlStr(host)}'`)).length) {
+            await remote.update("sync_state", { last_seq: maxSeq, updated_ts: nowIso() },
+                { clauses: ["source_host="], args: [host] });
+        } else {
+            await remote.insert("sync_state", { source_host: host, last_seq: maxSeq, updated_ts: nowIso() });
+        }
+    } catch { /* not essential */ }
+
     await refreshFallback(remote, log);
-    log(`pushed ${pushed} change(s)`);
-    return { pushed };
+
+    if (deferred.length) {
+        log(`⚠ ${deferred.length} image file(s) could not upload to ${target.base} — still queued, will retry.`);
+        log(`  the target's SHTTPS+ file API isn't allowing cross-device requests (see docs/sync.md).`);
+    }
+    log(`pushed ${pushed} change(s)${deferred.length ? `; ${deferred.length} image file(s) pending` : ""}`);
+    return { pushed, deferred: deferred.length };
 }
 
 async function markSynced(local, seq) {
