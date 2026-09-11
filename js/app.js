@@ -629,7 +629,7 @@ function renderItemEditor(firearm) {
         { name: "feed",               label: "Feed",              type: "datalist", options: distinct("feed"), value: it.feed },
         { name: "weight",             label: "Weight",            type: "text",   value: it.weight },
         { name: "country",            label: "Country",           type: "datalist", options: distinct("country"), value: it.country },
-        { name: "flag_image",         label: "Flag image path",   type: "datalist", options: distinct("flag"), value: it.flag_image, placeholder: "flags/USA.png" },
+        { name: "flag_image",         label: "Flag image path",   type: "datalist", options: distinct("flag"), value: it.flag_image, placeholder: "images/flags/USA.png" },
         { name: "cartridge_image",    label: "Cartridge image",   type: "datalist", options: distinct("cartridgeImage"), value: it.cartridge_image, placeholder: "in images/cartridges/" },
         { name: "cartridge_wiki_url", label: "Cartridge wiki URL", type: "url",   value: it.cartridge_wiki_url },
         { name: "cart_wiki2",         label: "Cartridge wiki 2",  type: "text",   value: it.cart_wiki2 },

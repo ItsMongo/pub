@@ -1,4 +1,7 @@
 images/
+# ...except the shared reference art (not per-item photos) — small, tracked.
+!images/flags/
+!images/flags/**
 node_modules/
 .env
 

@@ -100,7 +100,7 @@ function parseLine(line) {
   const year = extractYear(model);
 
   const country = countryMap[make] || "";
-  const flag = country ? `flags/${country}.png` : "";
+  const flag = country ? `images/flags/${country}.png` : "";
 
   return {
     type,
