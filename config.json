@@ -1,5 +1,6 @@
 {
   "hostId": "shield",
+  "primaryHostId": "shield",
   "syncTargets": [
     { "name": "Shield (home)", "hostId": "shield", "base": "http://192.168.4.167:8080" },
     { "name": "Galaxy Tab",    "hostId": "tablet", "base": "http://192.168.5.42:8080" }

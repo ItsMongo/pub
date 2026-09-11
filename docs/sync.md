@@ -66,6 +66,7 @@ autoincrement integer PK that differs per device, so each row also gets a
 ```json
 {
   "hostId": "tablet",
+  "primaryHostId": "shield",
   "syncTargets": [
     { "name": "Shield (home)", "hostId": "shield", "base": "http://192.168.4.167:8080" }
   ],
@@ -74,9 +75,21 @@ autoincrement integer PK that differs per device, so each row also gets a
 }
 ```
 
+A device never lists itself in `syncTargets` — targets are always *other*
+devices. On the tablet, `syncTargets` names the Shield (as above); on the
+Shield, it names the tablet. There's no self-reference and nothing to point at
+`localhost`.
+
 - `hostId` — this device's identity. A target whose `hostId` matches is greyed
   out and labelled **"Editing Source"** (its edits are already live here). The
   Shield's own config should list the Shield as a target so its button self-disables.
+- `primaryHostId` — the master copy (here, the Shield). Set it the same on
+  **every** device's config.json — it names the master, not "me". A target
+  whose `hostId` matches `primaryHostId` can never be a **Copy All** destination
+  (the button disables and the panel explains why), no matter which device you
+  run the panel from. Push and Pull are unaffected — Push is how edits reach the
+  master; Pull just makes the *current* device match it. Leave it unset on a
+  one-Shield, no-tablet setup; it has no effect until it names a real device.
 - `syncTargets[].user` / `.pass` — optional; the panel prompts otherwise. Ticking
   "Remember on this device" writes them here in plain text.
 - The panel can write this file back through the file API, so targets and

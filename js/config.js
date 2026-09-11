@@ -6,6 +6,7 @@
 //
 //   {
 //     "hostId": "tablet",                 // this device's identity
+//     "primaryHostId": "shield",          // the master copy — never a Copy-All destination
 //     "syncTargets": [                    // where "Sync Data" can push / pull
 //       { "name": "Shield (home)", "hostId": "shield",
 //         "base": "http://192.168.4.167:8080" }
@@ -17,6 +18,12 @@
 // A target whose hostId matches this device's hostId is the "source" — sync to
 // it is disabled (the edits are already live here).
 //
+// A target whose hostId matches primaryHostId is the master copy: "Copy All"
+// toward it is disabled everywhere, on every device, regardless of which
+// device you're running the panel from — only Push (incremental) or Pull
+// (target -> you) may write to the master. Set primaryHostId the same on
+// every device's config.json (it names the master, not "me").
+//
 // The Sync panel can write config.json back through the file API, so targets
 // and credentials can be managed on a tablet with no text editor. Hand-editing
 // the file still works.
@@ -26,6 +33,7 @@ const CONFIG_URL = "config.json";
 
 const DEFAULT_CONFIG = {
     hostId: "",
+    primaryHostId: "",
     syncTargets: [],
     archiveDir: "archive/database",
     keepBackups: 30,
@@ -54,6 +62,7 @@ async function loadConfig() {
 function normalizeConfig(raw) {
     const c = { ...DEFAULT_CONFIG, ...(raw && typeof raw === "object" ? raw : {}) };
     c.hostId = String(c.hostId || "").trim();
+    c.primaryHostId = String(c.primaryHostId || "").trim();
     c.archiveDir = String(c.archiveDir || DEFAULT_CONFIG.archiveDir).replace(/^\/+|\/+$/g, "");
     c.keepBackups = Number.isFinite(+c.keepBackups) ? Math.max(0, Math.trunc(+c.keepBackups)) : 30;
     c.syncTargets = Array.isArray(c.syncTargets) ? c.syncTargets
@@ -73,6 +82,11 @@ function getConfig() { return CONFIG; }
 // True when this device is the same host as `target` (so it IS the source).
 function isSourceHost(target) {
     return !!(CONFIG.hostId && target && target.hostId && CONFIG.hostId === target.hostId);
+}
+
+// True when `target` is the master copy — "Copy All" must never overwrite it.
+function isPrimaryHost(target) {
+    return !!(CONFIG.primaryHostId && target && target.hostId && CONFIG.primaryHostId === target.hostId);
 }
 
 // Persist the current CONFIG back to config.json via the file API. Best-effort:

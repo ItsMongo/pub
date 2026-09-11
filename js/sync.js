@@ -483,6 +483,9 @@ async function pullFromTarget(target, creds, log) {
 // reads are same-origin here — so it never needs the target's file DOWNLOAD to
 // be CORS-reachable (which /api/file/download often isn't).
 async function mirrorToTarget(target, creds, log) {
+    if (isPrimaryHost(target)) {
+        throw new Error(`${target.name} is the master copy (primaryHostId) — Copy All refuses to overwrite it. Use Push instead.`);
+    }
     const remote = makeClient(target.base, creds);
     const local  = makeClient("");
 
@@ -641,13 +644,17 @@ async function openSyncPanel() {
 
     async function refreshState() {
         const t = currentTarget();
-        const isSource = isSourceHost(t);
-        note.hidden = !isSource;
+        const isSource  = isSourceHost(t);
+        const isPrimary = isPrimaryHost(t);
+        note.hidden = !isSource && !isPrimary;
         note.textContent = isSource
             ? "This device is the source for that target — its edits are already live there."
+            : isPrimary
+            ? "This is the master copy — \"Copy All\" can't overwrite it. Use Push to send changes here."
             : "";
         creds.hidden = isSource;
-        pushBtn.disabled = mirrorBtn.disabled = pullBtn.disabled = isSource || _syncBusy;
+        pushBtn.disabled = pullBtn.disabled = isSource || _syncBusy;
+        mirrorBtn.disabled = isSource || isPrimary || _syncBusy;
         const n = await syncPendingCount();
         summary.textContent = isSource
             ? ""
