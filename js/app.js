@@ -7,7 +7,15 @@ let currentIndex     = 0;   // index into filteredFirearms
 let images           = [];
 let thumbIndex       = 0;
 let activeType       = "";   // "" = All
+let viewScope        = "current";   // "current" | "archive" (disposed/sold)
 let currentTab       = "history";
+
+// Master list, filtered by both the type toggle and the Current/Archive scope.
+function applyFilters() {
+    return firearms.filter(c =>
+        (!activeType || c.type === activeType) &&
+        (viewScope === "archive" ? c.disposed : !c.disposed));
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Viewer (unchanged)
@@ -42,9 +50,10 @@ async function loadData() {
         return makeCompare !== 0 ? makeCompare : a.model.localeCompare(b.model);
     });
 
-    filteredFirearms = firearms.slice(); // start with All
+    filteredFirearms = applyFilters(); // start with All / Current
 
     initTypeSelector();
+    initScopeSelector();
     rebuildModelSelector();
     updateUI();
 }
@@ -90,10 +99,42 @@ function initTypeSelector() {
         populateTypeToggles();
         document.getElementById("typeSelector").value = activeType;
 
-        filteredFirearms = activeType
-            ? firearms.filter(c => c.type === activeType)
-            : firearms.slice();
+        filteredFirearms = applyFilters();
 
+        currentIndex = 0;
+        rebuildModelSelector();
+        updateUI();
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Current / Archive scope toggle — Archive shows only disposed/sold firearms
+// (also where the permanent Delete option lives, see deleteFirearmBtn below).
+// ─────────────────────────────────────────────────────────────────────────────
+function populateScopeToggles() {
+    const group = document.getElementById("scopeToggleGroup");
+    group.innerHTML = "";
+    [{ value: "current", label: "Current" }, { value: "archive", label: "Archived" }]
+        .forEach(({ value, label }) => {
+            const btn = document.createElement("button");
+            btn.className    = "type-toggle" + (value === viewScope ? " active" : "");
+            btn.dataset.scope = value;
+            btn.textContent   = label;
+            group.appendChild(btn);
+        });
+}
+
+function initScopeSelector() {
+    populateScopeToggles();
+
+    document.getElementById("scopeToggleGroup").addEventListener("click", e => {
+        const btn = e.target.closest(".type-toggle");
+        if (!btn) return;
+
+        viewScope = btn.dataset.scope;
+        populateScopeToggles();
+
+        filteredFirearms = applyFilters();
         currentIndex = 0;
         rebuildModelSelector();
         updateUI();
@@ -147,6 +188,79 @@ document.getElementById("nextBtn").onclick = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 document.getElementById("addFirearmBtn").onclick  = () => renderItemEditor(null);
 document.getElementById("editFirearmBtn").onclick = () => renderItemEditor(filteredFirearms[currentIndex]);
+document.getElementById("deleteFirearmBtn").onclick = () => renderDeleteConfirm(filteredFirearms[currentIndex]);
+
+// Permanent delete — only reachable from the Archive scope (see updateUI).
+// Requires typing the item_id back, not just a confirm(), since this removes
+// every record for the firearm with no undo.
+function renderDeleteConfirm(firearm) {
+    if (!firearm) return;
+    const contentEl = document.getElementById("scrollableTextContent");
+    document.getElementById("scrollableTextTitle").textContent = "";
+    document.querySelector(".scrollableTextTitle").querySelector(".tab-edit-btn")?.remove();
+
+    const wrap = document.createElement("div");
+    wrap.className = "delete-confirm";
+
+    const warn = document.createElement("p");
+    warn.className = "delete-warn";
+    warn.innerHTML =
+        `This permanently deletes <b>${firearm.make} ${firearm.model}</b> (${firearm.itemId})` +
+        ` — its History, Purchase, Market Value, Load Data, Range Notes, and Maintenance` +
+        ` records, plus its gallery images. This cannot be undone.` +
+        `<br><br>Range-visit target photos and purchase-document attachments on those` +
+        ` records are not automatically removed.`;
+    wrap.appendChild(warn);
+
+    const label = document.createElement("label");
+    label.className = "delete-confirm-label";
+    label.append(`Type "${firearm.itemId}" to confirm:`, document.createElement("br"));
+    const input = document.createElement("input");
+    input.type = "text";
+    input.autocomplete = "off";
+    input.className = "delete-confirm-input";
+    label.appendChild(input);
+    wrap.appendChild(label);
+
+    const actions = document.createElement("div");
+    actions.className = "edit-actions";
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "edit-save delete-btn";
+    delBtn.textContent = "Delete Permanently";
+    delBtn.disabled = true;
+    const cancelBtn = document.createElement("button");
+    cancelBtn.type = "button";
+    cancelBtn.className = "edit-cancel";
+    cancelBtn.textContent = "Cancel";
+    const msg = document.createElement("span");
+    msg.className = "edit-msg";
+    msg.setAttribute("role", "status");
+    actions.append(delBtn, cancelBtn, msg);
+    wrap.appendChild(actions);
+
+    input.oninput = () => { delBtn.disabled = input.value.trim() !== firearm.itemId; };
+    cancelBtn.onclick = () => renderTabContent(firearm, currentTab);
+
+    delBtn.onclick = async () => {
+        delBtn.disabled = true;
+        cancelBtn.disabled = true;
+        msg.className = "edit-msg";
+        msg.textContent = "Deleting…";
+        try {
+            await deleteFirearm(firearm.itemId);
+            await refreshCollection(null);
+        } catch (err) {
+            msg.className = "edit-msg error";
+            msg.textContent = "Delete failed: " + err.message;
+            delBtn.disabled = input.value.trim() !== firearm.itemId;
+            cancelBtn.disabled = false;
+        }
+    };
+
+    contentEl.innerHTML = "";
+    contentEl.appendChild(wrap);
+}
 
 // Shrink an element's font-size until its content fits its (bounded) box.
 function fitText(el, maxPx, minPx) {
@@ -190,8 +304,38 @@ function updateUI() {
     document.getElementById("addFirearmBtn").hidden  = !live;           // works with an empty list
     document.getElementById("editFirearmBtn").hidden = !live || !c;
     document.getElementById("manageImagesBtn").hidden = !live || !c;
+    document.getElementById("deleteFirearmBtn").hidden = !live || !c || viewScope !== "archive";
     if (typeof updateSyncButton === "function") updateSyncButton();
-    if (!c) return;
+    if (!c) {
+        // Nothing matches the current filters (most likely: an empty Archive) —
+        // clear whatever was on screen (a stale tab, or the delete-confirm panel)
+        // instead of leaving it stuck with no firearm behind it.
+        document.getElementById("titleMake").textContent  = "";
+        document.getElementById("titleModel").textContent = "";
+        document.getElementById("disposedBadge").hidden = true;
+        document.querySelector(".h-serial").hidden    = true;
+        document.getElementById("titleAction").hidden = true;
+        document.getElementById("feed").hidden        = true;
+        for (const id of ["titleYear", "cartridge", "caliber", "magCapacity", "weight",
+                           "COAL", "country", "makerLogoText"]) {
+            document.getElementById(id).textContent = "";
+        }
+        for (const id of ["flagImage", "cartridgeImage", "makerLogo"]) {
+            document.getElementById(id).removeAttribute("src");
+            document.getElementById(id).alt = "";
+        }
+        document.getElementById("cartridgeLink").removeAttribute("href");
+        document.getElementById("itemCounterTxt").textContent = "0 of 0";
+        document.getElementById("scrollableTextTitle").textContent = "";
+        document.querySelector(".scrollableTextTitle .tab-edit-btn")?.remove();
+        document.getElementById("scrollableTextContent").textContent =
+            viewScope === "archive" ? "No disposed / sold firearms." : "No firearms match this filter.";
+        document.getElementById("wikiLink").innerHTML     = "—";
+        document.getElementById("gunDigestLink").innerHTML = "—";
+        document.getElementById("fullImage")?.removeAttribute("src");
+        document.getElementById("thumbnailStrip").innerHTML = "";
+        return;
+    }
 
     const badge = document.getElementById("disposedBadge");
     badge.hidden = !c.disposed;
@@ -580,22 +724,28 @@ function renderHistoryEditor(firearm) {
 
 const ITEM_TYPES = ["Rifle", "Pistol", "Revolver", "Shotgun", "Muzzleloader"];
 
-// Rebuild the whole collection from the DB (after add / a header edit that may
-// change sort order), then navigate to `selectItemId`.
+// Rebuild the whole collection from the DB (after add / edit / delete), then
+// navigate to `selectItemId` — or, with no id (a delete), just keep the
+// current position sane.
 async function refreshCollection(selectItemId) {
     const raw = await loadCollection();
     firearms = raw.slice().sort((a, b) =>
         a.make.localeCompare(b.make) || a.model.localeCompare(b.model));
-    filteredFirearms = activeType ? firearms.filter(c => c.type === activeType) : firearms.slice();
+    filteredFirearms = applyFilters();
 
-    let idx = filteredFirearms.findIndex(f => f.itemId === selectItemId);
-    if (idx < 0) {                       // hidden by the active type filter — clear it
+    let idx = selectItemId ? filteredFirearms.findIndex(f => f.itemId === selectItemId) : -1;
+    if (selectItemId && idx < 0) {
+        // hidden by the active filters — the edit may have changed its type,
+        // or flipped its disposed status, so follow it into view
+        const target = firearms.find(f => f.itemId === selectItemId);
         activeType = "";
-        filteredFirearms = firearms.slice();
+        viewScope  = target && target.disposed ? "archive" : "current";
+        filteredFirearms = applyFilters();
         idx = filteredFirearms.findIndex(f => f.itemId === selectItemId);
     }
-    currentIndex = Math.max(0, idx);
+    currentIndex = idx >= 0 ? idx : Math.min(currentIndex, Math.max(0, filteredFirearms.length - 1));
     populateTypeToggles();
+    populateScopeToggles();
     rebuildModelSelector();
     updateUI();
 }

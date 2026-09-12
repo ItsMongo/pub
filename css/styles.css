@@ -380,6 +380,8 @@ main {
     white-space: nowrap;
 }
 .nav-manage-btn:hover { background: #266d33; border-color: #6aaf4c; }
+.nav-manage-btn.danger { background: #a5311f; border-color: #d98c7f; }
+.nav-manage-btn.danger:hover { background: #7a2417; border-color: #f0aa9a; }
 
 /* Generic label inside header */
 .h-label {
@@ -497,6 +499,7 @@ main {
 #modelSelector option { background: #1a523b; color: #f1efa0; }
 
 .nav-type-row { display: flex; flex-direction: column; }
+.nav-scope-row { margin-top: 5px; }
 
 .type-toggle-group { display: flex; flex-wrap: wrap; gap: 4px; }
 
@@ -720,6 +723,42 @@ main {
 }
 .edit-msg { font-size: 0.8rem; color: #3a5c30; }
 .edit-msg.error { color: #a5311f; font-weight: 600; }
+
+/* Permanent-delete confirmation (Archive scope only — see deleteFirearmBtn) */
+.delete-confirm { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.delete-warn {
+  margin: 0;
+  padding: 10px 12px;
+  background: rgba(165, 49, 31, 0.1);
+  border: 1px solid #a5311f;
+  border-radius: 4px;
+  color: #5c2015;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.delete-confirm-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.delete-confirm-input {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border: 1px solid #7c8a6e;
+  border-radius: 4px;
+  background: #f3e9d0;
+  max-width: 220px;
+}
+.delete-btn {
+  background: #a5311f !important;
+  border-color: #d98c7f !important;
+}
+.delete-btn:hover:not(:disabled) { background: #7a2417 !important; }
 
 /* Load Data — repeating blocks in the editor */
 .load-block {

@@ -419,6 +419,24 @@ function addFirearm(values) {
     return dbInsert("items", values);
 }
 
+// Permanently delete a firearm: every child-table row, the gallery (images +
+// images.json), then the items row itself. Each step goes through the normal
+// wrapped dbDelete/deleteImages, so — like any other edit — this replicates to
+// other devices next Sync.
+// NOT removed: range-visit target photos and purchase-document attachments
+// referenced from the deleted rows (their filenames live inside JSON columns
+// on rows we're about to delete). Left as harmless orphans rather than adding
+// per-row file parsing for what's usually a handful of small files.
+async function deleteFirearm(itemId) {
+    const f = dbFilters({ item_id: itemId });
+    for (const table of ["transactions", "load_data", "range_notes", "service_history"]) {
+        await dbDelete(table, f);
+    }
+    const gallery = (await downloadImagesJson(itemId)) || [];
+    await deleteImages(itemId, [...gallery, "images.json"]);
+    await dbDelete("items", f);
+}
+
 // Upsert the single Purchase row for a firearm. `values` holds the editable
 // columns (date, price, location, url, content, notes).
 async function savePurchase(firearm, values) {
