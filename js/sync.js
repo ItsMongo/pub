@@ -98,11 +98,21 @@ function makeClient(base, creds) {
     const form = { "Content-Type": "application/x-www-form-urlencoded" };
 
     async function raw(path, opts = {}) {
+        // A stalled request (a dropped Tailscale hop, a server that never answers)
+        // must fail loudly, not hang the whole sync forever with no feedback —
+        // there's no other timeout anywhere in this file.
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 25000);
         let res;
         try {
-            res = await fetch(root + path, { ...opts, headers: { ...auth, ...(opts.headers || {}) } });
+            res = await fetch(root + path, { ...opts, headers: { ...auth, ...(opts.headers || {}) }, signal: controller.signal });
         } catch (e) {
+            if (e.name === "AbortError") {
+                throw new Error(`timed out after 25s reaching ${root || "this device"}${path} — check the connection`);
+            }
             throw new Error(`can't reach ${root || "this device"} (${e.message}) — check the address, that the server is up, and CORS`);
+        } finally {
+            clearTimeout(timer);
         }
         if (!res.ok) {
             const body = (await res.text().catch(() => "")).slice(0, 200);
@@ -587,6 +597,16 @@ async function syncGalleries(from, to, touched, log) {
 // referenced file gets its own existence check on `to`, every run.
 async function syncAttachments(from, to, log) {
     const [rangeRows, txRows] = await Promise.all([to.rows("range_notes"), to.rows("transactions")]);
+
+    // Flatten to one work list up front so progress can be reported — this
+    // checks every attachment on every run (see note above), which for a big
+    // collection is enough requests that silence would read as a hang.
+    const work = [];
+    for (const r of rangeRows) for (const name of safeJsonArray(r.targets)) work.push([r.item_id, "targets", name]);
+    for (const t of txRows) for (const d of safeJsonArray(t.docs)) if (d && d.filename) work.push([t.item_id, "docs", d.filename]);
+    if (!work.length) return;
+    log(`checking ${work.length} attachment(s)…`);
+
     let copied = 0, failed = 0;
     const failedItems = new Set();
 
@@ -600,17 +620,12 @@ async function syncAttachments(from, to, log) {
         copied++;
     }
 
-    for (const r of rangeRows) {
-        for (const name of safeJsonArray(r.targets)) {
-            try { await ensure(r.item_id, "targets", name); }
-            catch (err) { failed++; failedItems.add(r.item_id); }
-        }
-    }
-    for (const t of txRows) {
-        for (const d of safeJsonArray(t.docs)) {
-            if (!d || !d.filename) continue;
-            try { await ensure(t.item_id, "docs", d.filename); }
-            catch (err) { failed++; failedItems.add(t.item_id); }
+    for (let i = 0; i < work.length; i++) {
+        const [itemId, subdir, name] = work[i];
+        try { await ensure(itemId, subdir, name); }
+        catch (err) { failed++; failedItems.add(itemId); }
+        if ((i + 1) % 15 === 0 || i === work.length - 1) {
+            log(`  …${i + 1}/${work.length} checked, ${copied} copied so far`);
         }
     }
     if (copied || failed) {
