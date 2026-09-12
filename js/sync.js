@@ -468,7 +468,11 @@ async function pullFromTarget(target, creds, log) {
 
     await snapshot(local, "pre-pull", log);
     const touched = await reconcileTables(remote, local, log);
-    await syncGalleries(remote, local, touched, log);
+    // Belt and suspenders on top of syncGalleries' own per-item soft-fail: the
+    // steps below (voiding this device's queue, refreshing the fallback) must
+    // run even if something in there throws in a way we didn't anticipate.
+    try { await syncGalleries(remote, local, touched, log); }
+    catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // This device now mirrors the source — its own queue is void.
     await local.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`);
@@ -496,7 +500,11 @@ async function mirrorToTarget(target, creds, log) {
 
     await snapshot(remote, "pre-mirror", log);
     const touched = await reconcileTables(local, remote, log);
-    await syncGalleries(local, remote, touched, log);
+    // Belt and suspenders on top of syncGalleries' own per-item soft-fail: the
+    // steps below (voiding the target's queue, refreshing its fallback) must
+    // run even if something in there throws in a way we didn't anticipate.
+    try { await syncGalleries(local, remote, touched, log); }
+    catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // The target is now a fresh copy — clear its outbox so nothing stale pushes.
     try { await remote.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`); } catch {}
@@ -524,10 +532,12 @@ function updateKeyFilter(table, row) {
 
 // Make `to`'s galleries match `from`'s, for touched items + any whose manifest
 // differs. Reads come from `from` (same-origin when this is a mirror), writes go
-// to `to`.
+// to `to`. A failure anywhere in here must never abort the caller (Pull/Mirror
+// still have to reach their own final steps — notably voiding the target's
+// outbox — even if a photo won't upload), so every step is soft-fail.
 async function syncGalleries(from, to, touched, log) {
     const items = await to.rows("items");
-    let changed = 0, unreachable = 0;
+    let changed = 0, unreachable = 0, failed = 0;
     for (const it of items) {
         const id = it.item_id;
         let srcList;
@@ -539,21 +549,27 @@ async function syncGalleries(from, to, touched, log) {
             srcList.some((n, i) => n !== dstList[i]);
         if (!differs) continue;
 
-        for (const name of srcList) {
-            const blob = await from.downloadBlob(`images/${id}/${name}`).catch(() => null);
-            if (blob) await to.uploadBlob(`images/${id}`, name, blob);
+        try {
+            for (const name of srcList) {
+                const blob = await from.downloadBlob(`images/${id}/${name}`).catch(() => null);
+                if (blob) await to.uploadBlob(`images/${id}`, name, blob);
+            }
+            await to.uploadBlob(`images/${id}`, "images.json",
+                new Blob([JSON.stringify(srcList)], { type: "application/json" }));
+            const extras = dstList.filter(n => !srcList.includes(n));
+            if (extras.length) await to.deleteFilesIn(`images/${id}`, extras).catch(() => {});
+            changed++;
+        } catch (err) {
+            failed++;
+            log(`  (gallery for ${id} didn't fully upload — ${err.message.slice(0, 60)}; will retry next sync)`);
         }
-        await to.uploadBlob(`images/${id}`, "images.json",
-            new Blob([JSON.stringify(srcList)], { type: "application/json" }));
-        const extras = dstList.filter(n => !srcList.includes(n));
-        if (extras.length) await to.deleteFilesIn(`images/${id}`, extras).catch(() => {});
-        changed++;
     }
     log(`images: ${changed} gallery/galleries updated`);
     if (unreachable) {
         log(`  ⚠ couldn't read images from the source for ${unreachable} item(s) — its /api/file/download`);
         log(`    sends no Access-Control-Allow-Origin (see docs/sync.md).`);
     }
+    if (failed) log(`  ⚠ ${failed} gallery upload(s) failed partway — see notes above.`);
 }
 
 // ── panel ───────────────────────────────────────────────────────────────────
