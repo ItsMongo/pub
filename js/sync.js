@@ -597,10 +597,14 @@ async function openSyncPanel() {
     const note   = el("div", "sync-note", { id: "syncSourceNote", hidden: true });
     box.appendChild(note);
 
-    // Credentials
+    // Credentials — a real <form>, submitted (not just clicked), with proper
+    // autocomplete hints: that's what makes the browser's OWN password manager
+    // offer to remember these, as an alternative to "Remember on this device"
+    // writing them into config.json.
+    const form   = el("form", null, { autocomplete: "on" });
     const creds  = el("div", "sync-creds", { id: "syncCreds" });
-    const userIn = el("input", null, { type: "text", id: "syncUser", autocomplete: "off", placeholder: "username (blank if none)" });
-    const passIn = el("input", null, { type: "password", id: "syncPass", autocomplete: "off", placeholder: "password" });
+    const userIn = el("input", null, { type: "text", id: "syncUser", name: "username", autocomplete: "username", placeholder: "username (blank if none)" });
+    const passIn = el("input", null, { type: "password", id: "syncPass", name: "password", autocomplete: "current-password", placeholder: "password" });
     const remember = el("input", null, { type: "checkbox", id: "syncRemember" });
 
     const userLabel = el("label", "sync-field", {}, "Username");
@@ -611,17 +615,17 @@ async function openSyncPanel() {
     rememberWrap.append(remember, document.createTextNode(" Remember on this device"));
 
     creds.append(userLabel, passLabel, rememberWrap);
-    box.appendChild(creds);
 
     const summary = el("div", "sync-summary", { id: "syncSummary" });
-    box.appendChild(summary);
 
     const actions = el("div", "sync-actions");
-    const pushBtn   = el("button", "im-save", { type: "button", title: "Send this device's queued edits to the target" }, "Push →");
-    const mirrorBtn = el("button", "im-save sync-mirror", { type: "button", title: "Replace the target with a full copy of this device (images too)" }, "Copy all →");
-    const pullBtn   = el("button", "im-save sync-pull", { type: "button", title: "Replace THIS device with a full copy of the target" }, "← Pull");
+    const pushBtn   = el("button", "im-save", { type: "submit", title: "Send this device's queued edits to the target" }, "Push →");
+    const mirrorBtn = el("button", "im-save sync-mirror", { type: "submit", title: "Replace the target with a full copy of this device (images too)" }, "Copy all →");
+    const pullBtn   = el("button", "im-save sync-pull", { type: "submit", title: "Replace THIS device with a full copy of the target" }, "← Pull");
     actions.append(pushBtn, mirrorBtn, pullBtn);
-    box.appendChild(actions);
+
+    form.append(creds, summary, actions);
+    box.appendChild(form);
 
     const logBox = el("pre", "sync-log", { id: "syncLog", hidden: true });
     box.appendChild(logBox);
@@ -707,9 +711,14 @@ async function openSyncPanel() {
         }
     }
 
-    pushBtn.onclick   = () => run("push");
-    mirrorBtn.onclick = () => run("mirror");
-    pullBtn.onclick   = () => run("pull");
+    // One real submit event (not three onclicks) is what lets the browser's
+    // password manager recognize this as a login and offer to save it.
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        if (e.submitter === pushBtn) run("push");
+        else if (e.submitter === mirrorBtn) run("mirror");
+        else if (e.submitter === pullBtn) run("pull");
+    };
 
     panel.addEventListener("click", (e) => { if (e.target === panel) panel.remove(); });
     document.body.appendChild(panel);
