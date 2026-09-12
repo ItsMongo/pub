@@ -471,8 +471,10 @@ async function pullFromTarget(target, creds, log) {
     // Belt and suspenders on top of syncGalleries' own per-item soft-fail: the
     // steps below (voiding this device's queue, refreshing the fallback) must
     // run even if something in there throws in a way we didn't anticipate.
-    try { await syncGalleries(remote, local, touched, log); }
-    catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
+    try {
+        await syncGalleries(remote, local, touched, log);
+        await syncAttachments(remote, local, touched, log);
+    } catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // This device now mirrors the source — its own queue is void.
     await local.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`);
@@ -503,8 +505,10 @@ async function mirrorToTarget(target, creds, log) {
     // Belt and suspenders on top of syncGalleries' own per-item soft-fail: the
     // steps below (voiding the target's queue, refreshing its fallback) must
     // run even if something in there throws in a way we didn't anticipate.
-    try { await syncGalleries(local, remote, touched, log); }
-    catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
+    try {
+        await syncGalleries(local, remote, touched, log);
+        await syncAttachments(local, remote, touched, log);
+    } catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // The target is now a fresh copy — clear its outbox so nothing stale pushes.
     try { await remote.sql(`UPDATE sync_outbox SET synced = 1, synced_ts = '${nowIso()}' WHERE synced = 0`); } catch {}
@@ -570,6 +574,42 @@ async function syncGalleries(from, to, touched, log) {
         log(`    sends no Access-Control-Allow-Origin (see docs/sync.md).`);
     }
     if (failed) log(`  ⚠ ${failed} gallery upload(s) failed partway — see notes above.`);
+}
+
+// Range-visit target photos (range_notes.targets, subdir "targets") and
+// purchase-doc attachments (transactions.docs, subdir "docs") live in JSON
+// columns rather than a manifest file, so they need their own pass — the
+// gallery one above never looks at them. Only touched items are considered:
+// reconcileTables() has already made `to`'s rows match `from`'s, so `to`'s own
+// columns are the current, authoritative file lists. Re-uploads unconditionally
+// for a touched item (same tradeoff syncGalleries makes) rather than probing
+// for existence first.
+async function syncAttachments(from, to, touched, log) {
+    if (!touched.size) return;
+    const [rangeRows, txRows] = await Promise.all([to.rows("range_notes"), to.rows("transactions")]);
+    let copied = 0, failed = 0;
+    for (const id of touched) {
+        const targetFiles = rangeRows.filter(r => r.item_id === id).flatMap(r => safeJsonArray(r.targets));
+        const docFiles = txRows.filter(t => t.item_id === id)
+            .flatMap(t => safeJsonArray(t.docs).map(d => d && d.filename).filter(Boolean));
+        if (!targetFiles.length && !docFiles.length) continue;
+        try {
+            for (const name of targetFiles) {
+                const blob = await from.downloadBlob(`images/${id}/targets/${name}`).catch(() => null);
+                if (blob) { await to.uploadBlob(`images/${id}/targets`, name, blob); copied++; }
+            }
+            for (const name of docFiles) {
+                const blob = await from.downloadBlob(`images/${id}/docs/${name}`).catch(() => null);
+                if (blob) { await to.uploadBlob(`images/${id}/docs`, name, blob); copied++; }
+            }
+        } catch (err) {
+            failed++;
+            log(`  (attachments for ${id} didn't fully upload — ${err.message.slice(0, 60)}; will retry next sync)`);
+        }
+    }
+    if (copied || failed) {
+        log(`attachments: ${copied} file(s) copied${failed ? `, ${failed} item(s) had a failure` : ""}`);
+    }
 }
 
 // ── panel ───────────────────────────────────────────────────────────────────
