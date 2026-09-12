@@ -473,7 +473,7 @@ async function pullFromTarget(target, creds, log) {
     // run even if something in there throws in a way we didn't anticipate.
     try {
         await syncGalleries(remote, local, touched, log);
-        await syncAttachments(remote, local, touched, log);
+        await syncAttachments(remote, local, log);
     } catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // This device now mirrors the source — its own queue is void.
@@ -507,7 +507,7 @@ async function mirrorToTarget(target, creds, log) {
     // run even if something in there throws in a way we didn't anticipate.
     try {
         await syncGalleries(local, remote, touched, log);
-        await syncAttachments(local, remote, touched, log);
+        await syncAttachments(local, remote, log);
     } catch (err) { log(`  (image sync stopped early — ${err.message.slice(0, 70)})`); }
 
     // The target is now a fresh copy — clear its outbox so nothing stale pushes.
@@ -578,37 +578,44 @@ async function syncGalleries(from, to, touched, log) {
 
 // Range-visit target photos (range_notes.targets, subdir "targets") and
 // purchase-doc attachments (transactions.docs, subdir "docs") live in JSON
-// columns rather than a manifest file, so they need their own pass — the
-// gallery one above never looks at them. Only touched items are considered:
-// reconcileTables() has already made `to`'s rows match `from`'s, so `to`'s own
-// columns are the current, authoritative file lists. Re-uploads unconditionally
-// for a touched item (same tradeoff syncGalleries makes) rather than probing
-// for existence first.
-async function syncAttachments(from, to, touched, log) {
-    if (!touched.size) return;
+// columns rather than a manifest file, so there's nothing cheap to diff the
+// way the gallery's images.json lets syncGalleries diff. Deliberately NOT
+// gated on `touched` (an earlier version was, and that was the bug): a file
+// can still be missing on `to` even when its owning row already matches —
+// e.g. a prior sync reconciled the row but this file didn't make it across,
+// and a later run finds nothing left to reconcile at the row level. So every
+// referenced file gets its own existence check on `to`, every run.
+async function syncAttachments(from, to, log) {
     const [rangeRows, txRows] = await Promise.all([to.rows("range_notes"), to.rows("transactions")]);
     let copied = 0, failed = 0;
-    for (const id of touched) {
-        const targetFiles = rangeRows.filter(r => r.item_id === id).flatMap(r => safeJsonArray(r.targets));
-        const docFiles = txRows.filter(t => t.item_id === id)
-            .flatMap(t => safeJsonArray(t.docs).map(d => d && d.filename).filter(Boolean));
-        if (!targetFiles.length && !docFiles.length) continue;
-        try {
-            for (const name of targetFiles) {
-                const blob = await from.downloadBlob(`images/${id}/targets/${name}`).catch(() => null);
-                if (blob) { await to.uploadBlob(`images/${id}/targets`, name, blob); copied++; }
-            }
-            for (const name of docFiles) {
-                const blob = await from.downloadBlob(`images/${id}/docs/${name}`).catch(() => null);
-                if (blob) { await to.uploadBlob(`images/${id}/docs`, name, blob); copied++; }
-            }
-        } catch (err) {
-            failed++;
-            log(`  (attachments for ${id} didn't fully upload — ${err.message.slice(0, 60)}; will retry next sync)`);
+    const failedItems = new Set();
+
+    async function ensure(itemId, subdir, name) {
+        const rel = `images/${itemId}/${subdir}/${name}`;
+        const already = await to.downloadBlob(rel).then(() => true).catch(() => false);
+        if (already) return;
+        const blob = await from.downloadBlob(rel).catch(() => null);
+        if (!blob) return;   // the source doesn't have it either — nothing to copy
+        await to.uploadBlob(`images/${itemId}/${subdir}`, name, blob);
+        copied++;
+    }
+
+    for (const r of rangeRows) {
+        for (const name of safeJsonArray(r.targets)) {
+            try { await ensure(r.item_id, "targets", name); }
+            catch (err) { failed++; failedItems.add(r.item_id); }
+        }
+    }
+    for (const t of txRows) {
+        for (const d of safeJsonArray(t.docs)) {
+            if (!d || !d.filename) continue;
+            try { await ensure(t.item_id, "docs", d.filename); }
+            catch (err) { failed++; failedItems.add(t.item_id); }
         }
     }
     if (copied || failed) {
-        log(`attachments: ${copied} file(s) copied${failed ? `, ${failed} item(s) had a failure` : ""}`);
+        log(`attachments: ${copied} file(s) copied` +
+            (failed ? `, ${failed} failure(s) (${[...failedItems].join(", ")}) — will retry next sync` : ""));
     }
 }
 
