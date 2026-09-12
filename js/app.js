@@ -207,9 +207,8 @@ function renderDeleteConfirm(firearm) {
     warn.innerHTML =
         `This permanently deletes <b>${firearm.make} ${firearm.model}</b> (${firearm.itemId})` +
         ` — its History, Purchase, Market Value, Load Data, Range Notes, and Maintenance` +
-        ` records, plus its gallery images. This cannot be undone.` +
-        `<br><br>Range-visit target photos and purchase-document attachments on those` +
-        ` records are not automatically removed.`;
+        ` records, its gallery images, and any target photos or purchase documents` +
+        ` attached to those records. This cannot be undone.`;
     wrap.appendChild(warn);
 
     const label = document.createElement("label");

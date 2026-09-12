@@ -419,16 +419,31 @@ function addFirearm(values) {
     return dbInsert("items", values);
 }
 
-// Permanently delete a firearm: every child-table row, the gallery (images +
+// Parse a JSON column defensively — a blank/null/malformed value reads as "no
+// files" rather than throwing (a delete shouldn't abort over a bad legacy row).
+function safeJsonArray(raw) {
+    if (!raw) return [];
+    try {
+        const v = JSON.parse(raw);
+        return Array.isArray(v) ? v : [];
+    } catch { return []; }
+}
+
+// Permanently delete a firearm: range-visit target photos and purchase-doc
+// attachments (read off the rows before they're gone — both live in JSON
+// columns, not their own table), every child-table row, the gallery (images +
 // images.json), then the items row itself. Each step goes through the normal
-// wrapped dbDelete/deleteImages, so — like any other edit — this replicates to
+// wrapped dbDelete/deleteFiles, so — like any other edit — this replicates to
 // other devices next Sync.
-// NOT removed: range-visit target photos and purchase-document attachments
-// referenced from the deleted rows (their filenames live inside JSON columns
-// on rows we're about to delete). Left as harmless orphans rather than adding
-// per-row file parsing for what's usually a handful of small files.
 async function deleteFirearm(itemId) {
     const f = dbFilters({ item_id: itemId });
+
+    const [rangeRows, txRows] = await Promise.all([dbTable("range_notes", f), dbTable("transactions", f)]);
+    const targetFiles = rangeRows.flatMap(r => safeJsonArray(r.targets));
+    const docFiles = txRows.flatMap(t => safeJsonArray(t.docs).map(d => d && d.filename).filter(Boolean));
+    await deleteTargets(itemId, targetFiles);
+    await deleteDocs(itemId, docFiles);
+
     for (const table of ["transactions", "load_data", "range_notes", "service_history"]) {
         await dbDelete(table, f);
     }
