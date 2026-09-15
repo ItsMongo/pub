@@ -263,10 +263,14 @@ main {
 }
 
 .maker-logo {
-    max-width: 120px;
-    max-height: 100px;
-/*    width: auto;
-    height: auto; */
+    width: 120px;
+    height: 100px;
+    /* Explicit, not max-width/max-height: those only ever shrink an element,
+       never grow one, and a viewBox-only SVG (no width/height attrs — the
+       flag-icons set) reports a fake, tiny "natural size" to the browser that
+       has nothing to do with its real content size. A real PNG's actual pixel
+       size masked that gap for the old raster flags; a fixed box sidesteps it
+       for both source kinds. */
     object-fit: contain;
     display: block;
 }
