@@ -5,6 +5,7 @@ images/*
 # new files under it silently can't be un-ignored; images/* only ignores each
 # direct child, and un-ignoring the flags/ entry lets git traverse into it.)
 !images/flags
+!images/makers
 node_modules/
 .env
 

@@ -2,7 +2,7 @@
   {
     "type": "Rifle",
     "make": "Lee-Enfield",
-    "makerLogo": "ROFFazakerley.jpg",
+    "makerLogo": "ROFFazakerley.png",
     "model": "No. 4 Mk I (F)",
     "year": 1941,
     "cartridge": ".303 British",
@@ -132,7 +132,7 @@
   {
     "type": "Rifle",
     "make": "Ruger",
-    "makerLogo": "Ruger-Logo-640x400.jpg",
+    "makerLogo": "Ruger-Logo-640x400.png",
     "model": "10/22",
     "year": 2013,
     "cartridge": ".22 LR",
@@ -652,7 +652,7 @@
   {
     "type": "Rifle",
     "make": "Norinco",
-    "makerLogo": "Norinco.jpg",
+    "makerLogo": "Norinco.png",
     "model": "SKS",
     "year": null,
     "cartridge": "7.62 x 39mm",
@@ -1042,7 +1042,7 @@
   {
     "type": "Rifle",
     "make": "Russian",
-    "makerLogo": "TulaArmoryUSSR.jpg",
+    "makerLogo": "TulaArmoryUSSR.png",
     "model": "Mosin Nagant M91/30",
     "year": 1928,
     "cartridge": "7.62 x 54R",
@@ -1432,7 +1432,7 @@
   {
     "type": "Rifle",
     "make": "Enfield",
-    "makerLogo": "ROFFazakerley.jpg",
+    "makerLogo": "ROFFazakerley.png",
     "model": "Jungle Carbine",
     "year": null,
     "cartridge": ".303 British",
@@ -1562,7 +1562,7 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
+    "makerLogo": "MAS.png",
     "model": "M49/56",
     "year": null,
     "cartridge": "7.62x51mm NATO",
@@ -1692,7 +1692,7 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
+    "makerLogo": "MAS.png",
     "model": "M49/56",
     "year": null,
     "cartridge": "7.5 MAS",
@@ -1822,7 +1822,7 @@
   {
     "type": "Rifle",
     "make": "Palmetto",
-    "makerLogo": "palmettoArmory.jpg",
+    "makerLogo": "palmettoArmory.png",
     "model": "AR-10",
     "year": null,
     "cartridge": ".308 Win",
@@ -2212,7 +2212,7 @@
   {
     "type": "Rifle",
     "make": "Russian",
-    "makerLogo": "TulaArmoryUSSR.jpg",
+    "makerLogo": "TulaArmoryUSSR.png",
     "model": "SVT-40",
     "year": null,
     "cartridge": "7.62 x 54 R",
@@ -2602,7 +2602,7 @@
   {
     "type": "Rifle",
     "make": "MAS",
-    "makerLogo": "MAS.jpg",
+    "makerLogo": "MAS.png",
     "model": "M.1936",
     "year": null,
     "cartridge": "7.5 French",
@@ -2732,7 +2732,7 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
+    "makerLogo": "Marlin_logo_horiz_blue.png",
     "model": "Model 1895M",
     "year": 2001,
     "cartridge": ".450 Marlin",
@@ -2862,7 +2862,7 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
+    "makerLogo": "Marlin_logo_horiz_blue.png",
     "model": "Model 336",
     "year": 1972,
     "cartridge": ".30-30 Winchester",
@@ -2992,7 +2992,7 @@
   {
     "type": "Rifle",
     "make": "Marlin",
-    "makerLogo": "Marlin_logo_horiz_blue.jpg",
+    "makerLogo": "Marlin_logo_horiz_blue.png",
     "model": "Model 336CS",
     "year": 1990,
     "cartridge": ".35 Remington",
@@ -3642,7 +3642,7 @@
   {
     "type": "Rifle",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
+    "makerLogo": "Remington.png",
     "model": "Model 700",
     "year": null,
     "cartridge": ".223 Remington",
@@ -3902,7 +3902,7 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
+    "makerLogo": "Remington.png",
     "model": "1100",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4032,7 +4032,7 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
+    "makerLogo": "Remington.png",
     "model": "1100",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4292,7 +4292,7 @@
   {
     "type": "Shotgun",
     "make": "Remington",
-    "makerLogo": "Remington.jpg",
+    "makerLogo": "Remington.png",
     "model": "Model 10",
     "year": null,
     "cartridge": "12 Ga.",
@@ -4963,7 +4963,7 @@
     "sightType": "Optic rail, one-button takedown",
     "weight": "1191g (42oz) unloaded, approximate with bull barrel",
     "note": "Custom grips; Volquartsen aftermarket trigger installed",
-    "makerLogo": "Ruger-Logo-640x400.jpg",
+    "makerLogo": "Ruger-Logo-640x400.png",
     "tabs": {
       "history": {
         "title": "The Ruger Mark IV Hunter",
@@ -5006,7 +5006,7 @@
     "sightType": "Adjustable",
     "weight": "1176g (41.5oz) unloaded, 4in barrel, approximate",
     "note": "Custom grips installed; trigger action lightened/tuned from factory",
-    "makerLogo": "SmithAndWesson-Logo.jpg",
+    "makerLogo": "SmithAndWesson-logo.png",
     "tabs": {
       "history": {
         "title": "The Smith & Wesson Model 629",
@@ -5072,7 +5072,7 @@
     "imageID": "VZ5A",
     "type": "Pistol",
     "make": "Česká zbrojovka, a.s. (CZ)",
-    "makerLogo": "CZlogo.jpg",
+    "makerLogo": "CZlogo.png",
     "model": "VZOR 50",
     "year": 1967,
     "cartridge": ".32 ACP",
@@ -5133,7 +5133,7 @@
     "sightType": "Fixed",
     "weight": "660g (23.3oz) unloaded, approximate",
     "note": "Second of three vz. 50 examples in the collection",
-    "makerLogo": "CZlogo.jpg",
+    "makerLogo": "CZlogo.png",
     "tabs": {
       "history": {
         "title": "The CZ vz. 50 Police and Military Pistol",
@@ -5176,7 +5176,7 @@
     "sightType": "Fixed",
     "weight": "660g (23.3oz) unloaded, approximate",
     "note": "Third of three vz. 50 examples in the collection",
-    "makerLogo": "CZlogo.jpg",
+    "makerLogo": "CZlogo.png",
     "tabs": {
       "history": {
         "title": "The CZ vz. 50 Police and Military Pistol",
@@ -5219,7 +5219,7 @@
     "sightType": "Fixed",
     "weight": "730g (25.7oz) unloaded",
     "note": "Izhevsk Mechanical Plant, ",
-    "makerLogo": "patch-izhevsk-mechanical-plant.jpg",
+    "makerLogo": "patch-izhevsk-mechanical-plant.png",
     "tabs": {
       "history": {
         "title": "The Makarov PM (Pistolet Makarova)",
@@ -5305,7 +5305,7 @@
     "sightType": "Blade front, notch rear",
     "weight": "0.950 kg (2.09 lb) (unloaded)",
     "note": "W-Series, Eagle/77 proof, Type II backstrap, internal slide number matches serial block",
-    "makerLogo": "Wermacht-Heer_1942.svg.jpg",
+    "makerLogo": "Wermacht-Heer_1942.svg.png",
     "tabs": {
       "history": {
         "title": "F.B. Radom VIS Mod. 35 (P.35(p))",
