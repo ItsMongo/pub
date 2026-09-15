@@ -1,7 +1,10 @@
-images/
+images/*
 # ...except the shared reference art (not per-item photos) — small, tracked.
-!images/flags/
-!images/flags/**
+# (images/* + !images/flags, not images/ + !images/flags/** — a bare "images/"
+# blanket-excludes the tree in a way git won't traverse into for negation, so
+# new files under it silently can't be un-ignored; images/* only ignores each
+# direct child, and un-ignoring the flags/ entry lets git traverse into it.)
+!images/flags
 node_modules/
 .env
 
