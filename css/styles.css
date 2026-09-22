@@ -1101,6 +1101,74 @@ main {
 .im-msg { font-size: 0.8rem; color: #3a5c30; }
 .im-msg.error { color: #a5311f; font-weight: 600; }
 
+/* Item editor's Flag / Maker logo picker field */
+.picker-field { display: flex; align-items: center; gap: 8px; }
+.picker-thumb {
+  width: 44px;
+  height: 36px;
+  object-fit: contain;
+  background: #f3e6c8;
+  border: 1px solid #cdbd97;
+  border-radius: 3px;
+}
+.picker-thumb[hidden] { visibility: hidden; }
+.picker-label {
+  flex: 1;
+  font-size: 0.82rem;
+  color: #3a3a2a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.picker-choose, .picker-clear {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  color: #1a523b;
+  background: #e2c693;
+  border: 1px solid #7c8a6e;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.picker-clear { padding: 4px 8px; color: #a5311f; }
+
+/* Shared library modal (flags / maker logos) — picker + Add/Edit/delete */
+.lib-box { width: min(640px, 94vw); }
+.lib-search {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  border: 1px solid #9c8f6d;
+  border-radius: 4px;
+  background: #f3e9d0;
+}
+.lib-list { max-height: 50vh; }
+.lib-row img { object-fit: contain; }
+.lib-row.selected { border-color: #266d33; background: rgba(38, 109, 51, 0.12); }
+.lib-btn {
+  font: inherit;
+  font-size: 0.74rem;
+  padding: 4px 10px;
+  color: #1a523b;
+  background: #e2c693;
+  border: 1px solid #7c8a6e;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.lib-btn.lib-del { color: #a5311f; }
+.lib-foot { flex-wrap: wrap; }
+.lib-add-name {
+  font-size: 0.78rem;
+  padding: 5px 8px;
+  border: 1px solid #9c8f6d;
+  border-radius: 4px;
+  background: #f3e9d0;
+  min-width: 140px;
+}
+
 /* ── Sync ─────────────────────────────────────────────────────────────────── */
 .nav-manage { flex-wrap: wrap; }
 .nav-manage-btn.has-pending {

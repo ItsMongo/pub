@@ -641,6 +641,8 @@ function buildEditForm(fields) {
             const w = buildDocWidget(f.value, f.imageID);
             w.el.__widget = w;
             label.appendChild(w.el);
+        } else if (f.type === "picker") {
+            label.appendChild(buildPickerField(f));
         } else {
             const el = makeFieldEl(f, f.value);
             el.name = f.name;
@@ -778,11 +780,11 @@ function renderItemEditor(firearm) {
         { name: "feed",               label: "Feed",              type: "datalist", options: distinct("feed"), value: it.feed },
         { name: "weight",             label: "Weight",            type: "text",   value: it.weight },
         { name: "country",            label: "Country",           type: "datalist", options: distinct("country"), value: it.country },
-        { name: "flag_image",         label: "Flag image path",   type: "datalist", options: distinct("flag"), value: it.flag_image, placeholder: "images/flags/us.svg (ISO code — see flag-icons)" },
+        { name: "flag_image",         label: "Flag",              type: "picker", library: "flags", value: it.flag_image },
         { name: "cartridge_image",    label: "Cartridge image",   type: "datalist", options: distinct("cartridgeImage"), value: it.cartridge_image, placeholder: "in images/cartridges/" },
         { name: "cartridge_wiki_url", label: "Cartridge wiki URL", type: "url",   value: it.cartridge_wiki_url },
         { name: "cart_wiki2",         label: "Cartridge wiki 2",  type: "text",   value: it.cart_wiki2 },
-        { name: "maker_logo",         label: "Maker logo file",   type: "datalist", options: distinct("makerLogo"), value: it.maker_logo, placeholder: "in images/makers/" },
+        { name: "maker_logo",         label: "Maker logo",        type: "picker", library: "makers", value: it.maker_logo },
         { name: "optic",              label: "Optic",             type: "text",   value: it.optic },
         { name: "optic_spec",         label: "Optic spec",        type: "text",   value: it.optic_spec },
         { name: "sights",             label: "Sights",            type: "text",   value: it.sights },
@@ -1535,6 +1537,260 @@ async function renderImageManager(firearm) {
 
     foot.append(save, msg);
     panel.appendChild(foot);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Asset libraries — flags (images/flags/index.json) and maker logos
+// (images/makers/images.json). Both are global, shared collections rather
+// than per-item folders. buildPickerField() renders the item editor's
+// Flag / Maker logo field; openLibraryPicker() is the shared modal used to
+// choose from a library and, in the same place, Add / Edit / delete (×) its
+// entries — an image goes in, its filename is the identity, and Edit just
+// re-uploads new bytes to that same filename so every item using it updates.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const LIBRARY_EXTS = [...IMG_EXTS, "svg"];
+
+// Each library normalizes to a common entry shape for display:
+//   filename — bare name on disk (what Add/Edit/Delete operate on)
+//   label    — what's shown to the user, and what the alphabetical sort uses
+//   dbValue  — what gets written into the item's flag_image / maker_logo column
+//   thumbSrc — src for a preview <img>
+const ASSET_LIBRARIES = {
+    flags: {
+        dir: "flags", file: "index.json", title: "Flag", needsName: true,
+        toEntries: (raw) => (raw || []).map(e => ({
+            filename: (e.file || "").split("/").pop(),
+            label: e.name || e.file, dbValue: e.file, thumbSrc: e.file, raw: e,
+        })),
+        buildEntry: (filename, label) => ({
+            code: filename.replace(/\.[^.]+$/, ""), name: label,
+            file: `images/flags/${filename}`, kind: "custom", continent: "", aliases: [],
+        }),
+        findIndex: (raw, filename) => raw.findIndex(e => (e.file || "").split("/").pop() === filename),
+    },
+    makers: {
+        dir: "makers", file: "images.json", title: "Maker logo", needsName: false,
+        toEntries: (raw) => (raw || []).map(name => ({
+            filename: name, label: name, dbValue: name, thumbSrc: `images/makers/${name}`, raw: name,
+        })),
+        buildEntry: (filename) => filename,
+        findIndex: (raw, filename) => raw.indexOf(filename),
+    },
+};
+
+let libraryCache = {};   // kind -> raw JSON (array of objects, or of filenames)
+async function loadLibrary(kind) {
+    if (!libraryCache[kind]) {
+        const cfg = ASSET_LIBRARIES[kind];
+        libraryCache[kind] = (await downloadLibraryJson(cfg.dir, cfg.file)) || [];
+    }
+    return libraryCache[kind];
+}
+
+// A safe, de-duplicated filename for a new library asset — a slug of `label`
+// when the library has one (flags), else the uploaded file's own name.
+function libraryFilename(label, originalName, taken) {
+    const dotAt = originalName.lastIndexOf(".");
+    let ext = (dotAt > -1 ? originalName.slice(dotAt + 1) : "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!LIBRARY_EXTS.includes(ext)) ext = "png";
+    const base = String(label || originalName).replace(/\.[^.]+$/, "")
+        .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "asset";
+    if (!taken.has(`${base}.${ext}`)) return `${base}.${ext}`;
+    for (let i = 2; ; i++) {
+        if (!taken.has(`${base}-${i}.${ext}`)) return `${base}-${i}.${ext}`;
+    }
+}
+
+// The item editor's Flag / Maker logo field: a preview + Choose… + clear (×),
+// backed by a plain hidden input so it saves through the normal FormData path.
+function buildPickerField(f) {
+    const cfg = ASSET_LIBRARIES[f.library];
+    const wrap = document.createElement("span");
+    wrap.className = "picker-field";
+
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = f.name;
+    hidden.value = f.value || "";
+
+    const thumb = document.createElement("img");
+    thumb.className = "picker-thumb";
+    const label = document.createElement("span");
+    label.className = "picker-label";
+
+    const show = (dbValue, text) => {
+        if (dbValue) {
+            thumb.src = f.library === "flags" ? dbValue : `images/makers/${dbValue}`;
+            thumb.hidden = false;
+            label.textContent = text || dbValue.split("/").pop();
+        } else {
+            thumb.removeAttribute("src");
+            thumb.hidden = true;
+            label.textContent = "(none)";
+        }
+    };
+    show(hidden.value);
+
+    // Best-effort: once the library loads, swap in its friendlier display name.
+    loadLibrary(f.library).then(raw => {
+        const entry = cfg.toEntries(raw).find(e => e.dbValue === hidden.value);
+        if (entry) show(hidden.value, entry.label);
+    });
+
+    const chooseBtn = document.createElement("button");
+    chooseBtn.type = "button"; chooseBtn.className = "picker-choose"; chooseBtn.textContent = "Choose…";
+    chooseBtn.onclick = () => openLibraryPicker(f.library, hidden.value, (entry) => {
+        hidden.value = entry ? entry.dbValue : "";
+        show(hidden.value, entry && entry.label);
+    });
+
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button"; clearBtn.className = "picker-clear"; clearBtn.title = "Clear"; clearBtn.textContent = "×";
+    clearBtn.onclick = () => { hidden.value = ""; show(""); };
+
+    wrap.append(hidden, thumb, label, chooseBtn, clearBtn);
+    return wrap;
+}
+
+// The shared library modal: pick an entry (Select), or manage the library in
+// place — Add a new one, Edit (replace) an existing image, or delete (×) one.
+async function openLibraryPicker(kind, currentValue, onPick) {
+    const cfg = ASSET_LIBRARIES[kind];
+    document.getElementById("libPicker")?.remove();
+
+    const panel = el("div", "modal", { id: "libPicker" });
+    const box   = el("div", "modal-box lib-box");
+    panel.appendChild(box);
+
+    const head = el("div", "sync-head");
+    head.append(el("span", null, {}, `Choose ${cfg.title.toLowerCase()}`));
+    const close = el("button", "im-close", { type: "button" }, "✕");
+    close.onclick = () => panel.remove();
+    head.appendChild(close);
+    box.appendChild(head);
+
+    const search = el("input", "lib-search", { type: "text", placeholder: `Filter ${cfg.title.toLowerCase()}s…` });
+    box.appendChild(search);
+
+    const list = el("div", "lib-list im-list");
+    box.appendChild(list);
+
+    const msg = el("span", "im-msg");
+
+    const raw = await loadLibrary(kind);
+
+    const usageCount = (dbValue) => firearms.filter(f =>
+        (kind === "flags" ? f.flag : f.makerLogo) === dbValue).length;
+
+    const render = () => {
+        const filterText = search.value.trim().toLowerCase();
+        const entries = cfg.toEntries(raw)
+            .filter(e => !filterText || e.label.toLowerCase().includes(filterText))
+            .sort((a, b) => a.label.localeCompare(b.label));
+
+        list.innerHTML = "";
+        for (const entry of entries) {
+            const row = el("div", "lib-row im-row");
+            if (entry.dbValue === currentValue) row.classList.add("selected");
+
+            const img = document.createElement("img");
+            img.src = entry.thumbSrc;
+            row.appendChild(img);
+
+            const uses = usageCount(entry.dbValue);
+            row.appendChild(el("span", "im-name", {},
+                entry.label + (uses ? `  (${uses} item${uses === 1 ? "" : "s"})` : "")));
+
+            const selectBtn = el("button", "lib-btn", { type: "button" }, "Select");
+            selectBtn.onclick = () => { onPick(entry); panel.remove(); };
+            row.appendChild(selectBtn);
+
+            const editInput = document.createElement("input");
+            editInput.type = "file"; editInput.accept = "image/*,.svg"; editInput.hidden = true;
+            editInput.onchange = async () => {
+                const file = editInput.files[0];
+                editInput.value = "";
+                if (!file) return;
+                msg.className = "im-msg"; msg.textContent = `Replacing ${entry.filename}…`;
+                try {
+                    await uploadLibraryFile(cfg.dir, entry.filename, file);
+                    msg.textContent = "Replaced.";
+                    img.src = entry.thumbSrc + "?v=" + Date.now();   // bust the cache
+                } catch (err) {
+                    msg.className = "im-msg error"; msg.textContent = "Replace failed: " + err.message;
+                }
+            };
+            const editBtn = el("button", "lib-btn", { type: "button" }, "Edit");
+            editBtn.onclick = () => editInput.click();
+            row.append(editBtn, editInput);
+
+            const delBtn = el("button", "lib-btn lib-del", { type: "button" }, "×");
+            delBtn.onclick = async () => {
+                const warn = uses
+                    ? `"${entry.label}" is used by ${uses} item(s) — they'll show a missing image. Delete anyway?`
+                    : `Delete "${entry.label}"?`;
+                if (!window.confirm(warn)) return;
+                msg.className = "im-msg"; msg.textContent = "Deleting…";
+                try {
+                    const idx = cfg.findIndex(raw, entry.filename);
+                    if (idx > -1) raw.splice(idx, 1);
+                    await writeLibraryJson(cfg.dir, cfg.file, raw);
+                    await deleteLibraryFiles(cfg.dir, [entry.filename]);
+                    msg.textContent = "Deleted.";
+                    render();
+                } catch (err) {
+                    msg.className = "im-msg error"; msg.textContent = "Delete failed: " + err.message;
+                }
+            };
+            row.appendChild(delBtn);
+
+            list.appendChild(row);
+        }
+        if (!entries.length) list.appendChild(el("div", "im-empty", {}, "No matches."));
+    };
+    render();
+    search.oninput = render;
+
+    // Footer: Add a new library entry.
+    const foot = el("div", "im-foot lib-foot");
+    const nameInput = cfg.needsName ? el("input", "lib-add-name", { type: "text", placeholder: "Country / flag name" }) : null;
+    if (nameInput) foot.appendChild(nameInput);
+
+    const addInput = document.createElement("input");
+    addInput.type = "file"; addInput.accept = "image/*,.svg"; addInput.className = "im-add";
+    foot.appendChild(addInput);
+
+    const addBtn = el("button", "im-save", { type: "button" }, "Add");
+    addBtn.onclick = async () => {
+        const file = addInput.files[0];
+        if (!file) { msg.className = "im-msg error"; msg.textContent = "Choose a file first."; return; }
+        const label = nameInput ? nameInput.value.trim() : "";
+        if (nameInput && !label) { msg.className = "im-msg error"; msg.textContent = "Name is required."; return; }
+
+        const taken = new Set(cfg.toEntries(raw).map(e => e.filename.toLowerCase()));
+        const filename = libraryFilename(label, file.name, taken);
+
+        addBtn.disabled = true;
+        msg.className = "im-msg"; msg.textContent = "Adding…";
+        try {
+            await uploadLibraryFile(cfg.dir, filename, file);
+            raw.push(cfg.buildEntry(filename, label));
+            await writeLibraryJson(cfg.dir, cfg.file, raw);
+            addInput.value = "";
+            if (nameInput) nameInput.value = "";
+            msg.textContent = "Added.";
+            render();
+        } catch (err) {
+            msg.className = "im-msg error"; msg.textContent = "Add failed: " + err.message;
+        }
+        addBtn.disabled = false;
+    };
+    foot.append(addBtn, msg);
+    box.appendChild(foot);
+
+    panel.addEventListener("click", (e) => { if (e.target === panel) panel.remove(); });
+    document.body.appendChild(panel);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

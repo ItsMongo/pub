@@ -581,3 +581,28 @@ async function downloadImagesJson(itemId) {
         return null;
     }
 }
+
+// ── shared asset libraries: flags (images/flags/index.json) and maker logos
+// (images/makers/images.json). Global, not per-item — but they reuse the same
+// upload/delete plumbing as the images/<itemId>/ folders above, with the
+// library's own folder name ("flags" / "makers") standing in for itemId.
+async function downloadLibraryJson(dir, filename) {
+    try {
+        const res = await fetch(
+            `${FILE_API_BASE}/download?path=`
+            + encodeURIComponent(`images/${dir}/${filename}`)
+            + `&_=${Date.now()}`);
+        if (res.ok) return await res.json();
+    } catch { /* fall through to a plain static fetch */ }
+    try {
+        const res = await fetch(`images/${dir}/${filename}?_=${Date.now()}`);
+        if (res.ok) return await res.json();
+    } catch { /* give up */ }
+    return null;
+}
+async function writeLibraryJson(dir, filename, data) {
+    await uploadFile(dir, "", filename,
+        new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+}
+const uploadLibraryFile  = (dir, name, file) => uploadFile(dir, "", name, file);
+const deleteLibraryFiles = (dir, names)      => deleteFiles(dir, "", names);
