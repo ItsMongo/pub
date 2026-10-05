@@ -191,8 +191,22 @@ function makeClient(base, creds) {
         },
         async deleteFilesIn(dir, files) {
             if (!files.length) return;
-            await raw(`/api/file/delete`, { method: "DELETE", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ path: dir, files }) });
+            const del = (list) => raw(`/api/file/delete`, { method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ path: dir, files: list }) });
+            try {
+                await del(files);
+            } catch (err) {
+                // 404 = already gone from the target, which is what a delete wants.
+                // SHTTPS+ may stop at the first missing file, so redo a batch one
+                // file at a time, ignoring 404s, so the rest still get deleted.
+                if (err.status !== 404) throw err;
+                if (files.length > 1) {
+                    for (const f of files) {
+                        try { await del([f]); } catch (e) { if (e.status !== 404) throw e; }
+                    }
+                }
+            }
         },
     };
 }
@@ -380,6 +394,7 @@ async function pushToTarget(target, creds, log) {
         if (r.kind === "file.put") lastPut.set(JSON.parse(r.payload).path, r.seq);
     }
     const deferred = [];
+    let networkFailure = false;   // vs. the target answering with an HTTP error
     for (const r of fileOps) {
         const p = JSON.parse(r.payload);
         if (r.kind === "file.put" && lastPut.get(p.path) !== r.seq) {
@@ -393,7 +408,8 @@ async function pushToTarget(target, creds, log) {
             pushed++;
         } catch (err) {
             deferred.push(p.path || `${p.dir}/*`);
-            log(`#${r.seq} deferred — ${err.message.slice(0, 60)}`);
+            if (!err.status) networkFailure = true;
+            log(`#${r.seq} deferred — ${r.kind} ${p.path || p.dir || ""}: ${err.message.slice(0, 200)}`);
         }
     }
 
@@ -412,10 +428,12 @@ async function pushToTarget(target, creds, log) {
     await refreshFallback(remote, log);
 
     if (deferred.length) {
-        log(`⚠ ${deferred.length} image file(s) could not upload to ${target.base} — still queued, will retry.`);
-        log(`  the target's SHTTPS+ file API isn't allowing cross-device requests (see docs/sync.md).`);
+        log(`⚠ ${deferred.length} file change(s) not applied on ${target.base} — still queued, will retry.`);
+        if (networkFailure) {
+            log(`  the target's SHTTPS+ file API isn't allowing cross-device requests (see docs/sync.md).`);
+        }
     }
-    log(`pushed ${pushed} change(s)${deferred.length ? `; ${deferred.length} image file(s) pending` : ""}`);
+    log(`pushed ${pushed} change(s)${deferred.length ? `; ${deferred.length} file change(s) pending` : ""}`);
     return { pushed, deferred: deferred.length };
 }
 
