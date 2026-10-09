@@ -19,6 +19,8 @@
 //   load_data        Load Data tab
 //   range_notes      Range Notes tab
 //   service_history  Maintenance tab
+//   comparables      Market Value tab → sold-listing comps (manual entry now;
+//                    a GunBroker API fetcher can fill it later)
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Where the DB API lives. The relative default works in production because the
@@ -47,14 +49,14 @@ function isDbLive() { return dbLive; }
 // changes onto another device. The five collection tables are syncable; the
 // outbox / bookkeeping tables are not.
 const SYNC_TABLES = new Set([
-    "items", "transactions", "load_data", "range_notes", "service_history",
+    "items", "transactions", "load_data", "range_notes", "service_history", "comparables",
 ]);
 
 // items and transactions are edited by natural keys (item_id, or item_id +
 // transaction_type [+ source]) that replay onto another device unchanged.
 // These three are edited by an AUTOINCREMENT integer PK, which differs per
 // device — so every row gets a stable sync_uid and the sync layer keys on that.
-const UID_TABLES = new Set(["load_data", "range_notes", "service_history"]);
+const UID_TABLES = new Set(["load_data", "range_notes", "service_history", "comparables"]);
 
 // RFC-4122-ish v4 id. crypto.randomUUID() needs a secure context and the app is
 // served over plain http on the LAN, so build it from getRandomValues.
@@ -89,6 +91,16 @@ const SYNC_DDL = [
     // SHTTPS+ builds). js/sync.js also writes a .json file when it can.
     `CREATE TABLE IF NOT EXISTS sync_snapshot (id INTEGER PRIMARY KEY AUTOINCREMENT,`
     + ` ts TEXT NOT NULL, label TEXT, source_host TEXT, enc TEXT, payload TEXT NOT NULL)`,
+    // Not a sync-bookkeeping table, but it must exist on every device AND on a
+    // sync target before rows replay, and this list is exactly what both
+    // ensureSyncSchema() and sync.js ensureRemoteSyncSchema() run — so the
+    // comparables table is created here. sold_price is REAL so the Market
+    // Value stats (median / avg / range) can be computed; origin is
+    // 'manual' or 'api' so a future fetcher can tell its own rows apart.
+    `CREATE TABLE IF NOT EXISTS comparables (comp_id INTEGER PRIMARY KEY AUTOINCREMENT,`
+    + ` item_id TEXT NOT NULL, source TEXT, title TEXT, sold_price REAL, sold_date TEXT,`
+    + ` condition TEXT, url TEXT, listing_id TEXT, notes TEXT, origin TEXT, sync_uid TEXT)`,
+    `CREATE INDEX IF NOT EXISTS idx_comparables_item ON comparables (item_id)`,
 ];
 
 // Create the sync tables locally if they're missing, and make sure the three
@@ -218,13 +230,15 @@ function buildTabs(item, kids) {
             wikipedia: { url: "" }, gunDigest: { url: "" },
         } : {},
 
-        marketValue: currentValues.length ? {
+        marketValue: {
             title:      "Market Value History:",
             content:    (currentValues.find(cv => cv.content) || {}).content || "",
             GunBroker:  marketBySource.GunBroker,
             RockIsland: marketBySource.RockIsland,
+            // sold-listing comparables (raw rows; see TAB_LISTS.comparables)
+            comps:      kids.comparables.slice(),
             wikipedia:  { url: "" }, gunDigest: { url: "" },
-        } : {},
+        },
 
         // The three "list" tabs. Each is a list of raw child rows; the read
         // view and editor (see TAB_LISTS in app.js) read columns off them.
@@ -252,6 +266,7 @@ function shapeFirearm(item, childMaps) {
         range_notes:     childMaps.range_notes.get(item.item_id)     || [],
         service_history: childMaps.service_history.get(item.item_id) || [],
         transactions:    childMaps.transactions.get(item.item_id)    || [],
+        comparables:     (childMaps.comparables && childMaps.comparables.get(item.item_id)) || [],
     };
 
     return {
@@ -293,25 +308,30 @@ function shapeFirearm(item, childMaps) {
 
 // Turn the five raw table arrays into the firearm-object shape the UI uses.
 // Shared with js/sync.js (regenerating data/firearms.json after a sync).
-function shapeCollection({ items, load_data, range_notes, service_history, transactions }) {
+function shapeCollection({ items, load_data, range_notes, service_history, transactions, comparables }) {
     const childMaps = {
         load_data:       groupByItem(load_data       || []),
         range_notes:     groupByItem(range_notes     || []),
         service_history: groupByItem(service_history || []),
         transactions:    groupByItem(transactions    || []),
+        comparables:     groupByItem(comparables     || []),
     };
     return (items || []).map(item => shapeFirearm(item, childMaps));
 }
 
 async function loadCollection() {
     try {
-        const [items, load_data, range_notes, service_history, transactions] =
+        const [items, load_data, range_notes, service_history, transactions, comparables] =
             await Promise.all([
                 dbTable("items"),
                 dbTable("load_data"),
                 dbTable("range_notes"),
                 dbTable("service_history"),
                 dbTable("transactions"),
+                // newer than the rest: a DB from before comparables existed has
+                // no such table until ensureSyncSchema() below creates it, and
+                // that must not knock the whole app onto the JSON fallback.
+                dbTable("comparables").catch(() => []),
             ]);
 
         dbLive = true;
@@ -320,7 +340,7 @@ async function loadCollection() {
         } catch (err) {
             console.warn(`[db.js] could not ensure sync schema (${err.message}) — Sync may be unavailable.`);
         }
-        return shapeCollection({ items, load_data, range_notes, service_history, transactions });
+        return shapeCollection({ items, load_data, range_notes, service_history, transactions, comparables });
     } catch (err) {
         if (typeof window !== "undefined" && window.DB_NO_FALLBACK) throw err;
         console.warn(
@@ -390,13 +410,14 @@ async function dbDelete(table, filters) {
 // save so the in-memory copy matches the database.
 async function reloadFirearm(itemId) {
     const f = dbFilters({ item_id: itemId });
-    const [items, load_data, range_notes, service_history, transactions] =
+    const [items, load_data, range_notes, service_history, transactions, comparables] =
         await Promise.all([
             dbTable("items", f),
             dbTable("load_data", f),
             dbTable("range_notes", f),
             dbTable("service_history", f),
             dbTable("transactions", f),
+            dbTable("comparables", f).catch(() => []),
         ]);
     if (!items.length) throw new Error(`Firearm "${itemId}" not found after reload`);
     return shapeFirearm(items[0], {
@@ -404,6 +425,7 @@ async function reloadFirearm(itemId) {
         range_notes:     groupByItem(range_notes),
         service_history: groupByItem(service_history),
         transactions:    groupByItem(transactions),
+        comparables:     groupByItem(comparables),
     });
 }
 
@@ -444,7 +466,7 @@ async function deleteFirearm(itemId) {
     await deleteTargets(itemId, targetFiles);
     await deleteDocs(itemId, docFiles);
 
-    for (const table of ["transactions", "load_data", "range_notes", "service_history"]) {
+    for (const table of ["transactions", "load_data", "range_notes", "service_history", "comparables"]) {
         await dbDelete(table, f);
     }
     const gallery = (await downloadImagesJson(itemId)) || [];

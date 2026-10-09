@@ -617,6 +617,22 @@ main {
 }
 
 .mv-summary { margin: 0 0 10px 0; font-style: italic; color: #444; }
+
+/* Comparables (sold-listing comps) under the Market Value summary */
+.comps { margin-top: 14px; padding-top: 10px; border-top: 1px solid #b6a985; }
+.comps-head {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b6b3a;
+  margin-bottom: 4px;
+}
+.comps-stats {
+  font-weight: 600;
+  color: #1a523b;
+  margin-bottom: 8px;
+}
 .mv-source {
   background: rgba(0,0,0,0.05);
   border-left: 3px solid #266d33;

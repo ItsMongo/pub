@@ -23,7 +23,13 @@ const SYNC_COLLECTION_TABLES = [
     ["load_data",       "load_id"],
     ["range_notes",     "range_id"],
     ["service_history", "service_id"],
+    ["comparables",     "comp_id"],
 ];
+
+// Added after the first release: a device that hasn't been updated yet won't
+// have these. Reading one that's missing is "skip it", never an error — and
+// never "treat it as empty", which on a Pull would wipe the local rows.
+const OPTIONAL_SYNC_TABLES = new Set(["comparables"]);
 
 // ── small helpers ───────────────────────────────────────────────────────────
 
@@ -247,7 +253,10 @@ async function snapshot(client, label, log) {
     const cfg = getConfig();
     const host = getConfig().hostId || "unknown";
     const dump = { _meta: { app: "firearms-collection", label, ts: nowIso(), from: client.root || "local", host } };
-    for (const [t] of SYNC_COLLECTION_TABLES) dump[t] = await client.rows(t);
+    for (const [t] of SYNC_COLLECTION_TABLES) {
+        try { dump[t] = await client.rows(t); }
+        catch (e) { if (!OPTIONAL_SYNC_TABLES.has(t)) throw e; }   // table not there yet
+    }
     const json = JSON.stringify(dump);
 
     // 1. the dependable one — a DB row (packed if the browser can)
@@ -284,7 +293,10 @@ async function snapshot(client, label, log) {
 async function refreshFallback(client, log) {
     try {
         const tbls = {};
-        for (const [t] of SYNC_COLLECTION_TABLES) tbls[t] = await client.rows(t);
+        for (const [t] of SYNC_COLLECTION_TABLES) {
+            try { tbls[t] = await client.rows(t); }
+            catch (e) { if (!OPTIONAL_SYNC_TABLES.has(t)) throw e; tbls[t] = []; }
+        }
         const shaped = shapeCollection(tbls);
         await client.uploadBlob("data", "firearms.json",
             new Blob([JSON.stringify(shaped)], { type: "application/json" }));
@@ -302,7 +314,7 @@ async function refreshFallback(client, log) {
 async function translateFilter(payload, local) {
     const f = payload.filters;
     if (!UID_TABLES.has(payload.table) || !f || (f.clauses || []).length !== 1) return f;
-    const m = /^(load_id|range_id|service_id)=$/.exec(f.clauses[0]);
+    const m = /^(load_id|range_id|service_id|comp_id)=$/.exec(f.clauses[0]);
     if (!m) return f;
     const res = await local.sql(
         `SELECT sync_uid FROM "${payload.table}" WHERE ${m[1]} = ${Number(f.args[0])}`);
@@ -450,14 +462,22 @@ function keyOf(table, row) {
     }
     return row.sync_uid ? "uid:" + row.sync_uid : "pk:" + row[uidPk(table)];
 }
-const uidPk = (t) => ({ load_data: "load_id", range_notes: "range_id", service_history: "service_id" }[t]);
+const uidPk = (t) => ({ load_data: "load_id", range_notes: "range_id", service_history: "service_id",
+                        comparables: "comp_id" }[t]);
 
 // Row-by-row reconcile: make `to` match `from` for the five collection tables.
 // Returns the set of item_ids whose gallery may need refreshing.
 async function reconcileTables(from, to, log) {
     const touched = new Set();
     for (const [table] of SYNC_COLLECTION_TABLES) {
-        const [src, dst] = await Promise.all([from.rows(table), to.rows(table)]);
+        let src, dst;
+        try {
+            [src, dst] = await Promise.all([from.rows(table), to.rows(table)]);
+        } catch (e) {
+            if (!OPTIONAL_SYNC_TABLES.has(table)) throw e;
+            log(`${table}: skipped (not on both devices yet — update the app there)`);
+            continue;
+        }
         const srcByKey = new Map(src.map(r => [keyOf(table, r), r]));
         const dstByKey = new Map(dst.map(r => [keyOf(table, r), r]));
         let ins = 0, upd = 0, del = 0;
@@ -549,6 +569,7 @@ async function mirrorToTarget(target, creds, log) {
 const pkOf = (t) => ({
     items: "item_id", transactions: "transaction_id",
     load_data: "load_id", range_notes: "range_id", service_history: "service_id",
+    comparables: "comp_id",
 }[t]);
 
 function updateKeyFilter(table, row) {

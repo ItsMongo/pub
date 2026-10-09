@@ -439,7 +439,70 @@ const MAINT_FIELDS = [
     { name: "notes",       label: "Notes",        type: "textarea", rows: 2 },
 ];
 
+// ── Comparables (sold-listing comps) on the Market Value tab ────────────────
+// A list table like the three above, but rendered inside the Market Value tab
+// (cfg.tab) rather than a tab of its own. Rows are entered by hand today; the
+// origin column ('manual' | 'api') lets a GunBroker fetcher add its own later.
+const COMP_SOURCES = [
+    { value: "GunBroker",  label: "GunBroker" },
+    { value: "RockIsland", label: "Rock Island Auction" },
+    { value: "Other",      label: "Other" },
+];
+const compSourceLabel = (v) => (COMP_SOURCES.find(s => s.value === v) || {}).label || v || "";
+const hasNum = (v) => v !== null && v !== undefined && v !== "" && Number.isFinite(Number(v));
+const fmtMoney = (v) => hasNum(v)
+    ? Number(v).toLocaleString("en-US", { style: "currency", currency: "USD" })
+    : String(v ?? "");
+// "$1,250.50" / "1250.5" -> 1250.5; anything else -> null
+const parsePrice = (s) => {
+    const n = Number(String(s).replace(/[$,\s]/g, ""));
+    return String(s).trim() !== "" && Number.isFinite(n) && n >= 0 ? n : null;
+};
+const escapeHtml = (s) => String(s ?? "").replace(/[&<>"']/g,
+    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const COMP_FIELDS = [
+    { name: "sold_date",  label: "Sold date",       type: "date" },
+    { name: "sold_price", label: "Sold price ($)",  type: "text", placeholder: "425.00", fmt: fmtMoney },
+    { name: "source",     label: "Source",          type: "select", options: COMP_SOURCES, fmt: compSourceLabel },
+    { name: "condition",  label: "Condition",       type: "select",
+      options: ["New / unfired", "Excellent", "Very Good", "Good", "Fair", "Poor"] },
+    { name: "title",      label: "Listing title",   type: "text" },
+    { name: "listing_id", label: "Listing / lot #", type: "text" },
+    { name: "url",        label: "Link",            type: "url" },
+    { name: "notes",      label: "Notes",           type: "textarea", rows: 2 },
+];
+
+// count / median / mean / low / high over the rows that carry a price, or null.
+function compStats(rows) {
+    const p = rows.map(r => r.sold_price).filter(hasNum).map(Number).sort((a, b) => a - b);
+    if (!p.length) return null;
+    const mid = Math.floor(p.length / 2);
+    return {
+        n: p.length,
+        median: p.length % 2 ? p[mid] : (p[mid - 1] + p[mid]) / 2,
+        mean: p.reduce((a, b) => a + b, 0) / p.length,
+        min: p[0], max: p[p.length - 1],
+    };
+}
+
 const TAB_LISTS = {
+    comparables: {
+        table: "comparables", pk: "comp_id", tab: "marketValue", singular: "Comparable",
+        addLabel: "+ Add comparable", fields: COMP_FIELDS, snippet: "notes",
+        defaults: { origin: "manual" },
+        sort: (a, b) => (b.sold_date || "").localeCompare(a.sold_date || ""),   // newest first
+        normalize: (v) => {
+            if (v.sold_price !== null) {
+                const n = parsePrice(v.sold_price);
+                if (n === null) throw new Error("Sold price must be a number, e.g. 425 or $1,250.50");
+                v.sold_price = n;
+            }
+            return v;
+        },
+        headline: (r, i) => [r.sold_date, hasNum(r.sold_price) ? fmtMoney(r.sold_price) : null,
+            compSourceLabel(r.source), r.title].filter(Boolean).join(dot) || `Comparable ${i + 1}`,
+    },
     loadData: {
         table: "load_data", pk: "load_id", singular: "Load", addLabel: "+ Add load", fields: LOAD_FIELDS,
         snippet: "content",
@@ -540,7 +603,8 @@ function renderTabContent(firearm, tabKey) {
                 if (s.date)     html += `<div class="mv-date">${s.date}</div>`;
                 html += `</div>`;
             });
-            contentEl.innerHTML = html || "—";
+            contentEl.innerHTML = html;
+            renderComparables(firearm, tab, contentEl);
             break;
         }
 
@@ -590,7 +654,10 @@ function makeFieldEl(f, value) {
     if (f.type === "select") {
         el = document.createElement("select");
         el.appendChild(new Option("—", ""));
-        for (const o of f.options) el.appendChild(new Option(o, o));
+        // options are plain strings, or { value, label } when they differ
+        for (const o of f.options) {
+            el.appendChild(typeof o === "object" ? new Option(o.label, o.value) : new Option(o, o));
+        }
     } else if (f.type === "textarea") {
         el = document.createElement("textarea");
         el.rows = f.rows || 3;
@@ -934,21 +1001,54 @@ function renderMarketValueEditor(firearm) {
     }));
 }
 
+// The Comparables block under the Market Value summary: a stats line over the
+// priced comps, then the same collapsible record list the other tabs use.
+function renderComparables(firearm, tab, contentEl) {
+    const rows = tab.comps || [];
+    const live = typeof isDbLive === "function" && isDbLive();
+    if (!rows.length && !live) {
+        if (!contentEl.innerHTML) contentEl.textContent = "—";
+        return;
+    }
+
+    const wrap = document.createElement("div");
+    wrap.className = "comps";
+
+    const head = document.createElement("div");
+    head.className = "comps-head";
+    head.textContent = "Comparables";
+    wrap.appendChild(head);
+
+    const st = compStats(rows);
+    if (st) {
+        const line = document.createElement("div");
+        line.className = "comps-stats";
+        line.textContent = `${st.n} sold  ·  median ${fmtMoney(st.median)}  ·  avg ${fmtMoney(st.mean)}` +
+            `  ·  range ${fmtMoney(st.min)} – ${fmtMoney(st.max)}`;
+        wrap.appendChild(line);
+    }
+
+    contentEl.appendChild(wrap);
+    renderRecordSummary(firearm, "comparables", wrap, rows);
+}
+
 // Summary (read) view for a list tab. Each record is collapsed to a headline
 // (plus a one-line snippet) with an expand/collapse toggle; expanding shows the
 // full detail and per-record Edit / Remove. An Add button sits at the bottom.
-function renderRecordSummary(firearm, tabKey) {
+// `host` / `rowsOverride` let a list render inside another tab's content
+// (Comparables inside Market Value) instead of owning the whole pane.
+function renderRecordSummary(firearm, tabKey, host = null, rowsOverride = null) {
     const cfg = TAB_LISTS[tabKey];
-    const tab = firearm.tabs[tabKey];
-    const contentEl = document.getElementById("scrollableTextContent");
-    const rows = tab.rows;
+    const tab = firearm.tabs[tabKey] || {};
+    const contentEl = host || document.getElementById("scrollableTextContent");
+    const rows = rowsOverride || tab.rows;
     const live = typeof isDbLive === "function" && isDbLive();
 
     if (!rows) { contentEl.textContent = tab.content || "—"; return; }  // JSON fallback
 
-    contentEl.innerHTML = "";
+    if (!host) contentEl.innerHTML = "";
 
-    rows.forEach((row, i) => {
+    (cfg.sort ? rows.slice().sort(cfg.sort) : rows).forEach((row, i) => {
         const entry = document.createElement("div");
         entry.className = "load-entry collapsed";
 
@@ -959,7 +1059,7 @@ function renderRecordSummary(firearm, tabKey) {
         const toggle = document.createElement("button");
         toggle.type = "button";
         toggle.className = "entry-toggle";
-        toggle.innerHTML = `<span class="chevron">▸</span><span>${cfg.headline(row, i)}</span>`;
+        toggle.innerHTML = `<span class="chevron">▸</span><span>${escapeHtml(cfg.headline(row, i))}</span>`;
         toggle.onclick = () => {
             const collapsed = entry.classList.toggle("collapsed");
             toggle.querySelector(".chevron").textContent = collapsed ? "▸" : "▾";
@@ -997,8 +1097,8 @@ function renderRecordSummary(firearm, tabKey) {
         const kv = cfg.fields
             .filter(f => f.name !== "targets" && row[f.name])
             .map(f => [f.label, f.type === "url"
-                ? `<a href="${row[f.name]}" target="_blank">${row[f.name]}</a>`
-                : row[f.name]]);
+                ? `<a href="${escapeHtml(row[f.name])}" target="_blank" rel="noopener">${escapeHtml(row[f.name])}</a>`
+                : escapeHtml(f.fmt ? f.fmt(row[f.name]) : row[f.name])]);
         const kvWrap = document.createElement("div");
         kvWrap.innerHTML = renderKV(kv);
         details.appendChild(kvWrap);
@@ -1018,7 +1118,7 @@ function renderRecordSummary(firearm, tabKey) {
         contentEl.appendChild(entry);
     });
 
-    if (!rows.length) {
+    if (!rows.length && !host) {
         const dash = document.createElement("div");
         dash.textContent = "—";
         contentEl.appendChild(dash);
@@ -1075,12 +1175,15 @@ function renderRecordEditor(firearm, tabKey, row) {
         `<span class="edit-msg" role="status"></span>`;
     form.appendChild(actions);
 
-    mountEditor(firearm, tabKey, form, async () => {
-        const values = {};
+    // cfg.tab: the tab this list is shown in, when it isn't a tab of its own
+    // (Comparables live in Market Value) — Cancel / post-save return there.
+    mountEditor(firearm, cfg.tab || tabKey, form, async () => {
+        let values = {};
         for (const el of fs.querySelectorAll("[data-field]")) {
             const v = el.value.trim();
             values[el.dataset.field] = v === "" ? null : v;
         }
+        if (cfg.normalize) values = cfg.normalize(values);   // may throw -> "Save failed: …"
 
         // Target images (range visits): upload the pending files, then delete
         // any this record used to reference but no longer does.
@@ -1106,7 +1209,7 @@ function renderRecordEditor(firearm, tabKey, row) {
         }
 
         if (isNew) {
-            await dbInsert(cfg.table, { item_id: firearm.itemId, ...values });
+            await dbInsert(cfg.table, { item_id: firearm.itemId, ...(cfg.defaults || {}), ...values });
         } else {
             await dbUpdate(cfg.table, values, dbFilters({ [cfg.pk]: row[cfg.pk] }));
         }

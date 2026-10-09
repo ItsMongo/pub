@@ -47,15 +47,24 @@ tables, or an `images/…` file add/remove/reorder) is also appended to a local
 If a change fails to apply, Push stops there and reports which one; fix it and
 Sync again — the rest stay queued.
 
-The three list tables (`load_data`, `range_notes`, `service_history`) use an
-autoincrement integer PK that differs per device, so each row also gets a
-`sync_uid`. The sync layer keys on that; the app's own edit code is unchanged.
+The four list tables (`load_data`, `range_notes`, `service_history`,
+`comparables`) use an autoincrement integer PK that differs per device, so each
+row also gets a `sync_uid`. The sync layer keys on that; the app's own edit code
+is unchanged.
+
+`comparables` (sold-listing comps on the Market Value tab) was added after the
+first release, so it is *optional* to sync: a device that doesn't have the table
+yet is skipped with a log line rather than treated as empty (which would wipe
+rows on a Pull). Push/Copy All create the table on the target first; the app
+creates it locally on boot. Update the app on a device before expecting its
+comps to sync.
 
 ## How Pull works
 
 1. Warns if this device has unpushed changes (Pull would void them).
 2. Snapshots **this device** to `archive/database/`.
-3. Reconciles all five tables against the source: insert new, update changed,
+3. Reconciles all six tables (items, transactions, load_data, range_notes,
+   service_history, comparables) against the source: insert new, update changed,
    delete rows the source no longer has.
 4. Brings gallery images for every item whose row changed or whose `images.json`
    differs from the source (loose files not in `images.json` are ignored).
