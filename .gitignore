@@ -19,3 +19,6 @@ data/firearms.db-shm
 # Per-device Sync snapshots (js/sync.js) — keep the folder, ignore the dumps
 archive/database/*.json
 !archive/database/.gitkeep
+
+# Saved third-party pages (e.g. Outdoor Analytics, captured while logged in) - reference only, not for the repo
+design/Outdoor Analytics*
